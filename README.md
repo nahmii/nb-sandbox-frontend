@@ -77,3 +77,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 This template uses the [React Google Analytics Module](https://github.com/react-ga/react-ga).
 
 In order to track visitors, you need to set an [environment variable](https://create-react-app.dev/docs/adding-custom-environment-variables/) called `REACT_APP_GA_CODE` storing your [GA Tracking ID](https://support.google.com/analytics/answer/7372977).
+# template-repository
+
+This repository is a template for generating Nahmii code repositories. Please refer to GitHub's [Creating repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for instructions on how to make use of this template.
