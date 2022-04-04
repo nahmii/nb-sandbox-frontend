@@ -8,7 +8,7 @@ import MintTokens from './sections/MintTokens'
 import BurnTokens from './sections/BurnTokens'
 import TransferTokens from './sections/TransferTokens'
 
-import SelectWalletModal from './components/SelectWalletModal'
+import SelectWalletModal from './elements/SelectWalletModal'
 
 const Dashboard = () => {
      // handle modal
