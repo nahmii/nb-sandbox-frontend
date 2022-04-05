@@ -24,3 +24,9 @@ export const transferTokens = async (address, amount, provider) => {
     const transfer = await contract.transfer(address, amount);
     return transfer;
 }
+
+export const mintTokens = async (address, amount, provider) => {
+    const contract = await getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const minted = await contract.mintTokens(address, amount);
+    return minted;
+}
