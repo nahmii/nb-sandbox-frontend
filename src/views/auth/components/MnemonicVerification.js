@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, CardContent, Grid, Typography, Stack, Chip, TextField } from '@mui/material'
+import { Box, CardContent, Grid, Typography, Radio, FormControl, RadioGroup, FormLabel, FormControlLabel } from '@mui/material'
 import Button from '../../../components/elements/Button';
+
+const phrases = ["Tomato", "Beef", "Cricket"]
 
 const MnemonicVerifiication = () => {
     return (
@@ -9,26 +11,71 @@ const MnemonicVerifiication = () => {
               MNEMONIC PHARSE VERIFICATION</Typography><br/>
               <Typography variant="p" sx={{fontWeight: "bold", fontSize: "12px"}}>
               Please select the correct based on their numbers:</Typography>
-              <Box>
-                    <Stack spacing={3} direction="row">
-                        <Chip label="1. tomato"/>
-                        <Chip label="2. tomato"/>
-                        <Chip label="3. tomato"/>
-                        <Chip label="4. tomato"/>
-                    </Stack>
-                    <Stack spacing={3} sx={{mt: 1}} direction="row">
-                        <Chip label="5. tomato"/>
-                        <Chip label="6. tomato"/>
-                        <Chip label="7. tomato"/>
-                        <Chip label="8. tomato"/>
-                    </Stack>
-                    <Stack spacing={3} sx={{mt: 1}} direction="row">
-                        <Chip label="9. tomato"/>
-                        <Chip label="10. tomato"/>
-                        <Chip label="11. tomato"/>
-                        <Chip label="12. tomato"/>
-                    </Stack>
-              </Box>
+                <Box sx={{mt: 2, mb: 2}}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={1} md={1} sm={1}>
+                            <Typography sx={{mt: 1}} variant="p">2.</Typography>
+                        </Grid>
+                        <Grid item xs={11} md={11} sm={11}>
+                            <Grid container spacing={1}>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-row-radio-buttons-group-label"
+                                    name="row-radio-buttons-group"
+                                >
+                                    { phrases.map((phrase, index) => (
+                                        
+                                        // <Grid key={index} item xs={4} sm={4} md={4}>
+                                            <FormControlLabel value={phrase} size="small" control={<Radio />} label={phrase} />
+                                        // </Grid>
+                                    )) }
+                                </RadioGroup>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={1} md={1} sm={1}>
+                            <Typography sx={{mt: 1}} variant="p">4.</Typography>
+                        </Grid>
+                        <Grid item xs={11} md={11} sm={11}>
+                            <Grid container spacing={1}>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-row-radio-buttons-group-label"
+                                    name="row-radio-buttons-group"
+                                >
+                                    { phrases.map((phrase, index) => (
+                                        
+                                        // <Grid key={index} item xs={4} sm={4} md={4}>
+                                            <FormControlLabel value={phrase} size="small" control={<Radio />} label={phrase} />
+                                        // </Grid>
+                                    )) }
+                                </RadioGroup>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={1} md={1} sm={1}>
+                            <Typography sx={{mt: 1}} variant="p">8.</Typography>
+                        </Grid>
+                        <Grid item xs={11} md={11} sm={11}>
+                            <Grid container spacing={1}>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-row-radio-buttons-group-label"
+                                    name="row-radio-buttons-group"
+                                >
+                                    { phrases.map((phrase, index) => (
+                                        
+                                        // <Grid key={index} item xs={4} sm={4} md={4}>
+                                            <FormControlLabel value={phrase} size="small" control={<Radio />} label={phrase} />
+                                        // </Grid>
+                                    )) }
+                                </RadioGroup>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Box>
                 <Box>
                     <Grid container spacing={3}>
                         <Grid item xs={5} sm={5} md={5}>

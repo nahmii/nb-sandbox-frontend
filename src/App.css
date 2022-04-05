@@ -3626,6 +3626,11 @@ ul > li {
  -webkit-box-orient: vertical;
 }
 
+.chip {
+  width: 100%;
+  padding: 0px 10px;
+  background-color: #F2F8FA;
+}
 
 
 @media(max-width: 768px) {

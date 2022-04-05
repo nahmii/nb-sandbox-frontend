@@ -11,6 +11,8 @@ const inputProps = {
     ariaLabel: 'weight',
 }
 
+const phrases = ["Tomato", "Beef", "Cricket", "Lavish", "Sense", "Booze", "Delight", "Commit", "Push", "Border", "Height", "George"]
+
 const CreateMnemonic = () => {
     return (
         <CardContent>
@@ -24,24 +26,17 @@ const CreateMnemonic = () => {
                         <span style={{float: "right"}}><span style={{position: "absolute", marginLeft: "-30px"}}><ReplayIcon/></span>Update</span></Typography>
               </Box>
               <Box>
-                    <Stack spacing={3} direction="row">
-                        <Chip label="1. tomato"/>
-                        <Chip label="2. tomato"/>
-                        <Chip label="3. tomato"/>
-                        <Chip label="4. tomato"/>
-                    </Stack>
-                    <Stack spacing={3} sx={{mt: 1}} direction="row">
-                        <Chip label="5. tomato"/>
-                        <Chip label="6. tomato"/>
-                        <Chip label="7. tomato"/>
-                        <Chip label="8. tomato"/>
-                    </Stack>
-                    <Stack spacing={3} sx={{mt: 1}} direction="row">
-                        <Chip label="9. tomato"/>
-                        <Chip label="10. tomato"/>
-                        <Chip label="11. tomato"/>
-                        <Chip label="12. tomato"/>
-                    </Stack>
+                    <Grid spacing={1} container>
+                        { phrases.map((phrase, index) => (
+                            <Grid item xs={6} md={3} sm={3}>
+                                <Box key={index} className="chip">
+                                    <Typography sx={{fontSize: "14px"}} variant="p">{`${index + 1}. ${phrase}`}</Typography>
+                                </Box>
+                            </Grid>
+                            
+                        )) }
+                        
+                    </Grid>
               </Box>
               <Box>
                 <Box
@@ -53,7 +48,7 @@ const CreateMnemonic = () => {
                         autoComplete="off"
                         style={{marginTop: "20px", marginBottom: "20px"}}
                     >
-                        <Typography variant="p" sx={{fontWeight: "bold", fontSize: "12px"}}>Add extra word</Typography>
+                        <Typography variant="p" sx={{fontWeight: "bold", fontSize: "12px"}}>Add extra word (Optional)</Typography>
                         <TextField
                         required
                         id="outlined-size-small"
