@@ -24,7 +24,7 @@ export const shortenAddress = (address, start = 4, end = 4) => {
     const parsed = isAddress(address);
 
     if (!parsed) {
-        throw Error(`Invalid address parameter: ${address}`);
+        throw Error(`Invalid address: ${address}`);
     }
 
     return `${parsed.slice(0, start + 2)}...${parsed.slice(-Math.abs(end))}`
