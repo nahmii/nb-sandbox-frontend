@@ -18,3 +18,9 @@ export const getTokenBalance = async (address, provider) => {
     const balance = await contract.balanceOf(address);
     return balance;
 }
+
+export const transferTokens = async (address, amount, provider) => {
+    const contract = await getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const transfer = await contract.transfer(address, amount);
+    return transfer;
+}
