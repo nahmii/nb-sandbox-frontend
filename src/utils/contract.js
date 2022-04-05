@@ -9,10 +9,10 @@ import { isAddress } from "./address";
  * @param {Web3Provider} provider The provider to connect to the smart contract with.
  * @returns Contract object
  */
-export const getContract = async (address, ABI, provider) => {
+export const getContract = (address, ABI, provider) => {
     if (address == AddressZero || !isAddress(address)) {
         throw Error(`Invalid address: ${address}`)
     }
-
+    // TODO: Make it possible to accept both providers and signers.
     return new Contract(address, ABI, provider);
 }
