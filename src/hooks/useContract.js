@@ -30,3 +30,9 @@ export const mintTokens = async (address, amount, provider) => {
     const minted = await contract.mintTokens(address, amount);
     return minted;
 }
+
+export const burnTokens = async (address, amount, provider) => {
+    const contract = await getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const burned = await contract.burnTokens(address, amount);
+    return burned;
+}
