@@ -12,3 +12,9 @@ export const getTokenSupply = async (provider) => {
     const supply = await contract.totalSupply();
     return supply;
 }
+
+export const getTokenBalance = async (address, provider) => {
+    const contract = await getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const balance = await contract.balanceOf(address);
+    return balance;
+}
