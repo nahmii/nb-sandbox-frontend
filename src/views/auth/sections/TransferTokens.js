@@ -37,7 +37,7 @@ const TransferTokens = () => {
                                 SEND FROM
                             </Typography>
                             <Typography className="card-text" variant="h6">
-                                0xE5aafC325cC5aafC325cC5aafC325cC5C325CTR4D6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
+                                0xE5aafC325cC5aafC325cC5aafC325cC5C325CTR4D6...<span style={{position: "absolute"}}></span>
                             </Typography>
                             {/* <KeyboardArrowDownIcon sx={{mt: 1}} /> */}
                         </Box>
@@ -61,7 +61,7 @@ const TransferTokens = () => {
                         TOKEN TYPE
                     </Typography>
                     <Typography className="card-text" variant="h6">
-                        NII <span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
+                        NOK <span style={{position: "absolute"}}></span>
                     </Typography>
                 </Box>
 

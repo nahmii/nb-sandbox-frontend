@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Typography } from '@mui/material'
+import { getTokenSupply } from '../../../hooks/useContract'
+import { commify, formatUnits } from 'ethers/lib/utils'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -8,14 +10,23 @@ const cardStyle = {
 }
 
 const Supply = () => {
+    const [totalSupply, setTotalSupply] = useState('0')
+
+    useEffect(() => {
+        getTokenSupply()
+            .then((supply) => {
+                setTotalSupply(commify(formatUnits(supply, 4)))
+            })
+    }, [])
+
     return (
         <Card sx={cardStyle}>
             <CardContent>
                 <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                     SUPPLY
                 </Typography>
-                <Typography variant="h6" sx={{ fontSize: 22 }} className="card-text">
-                    1,000,000,000.00 NOK
+                <Typography variant="h6" className="card-text">
+                    {totalSupply} NOK
                 </Typography>
             </CardContent>
         </Card>
