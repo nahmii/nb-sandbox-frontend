@@ -44,15 +44,6 @@ const MintTokens = () => {
                         }}
                     />
                 </Box>
- 
-                <Box sx={{mt: 2, mb: 2}}>
-                    <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
-                        ADDRESS TO MINT
-                    </Typography>
-                    <Typography className="card-text" variant="h6">
-                        0xE5aafC325cC5aafC325cC5aafC325cC5C325CTR4DF656GH6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
-                    </Typography>
-                </Box>
                 <Button className="button button-primary button-wide-mobile" wide>MINT TOKENS</Button>
             </CardContent>
         </Card>
