@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornment } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
@@ -17,6 +17,7 @@ const inputProps = {
 }
 
 const MintTokens = () => {
+    const [amount, setAmount] = useState("0.0000")
     return (
         <Card sx={cardStyle}>
             <CardContent>
@@ -36,7 +37,8 @@ const MintTokens = () => {
                     <TextField
                         label="Amount"
                         id="outlined-start-adornment"
-                        value="0.0"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
                         sx={{ width: '100%' }}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,

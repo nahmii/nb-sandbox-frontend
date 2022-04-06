@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Grid, Box, CardContent, Typography } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import LayoutDefault from '../../layouts/LayoutDefault';
 
 import Supply from './sections/Supply'

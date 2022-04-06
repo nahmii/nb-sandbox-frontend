@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/norgesLogo.png';
 import Image from '../elements/Image';
 
-import { Menu, MenuItem } from '@mui/material';
+// import { Menu, MenuItem } from '@mui/material';
 
 
 const propTypes = {
@@ -44,22 +44,22 @@ const Header = ({
   const [anchorAboutEl, setAnchorAboutEl] = useState(null);
 
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const openAbout = Boolean(anchorAboutEl);
-  const handleAboutClick = (event) => {
-    setAnchorAboutEl(event.currentTarget);
-  };
+  // const openAbout = Boolean(anchorAboutEl);
+  // const handleAboutClick = (event) => {
+  //   setAnchorAboutEl(event.currentTarget);
+  // };
 
-  const handleAboutClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleAboutClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   useEffect(() => {
     isActive && openMenu();

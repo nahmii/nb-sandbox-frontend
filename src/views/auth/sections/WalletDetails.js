@@ -3,11 +3,11 @@ import { Box, Stack, Typography } from '@mui/material';
 import Image from '../../../components/elements/Image';
 import Button from '../../../components/elements/Button'
 
-const sectionStyle = {
-    display: "flex", 
-    flexDirection: "column", 
-    justifyContent: "center",
-};
+// const sectionStyle = {
+//     display: "flex", 
+//     flexDirection: "column", 
+//     justifyContent: "center",
+// };
 
 const WalletDetails = (props) => {
     const { address, image } = props

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Modal, Step, Stepper, StepButton, Card, CardActions, Backdrop } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import WalletList from '../sections/WalletList';
+// import WalletList from '../sections/WalletList';
 import Button from '../../../components/elements/Button';
 
 import CreateWalletForm from '../components/CreateWalletForm';
@@ -122,7 +122,6 @@ export default function CreateWalletModal(props) {
                       )}
                   </div>
               </Box>
-        <WalletList/>
       </Box>
     </div>
   );

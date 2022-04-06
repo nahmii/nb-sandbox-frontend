@@ -28,7 +28,7 @@ const Wallet = (props) => {
                         <Stack direction="row" spacing={2}>
                             <Image className="wallet-image" src={WalletFace} style={{marginTop: "10px"}} width="50" />
                             <Box>
-                                <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
+                                <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                     WALLET
                                 </Typography>
                                 <div className='text'>

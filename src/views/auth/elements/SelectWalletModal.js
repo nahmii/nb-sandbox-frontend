@@ -2,13 +2,12 @@ import React, {useState} from 'react';
 import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, Grid, } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Scrollbar from './Scrollbar';
-import WalletList from '../sections/WalletList';
 import CreateWalletModal from './CreateWalletModal';
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import Button from '../../../components/elements/Button';
 
 import WalletDetails from '../sections/WalletDetails';
-import { KeyboardReturn } from '@mui/icons-material';
+import ImportWallet from '../sections/ImportWallet';
 
 const style = {
   bgcolor: 'background.paper',
@@ -35,6 +34,7 @@ const data = [
 export default function SelectWalletModal(props) {
   const [walletForm, showWalletForm] = useState(false)
   const [selectWallet, showSelectWallet] = useState(true)
+  const [importWallet, showImportWallet] = useState(false)
   const { onClose, open } = props
 
   const handleCreateWallet = () => {
@@ -42,7 +42,7 @@ export default function SelectWalletModal(props) {
   }
 
   const handleImportWallet = () => {
-    return
+    showImportWallet(true)
   }
 
   const handleSelectWalletModal = () => {
@@ -71,11 +71,6 @@ export default function SelectWalletModal(props) {
     )
   }
 
-  const handleWalletForm = () => {
-    return (
-      <></>
-    )
-  }
   
   return (
     <div>
@@ -95,6 +90,7 @@ export default function SelectWalletModal(props) {
               { selectWallet ? 'WALLETS' : "CREATE WALLET"} <span style={{float: "right"}}><HighlightOffIcon onClick={onClose}/></span>
             </Typography>
             { selectWallet ? handleSelectWalletModal() : <CreateWalletModal/> }
+            {/* { importWallet ? <ImportWallet/> : null } */}
           </Box>
       </Modal>
     </div>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, Box, CardContent, Stack, Typography, TextField, InputProps, OutlinedInput, InputAdornment, FormControl, FilledInput, FormHelperText } from '@mui/material'
+import React, { useState } from 'react';
+import { Card, Box, CardContent, Stack, Typography, TextField, InputAdornment } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
@@ -20,6 +20,8 @@ const inputProps = {
 }
 
 const TransferTokens = () => {
+    const [amount, setAmount] = useState("0.0000")
+
     return (
         <Card sx={cardStyle}>
             <CardContent>
@@ -31,7 +33,7 @@ const TransferTokens = () => {
                     <Stack direction="row" spacing={2}>
                         <Image className="wallet-image" src={WalletFace} width="50" />
                         <Box>
-                            <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
+                            <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND FROM
                             </Typography>
                             <Typography className="card-text" variant="h6">
@@ -45,7 +47,7 @@ const TransferTokens = () => {
                     <Stack direction="row" spacing={2}>
                         <Image className="wallet-image" src={WalletFace} width="50" />
                         <Box>
-                            <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
+                            <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND TO
                             </Typography>
                             <Typography className="card-text" variant="h6">
@@ -76,7 +78,8 @@ const TransferTokens = () => {
                         className='no-border'
                         label="Amount"
                         id="outlined-start-adornment"
-                        value="0.0"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
                         sx={{ width: '100%' }}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
@@ -90,7 +93,7 @@ const TransferTokens = () => {
                         FEE
                     </Typography>
                     <Typography className="card-text" variant="h6">
-                        0.25
+                        0.0000
                     </Typography>
                 </Box>
 

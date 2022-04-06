@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornment, FormControl, FilledInput, FormHelperText } from '@mui/material'
 import { Link } from 'react-router-dom'
 import Button from '../../../components/elements/Button'
@@ -17,6 +17,7 @@ const inputProps = {
 }
 
 const BurnTokens = () => {
+    const [amount, setAmount] = useState("0.0000")
     return (
         <Card sx={cardStyle}>
             <CardContent>
@@ -35,7 +36,8 @@ const BurnTokens = () => {
                     <TextField
                         label="Amount"
                         id="outlined-start-adornment"
-                        value="0.0"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
                         sx={{ width: '100%' }}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
