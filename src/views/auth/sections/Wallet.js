@@ -22,7 +22,7 @@ const Wallet = () => {
     // handle user account
     const [account, setAccount] = useState('0x');
     // handle user balance
-    const [balance, setBalance] = useState('0')
+    const [balance, setBalance] = useState('0.0000')
 
     useEffect(() => {
         const { provider, signer, account_ } = getProvider();

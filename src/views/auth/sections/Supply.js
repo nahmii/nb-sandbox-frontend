@@ -10,7 +10,7 @@ const cardStyle = {
 }
 
 const Supply = () => {
-    const [totalSupply, setTotalSupply] = useState('0')
+    const [totalSupply, setTotalSupply] = useState('0.0000')
 
     useEffect(() => {
         getTokenSupply()
