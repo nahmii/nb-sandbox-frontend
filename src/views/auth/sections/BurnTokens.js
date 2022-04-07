@@ -48,6 +48,7 @@ const BurnTokens = () => {
                         label="Amount"
                         id="outlined-start-adornment"
                         sx={{ width: '100%' }}
+                        value={textInput}
                         onChange={handleChange}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,

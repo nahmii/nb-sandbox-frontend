@@ -99,6 +99,7 @@ const TransferTokens = () => {
                         className='no-border'
                         label="Amount"
                         id="outlined-start-adornment"
+                        value={textInput}
                         onChange={handleChange}
                         sx={{ width: '100%' }}
                         InputProps={{

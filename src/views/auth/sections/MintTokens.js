@@ -3,6 +3,7 @@ import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornme
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import { mintTokens } from '../../../hooks/useContract';
+import { ethers } from 'ethers';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -49,6 +50,7 @@ const MintTokens = () => {
                         label="Amount"
                         id="outlined-start-adornment"
                         sx={{ width: '100%' }}
+                        value={textInput}
                         onChange={handleChange}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
