@@ -2,7 +2,6 @@ import TOKEN_ABI from "../abis/cb-token.json";
 import { TOKEN_ADDRESS } from "../constants";
 import { useEffect, useMemo, useState } from "react";
 import { getContract } from "../utils/contract";
-import { ethers } from 'ethers';
 import { getProvider } from "../utils/provider";
 
 export const useContract = (address, ABI) => {
