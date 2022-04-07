@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Box, CardContent, Stack, Typography, TextField, InputProps, OutlinedInput, InputAdornment, FormControl, FilledInput, FormHelperText } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
+import { getProvider } from '../../../utils/provider';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -22,6 +23,7 @@ const inputProps = {
 
 const TransferTokens = () => {
     const [textInput, setTextInput] = useState('0');
+    const [account, setAccount] = useState('0x');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
 
     const handleClick = () =>{
@@ -33,6 +35,13 @@ const TransferTokens = () => {
     const handleChange = (event) => {
         setTextInput(event.target.value);
     }
+
+    useEffect(() => {
+        const { provider, signer, account_ } = getProvider();
+        provider.listAccounts().then(accounts => {
+            setAccount(accounts[0])
+        });
+    }, []);
 
     return (
         <Card sx={cardStyle}>
@@ -49,7 +58,7 @@ const TransferTokens = () => {
                                 SEND FROM
                             </Typography>
                             <Typography className="card-text" variant="h6">
-                                0xE5aafC325cC5aafC325cC5aafC325cC5C325CTR4D6...<span style={{position: "absolute"}}></span>
+                                {account}...<span style={{position: "absolute"}}></span>
                             </Typography>
                             {/* <KeyboardArrowDownIcon sx={{mt: 1}} /> */}
                         </Box>
