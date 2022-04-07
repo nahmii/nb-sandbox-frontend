@@ -53,7 +53,7 @@ const Wallet = () => {
                                 </Typography>
                                 <div className='text'>
                                     <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={handleOpen} variant="h6">
-                                        {account} <span style={{position: "absolute", marginTop: "-30px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
+                                        {account ? account : "Connect wallet"} <span style={{position: "absolute", marginTop: "0px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
                                     </h6>
                                 </div>
 

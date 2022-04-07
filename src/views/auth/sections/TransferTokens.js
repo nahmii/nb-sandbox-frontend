@@ -58,7 +58,7 @@ const TransferTokens = () => {
                                 SEND FROM
                             </Typography>
                             <Typography className="card-text" variant="h6">
-                                {account}...<span style={{position: "absolute"}}></span>
+                                {account ? account : "Connect wallet"}<span style={{position: "absolute"}}></span>
                             </Typography>
                             {/* <KeyboardArrowDownIcon sx={{mt: 1}} /> */}
                         </Box>
