@@ -22,7 +22,7 @@ const inputProps = {
 }
 
 const TransferTokens = () => {
-    const [textInput, setTextInput] = useState('0');
+    const [textInput, setTextInput] = useState('0.0000');
     const [account, setAccount] = useState('0x');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
 

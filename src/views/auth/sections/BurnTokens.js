@@ -18,7 +18,7 @@ const inputProps = {
 }
 
 const BurnTokens = () => {
-    const [textInput, setTextInput] = useState('0.0');
+    const [textInput, setTextInput] = useState('0.0000');
 
     const handleClick = () =>{
         // TODO: Handle decimals
