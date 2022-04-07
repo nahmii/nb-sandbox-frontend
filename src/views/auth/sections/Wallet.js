@@ -6,6 +6,7 @@ import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { getTokenBalance } from '../../../hooks/useContract';
 import { commify, formatUnits } from 'ethers/lib/utils';
+import { getProvider } from '../../../utils/provider';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -18,10 +19,17 @@ const Wallet = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    // handle user account
+    const [account, setAccount] = useState('0x');
     // handle user balance
     const [balance, setBalance] = useState('0')
 
     useEffect(() => {
+        const { provider, signer, account_ } = getProvider();
+        provider.listAccounts().then(accounts => {
+            setAccount(accounts[0])
+        });
+        
         getTokenBalance()
             .then((userBalance) => {
                 setBalance(commify(formatUnits(userBalance, 4)))
@@ -45,7 +53,7 @@ const Wallet = () => {
                                 </Typography>
                                 <div className='text'>
                                     <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={handleOpen} variant="h6">
-                                        0xE5aafC325cC5g67hf689gh89wiusdnjdns894w89eusndsubsncjd <span style={{position: "absolute", marginTop: "-30px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
+                                        {account} <span style={{position: "absolute", marginTop: "-30px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
                                     </h6>
                                 </div>
 
