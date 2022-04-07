@@ -1,11 +1,11 @@
 /**
  * Groups 3 digits for whole number parts of a decimal number and separates them with a comma.
  * 
- * @param {Number|string} x The number or string to commify.
+ * @param {string} x The string to commify.
  * @returns A commified and grouped string.
  */
 export const commify = (x) => {
-    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    return x.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
 /**
