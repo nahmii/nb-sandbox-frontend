@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppRoute from './routes';
-import RpcProvider from './context/RpcProvider';
+import { getTokenSupply } from './hooks/useContract'
+import { commify, insertDecimalSeparator } from './utils/format'
+import GlobalStateProvider from './context/GlobalState';
 
 const THEME = createTheme({
   typography: {
@@ -17,30 +19,33 @@ const THEME = createTheme({
 });
 
 const App = () => {
-  const [state, setState] = useState({})
   return (
-    <RpcProvider.Provider value={[state, setState]}>
-      <Child/>
-    </RpcProvider.Provider>
+    <GlobalStateProvider>
+      <ThemeProvider theme={THEME}>
+        <AppRoute />
+      </ThemeProvider>
+    </GlobalStateProvider>
   )
 }
 
 
-const Child = () => {
-  const [state, setState] = useContext(RpcProvider)
+// const Child = () => {
+//   const [state, setState] = useContext(GlobalState)
+//   const [totalSupply, setTotalSupply] = useState('0.0000')
 
-  useEffect(() => {
-    setState(state => ({...state, address: "iudsbdujbnscudjdsl"}))
-  }, [])
+//   useEffect(() => {
+    
+//     setState(state => (
+//       {...state, totalSupply: "8r98fjsdoksdnc"}
+//     ))
+//   }, [])
 
-  console.log(state)
-  return (
-    <RpcProvider.Provider value={[state, setState]}>
-      <ThemeProvider theme={THEME}>
-        <AppRoute />
-      </ThemeProvider>
-    </RpcProvider.Provider>
-  )  
-}
+//   console.log(state)
+//   return (
+//     // <GlobalState.Provider value={[state, setState]}>
+      
+//     // </GlobalState.Provider>
+//   )  
+// }
 
 export default App;

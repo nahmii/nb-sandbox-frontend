@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Typography } from '@mui/material'
-import { getTokenSupply } from '../../../hooks/useContract'
-import { commify, insertDecimalSeparator } from '../../../utils/format'
+import { useGlobalState } from '../../../hooks/useGlobalState'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -10,14 +9,7 @@ const cardStyle = {
 }
 
 const Supply = () => {
-    const [totalSupply, setTotalSupply] = useState('0.0000')
-
-    useEffect(() => {
-        getTokenSupply()
-            .then((supply) => {
-                setTotalSupply(commify(insertDecimalSeparator(supply.toString(), 4)))
-            })
-    }, [])
+    const [state, dispatch] = useGlobalState()
 
     return (
         <Card sx={cardStyle}>
@@ -26,7 +18,7 @@ const Supply = () => {
                     SUPPLY
                 </Typography>
                 <Typography variant="h6" className="card-text">
-                    {totalSupply} NOK
+                    {state.totalSupply} NOK
                 </Typography>
             </CardContent>
         </Card>

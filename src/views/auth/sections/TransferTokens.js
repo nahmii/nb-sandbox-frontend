@@ -8,6 +8,7 @@ import { transferTokens } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
 import { parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
+import { useGlobalState } from '../../../hooks/useGlobalState';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -25,9 +26,9 @@ const inputProps = {
 
 const TransferTokens = () => {
     const [textInput, setTextInput] = useState('0.0000');
-    const [account, setAccount] = useState('0x');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
 
+    const [state, dispatch] = useGlobalState()
     const handleClick = () =>{
         // TODO: Get a selected address
         transferTokens(address, parseUnits(textInput, 4));
@@ -41,12 +42,7 @@ const TransferTokens = () => {
         limitDecimalPlaces(event, 4);
     }
 
-    useEffect(() => {
-        const { provider, signer, account_ } = getProvider();
-        provider.listAccounts().then(accounts => {
-            setAccount(accounts[0])
-        });
-    }, []);
+
 
     return (
         <Card sx={cardStyle}>
@@ -58,12 +54,12 @@ const TransferTokens = () => {
                 <Box sx={{mt: 3}}>
                     <Stack direction="row" spacing={2}>
                         <Image className="wallet-image" src={WalletFace} width="50" />
-                        <Box>
+                        <Box className="neg-mt">
                             <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND FROM
                             </Typography>
                             <Typography className="card-text" variant="h6">
-                                {account ? account : "Connect wallet"}<span style={{position: "absolute"}}></span>
+                                {state.account ? state.account : "Connect wallet"}<span style={{position: "absolute"}}></span>
                             </Typography>
                             {/* <KeyboardArrowDownIcon sx={{mt: 1}} /> */}
                         </Box>
@@ -72,12 +68,12 @@ const TransferTokens = () => {
                 <Box sx={{mt: 3}}>
                     <Stack direction="row" spacing={2}>
                         <Image className="wallet-image" src={WalletFace} width="50" />
-                        <Box>
+                        <Box className="neg-mt">
                             <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND TO
                             </Typography>
                             <Typography className="card-text" variant="h6">
-                                0xE5aafC325cC5aafC325cC5aafC325cC5C325CTRGH6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
+                                0xE5aafC325cC5aafC325cC5aafC325cCTRGH6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
                             </Typography>
                         </Box>
                     </Stack> 

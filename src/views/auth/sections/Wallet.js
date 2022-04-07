@@ -8,6 +8,8 @@ import { getTokenBalance } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
 import { commify, insertDecimalSeparator } from '../../../utils/format';
 
+import { useGlobalState } from '../../../hooks/useGlobalState'
+
 const cardStyle = {
     boxShadow: 0, 
     borderRadius: 0,
@@ -19,22 +21,7 @@ const Wallet = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    // handle user account
-    const [account, setAccount] = useState('0x');
-    // handle user balance
-    const [balance, setBalance] = useState('0.0000')
-
-    useEffect(() => {
-        const { provider, signer, account_ } = getProvider();
-        provider.listAccounts().then(accounts => {
-            setAccount(accounts[0])
-        });
-        
-        getTokenBalance()
-            .then((userBalance) => {
-                setBalance(commify(insertDecimalSeparator(userBalance.toString(), 4)));
-            })
-    }, [])
+    const [state, dispatch] = useGlobalState()
 
     // const { onClick } = props
     return (
@@ -53,7 +40,7 @@ const Wallet = () => {
                                 </Typography>
                                 <div className='text'>
                                     <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={handleOpen} variant="h6">
-                                        {account ? account : "Connect wallet"} <span style={{position: "absolute", marginTop: "0px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
+                                        {state.account ? state.account : "Connect wallet"} <span style={{position: "absolute", marginTop: "0px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
                                     </h6>
                                 </div>
 
@@ -67,7 +54,7 @@ const Wallet = () => {
                             BALANCE
                         </Typography>
                         <Typography className="card-text" variant="h6">
-                            {balance} NOK
+                            {state.balance} NOK
                         </Typography>
                     </Grid>
                 </Grid>            
