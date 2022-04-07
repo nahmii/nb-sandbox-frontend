@@ -39,7 +39,7 @@ export const getTokenBalance = async () => {
 export const transferTokens = async (address, amount) => {
     let { provider, signer, account } = getProvider();
 
-    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
     const transfer = await contract.transfer(address, amount);
     return transfer;
 }
