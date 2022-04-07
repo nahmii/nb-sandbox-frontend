@@ -6,6 +6,8 @@ import Image from '../../../components/elements/Image'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
+import { parseUnits } from 'ethers/lib/utils';
+import { limitDecimalPlaces } from '../../../utils/format';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -22,18 +24,21 @@ const inputProps = {
 }
 
 const TransferTokens = () => {
-    const [textInput, setTextInput] = useState('0');
+    const [textInput, setTextInput] = useState('0.0000');
     const [account, setAccount] = useState('0x');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
 
     const handleClick = () =>{
         // TODO: Get a selected address
-        // TODO: Handle decimals
-        transferTokens(address, textInput);
+        transferTokens(address, parseUnits(textInput, 4));
     }
 
     const handleChange = (event) => {
         setTextInput(event.target.value);
+    }
+
+    const handleInput = (event) => {
+        limitDecimalPlaces(event, 4);
     }
 
     useEffect(() => {
@@ -99,9 +104,12 @@ const TransferTokens = () => {
                         className='no-border'
                         label="Amount"
                         id="outlined-start-adornment"
+                        value={textInput}
                         onChange={handleChange}
+                        onInput={handleInput}
                         sx={{ width: '100%' }}
                         InputProps={{
+                            type: 'number',
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}
