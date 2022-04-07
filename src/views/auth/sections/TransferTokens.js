@@ -6,6 +6,7 @@ import Image from '../../../components/elements/Image'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
+import { parseUnits } from 'ethers/lib/utils';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -28,8 +29,7 @@ const TransferTokens = () => {
 
     const handleClick = () =>{
         // TODO: Get a selected address
-        // TODO: Handle decimals
-        transferTokens(address, textInput);
+        transferTokens(address, parseUnits(textInput, 4));
     }
 
     const handleChange = (event) => {

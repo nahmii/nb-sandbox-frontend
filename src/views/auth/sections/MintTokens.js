@@ -3,7 +3,7 @@ import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornme
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import { mintTokens } from '../../../hooks/useContract';
-import { ethers } from 'ethers';
+import { parseUnits } from 'ethers/lib/utils';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -22,8 +22,7 @@ const MintTokens = () => {
     const [textInput, setTextInput] = useState('0.0000');
 
     const handleClick = () =>{
-        // TODO: Handle decimals
-        mintTokens(textInput);
+        mintTokens(parseUnits(textInput, 4));
     }
 
     const handleChange = (event) => {

@@ -3,6 +3,7 @@ import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornme
 import { Link } from 'react-router-dom'
 import Button from '../../../components/elements/Button'
 import { burnTokens } from '../../../hooks/useContract';
+import { parseUnits } from 'ethers/lib/utils';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -21,8 +22,7 @@ const BurnTokens = () => {
     const [textInput, setTextInput] = useState('0.0000');
 
     const handleClick = () =>{
-        // TODO: Handle decimals
-        burnTokens(textInput);
+        burnTokens(parseUnits(textInput, 4));
     }
 
     const handleChange = (event) => {
