@@ -5,8 +5,8 @@ import Image from '../../../components/elements/Image';
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { getTokenBalance } from '../../../hooks/useContract';
-import { commify, formatUnits } from 'ethers/lib/utils';
 import { getProvider } from '../../../utils/provider';
+import { commify, insertDecimalSeparator } from '../../../utils/format';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -22,7 +22,7 @@ const Wallet = () => {
     // handle user account
     const [account, setAccount] = useState('0x');
     // handle user balance
-    const [balance, setBalance] = useState('0')
+    const [balance, setBalance] = useState('0.0000')
 
     useEffect(() => {
         const { provider, signer, account_ } = getProvider();
@@ -32,7 +32,7 @@ const Wallet = () => {
         
         getTokenBalance()
             .then((userBalance) => {
-                setBalance(commify(formatUnits(userBalance, 4)))
+                setBalance(commify(insertDecimalSeparator(userBalance.toString(), 4)));
             })
     }, [])
 

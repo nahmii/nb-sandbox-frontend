@@ -3,6 +3,8 @@ import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornme
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import { mintTokens } from '../../../hooks/useContract';
+import { parseUnits } from 'ethers/lib/utils';
+import { limitDecimalPlaces } from '../../../utils/format';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -18,15 +20,18 @@ const inputProps = {
 }
 
 const MintTokens = () => {
-    const [textInput, setTextInput] = useState('0.0');
+    const [textInput, setTextInput] = useState('0.0000');
 
     const handleClick = () =>{
-        // TODO: Handle decimals
-        mintTokens(textInput);
+        mintTokens(parseUnits(textInput, 4));
     }
 
     const handleChange = (event) => {
         setTextInput(event.target.value);
+    }
+
+    const handleInput = (event) => {
+        limitDecimalPlaces(event, 4);
     }
 
     return (
@@ -49,8 +54,11 @@ const MintTokens = () => {
                         label="Amount"
                         id="outlined-start-adornment"
                         sx={{ width: '100%' }}
+                        value={textInput}
                         onChange={handleChange}
+                        onInput={handleInput}
                         InputProps={{
+                            type: 'number',
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}
