@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppRoute from './routes';
+import RpcProvider from './context/RpcProvider';
 
 const THEME = createTheme({
   typography: {
@@ -15,10 +16,31 @@ const THEME = createTheme({
   }
 });
 
-const App = () => (
-    <ThemeProvider theme={THEME}>
-      <AppRoute />
-    </ThemeProvider>
-)
+const App = () => {
+  const [state, setState] = useState({})
+  return (
+    <RpcProvider.Provider value={[state, setState]}>
+      <Child/>
+    </RpcProvider.Provider>
+  )
+}
+
+
+const Child = () => {
+  const [state, setState] = useContext(RpcProvider)
+
+  useEffect(() => {
+    setState(state => ({...state, address: "iudsbdujbnscudjdsl"}))
+  })
+
+  console.log(state)
+  return (
+    <RpcProvider.Provider value={[state, setState]}>
+      <ThemeProvider theme={THEME}>
+        <AppRoute />
+      </ThemeProvider>
+    </RpcProvider.Provider>
+  )  
+}
 
 export default App;
