@@ -27,6 +27,10 @@ export const insertDecimalSeparator = (string, decimals) => {
  * @returns Either nothing or a fixed length amount of decimals.
  */
 export const limitDecimalPlaces = (event, decimals) => {
+    if (event.target.value <= 0) {
+        event.target.value = Math.abs(event.target.value);
+    }
+
     if (event.target.value.indexOf('.') == -1) { return; }
 
     if ((event.target.value.length - event.target.value.indexOf('.')) > decimals) {
