@@ -31,7 +31,7 @@ const Child = () => {
 
   useEffect(() => {
     setState(state => ({...state, address: "iudsbdujbnscudjdsl"}))
-  })
+  }, [])
 
   console.log(state)
   return (

@@ -2,6 +2,7 @@ import TOKEN_ABI from "../abis/cb-token.json";
 import { TOKEN_ADDRESS } from "../constants";
 import { useEffect, useMemo, useState } from "react";
 import { getContract } from "../utils/contract";
+import { getProvider } from "../utils/provider";
 
 export const useContract = (address, ABI) => {
     // TODO: Retrieve provider, account and chainId from hook
@@ -19,32 +20,42 @@ export const useContract = (address, ABI) => {
     }, [address, ABI, provider, chainId, account]);
 }
 
-export const getTokenSupply = async (provider) => {
-    const contract = useContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
-    const supply = await contract.totalSupply();
+export const getTokenSupply = () => {
+    let { provider, signer, account } = getProvider();
+
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const supply = contract.totalSupply();
     return supply;
 }
 
-export const getTokenBalance = async (address, provider) => {
-    const contract = useContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
-    const balance = await contract.balanceOf(address);
+export const getTokenBalance = async () => {
+    let { provider, signer, account } = getProvider();
+
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const balance = await contract.balanceOf(account);
     return balance;
 }
 
-export const transferTokens = async (address, amount, provider) => {
-    const contract = useContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+export const transferTokens = async (address, amount) => {
+    let { provider, signer, account } = getProvider();
+
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
     const transfer = await contract.transfer(address, amount);
     return transfer;
 }
 
-export const mintTokens = async (address, amount, provider) => {
-    const contract = useContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
-    const minted = await contract.mintTokens(address, amount);
+export const mintTokens = async (amount) => {
+    let { provider, signer, account } = getProvider();
+
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+    const minted = await contract.mint(account, amount);
     return minted;
 }
 
-export const burnTokens = async (address, amount, provider) => {
-    const contract = useContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
-    const burned = await contract.burnTokens(address, amount);
+export const burnTokens = async (amount) => {
+    let { provider, signer, account } = getProvider();
+
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
+    const burned = await contract.burn(account, amount);
     return burned;
 }

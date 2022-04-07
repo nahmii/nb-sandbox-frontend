@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Card, Box, CardContent, Stack, Typography, TextField, InputAdornment } from '@mui/material'
+import { Card, Box, CardContent, Stack, Typography, TextField, InputProps, OutlinedInput, InputAdornment, FormControl, FilledInput, FormHelperText } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
+import { transferTokens } from '../../../hooks/useContract';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -20,7 +21,18 @@ const inputProps = {
 }
 
 const TransferTokens = () => {
-    const [amount, setAmount] = useState("0.0000")
+    const [textInput, setTextInput] = useState('0');
+    const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
+
+    const handleClick = () =>{
+        // TODO: Get a selected address
+        // TODO: Handle decimals
+        transferTokens(address, textInput);
+    }
+
+    const handleChange = (event) => {
+        setTextInput(event.target.value);
+    }
 
     return (
         <Card sx={cardStyle}>
@@ -78,8 +90,7 @@ const TransferTokens = () => {
                         className='no-border'
                         label="Amount"
                         id="outlined-start-adornment"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        onChange={handleChange}
                         sx={{ width: '100%' }}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
@@ -97,7 +108,7 @@ const TransferTokens = () => {
                     </Typography>
                 </Box>
 
-                <Button className="button button-primary button-wide-mobile" wide>TRANSFER TOKENS</Button>
+                <Button className="button button-primary button-wide-mobile" wide onClick={handleClick}>TRANSFER TOKENS</Button>
             </CardContent>
         </Card>
     )
