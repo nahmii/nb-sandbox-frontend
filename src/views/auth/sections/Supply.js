@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Typography } from '@mui/material'
 import { getTokenSupply } from '../../../hooks/useContract'
-import { commify, formatUnits } from 'ethers/lib/utils'
+import { commify, insertDecimalSeparator } from '../../../utils/format'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -15,7 +15,7 @@ const Supply = () => {
     useEffect(() => {
         getTokenSupply()
             .then((supply) => {
-                setTotalSupply(commify(formatUnits(supply, 4)))
+                setTotalSupply(commify(insertDecimalSeparator(supply.toString(), 4)))
             })
     }, [])
 
