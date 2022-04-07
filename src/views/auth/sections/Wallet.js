@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Box, Typography, Stack, Divider, Grid } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from '../../../components/elements/Image';
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
+import { getTokenBalance } from '../../../hooks/useContract';
+import { commify, formatUnits } from 'ethers/lib/utils';
 
 const cardStyle = {
     boxShadow: 0, 
     borderRadius: 0,
 }
 
-const Wallet = (props) => {
+const Wallet = () => {
     // handle modal
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    // handle user balance
+    const [balance, setBalance] = useState('0')
+
+    useEffect(() => {
+        getTokenBalance()
+            .then((userBalance) => {
+                setBalance(commify(formatUnits(userBalance, 4)))
+            })
+    }, [])
 
     // const { onClick } = props
     return (
@@ -47,7 +59,7 @@ const Wallet = (props) => {
                             BALANCE
                         </Typography>
                         <Typography className="card-text" variant="h6">
-                            1,000,000,000.00 NOK
+                            {balance} NOK
                         </Typography>
                     </Grid>
                 </Grid>            

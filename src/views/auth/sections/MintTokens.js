@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornment } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
+import { mintTokens } from '../../../hooks/useContract';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -17,6 +18,17 @@ const inputProps = {
 }
 
 const MintTokens = () => {
+    const [textInput, setTextInput] = useState('0.0');
+
+    const handleClick = () =>{
+        // TODO: Handle decimals
+        mintTokens(textInput);
+    }
+
+    const handleChange = (event) => {
+        setTextInput(event.target.value);
+    }
+
     return (
         <Card sx={cardStyle}>
             <CardContent>
@@ -36,24 +48,15 @@ const MintTokens = () => {
                     <TextField
                         label="Amount"
                         id="outlined-start-adornment"
-                        value="0.0"
                         sx={{ width: '100%' }}
+                        onChange={handleChange}
                         InputProps={{
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}
                     />
                 </Box>
- 
-                <Box sx={{mt: 2, mb: 2}}>
-                    <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
-                        ADDRESS TO MINT
-                    </Typography>
-                    <Typography className="card-text" variant="h6">
-                        0xE5aafC325cC5aafC325cC5aafC325cC5C325CTR4DF656GH6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
-                    </Typography>
-                </Box>
-                <Button className="button button-primary button-wide-mobile" wide>MINT TOKENS</Button>
+                <Button className="button button-primary button-wide-mobile" wide onClick={handleClick}>MINT TOKENS</Button>
             </CardContent>
         </Card>
     )
