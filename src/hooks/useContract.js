@@ -48,7 +48,7 @@ export const mintTokens = async (amount) => {
     let { provider, signer, account } = getProvider();
 
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
-    const minted = await contract.mintTokens(account, amount);
+    const minted = await contract.mint(account, amount);
     return minted;
 }
 
@@ -56,6 +56,6 @@ export const burnTokens = async (amount) => {
     let { provider, signer, account } = getProvider();
 
     const contract = useContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
-    const burned = await contract.burnTokens(account, amount);
+    const burned = await contract.burn(account, amount);
     return burned;
 }
