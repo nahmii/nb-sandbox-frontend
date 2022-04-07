@@ -4,6 +4,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Button from '../../../components/elements/Button'
 import { mintTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
+import { limitDecimalPlaces } from '../../../utils/format';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -29,6 +30,10 @@ const MintTokens = () => {
         setTextInput(event.target.value);
     }
 
+    const handleInput = (event) => {
+        limitDecimalPlaces(event, 4);
+    }
+
     return (
         <Card sx={cardStyle}>
             <CardContent>
@@ -51,7 +56,9 @@ const MintTokens = () => {
                         sx={{ width: '100%' }}
                         value={textInput}
                         onChange={handleChange}
+                        onInput={handleInput}
                         InputProps={{
+                            type: 'number',
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}

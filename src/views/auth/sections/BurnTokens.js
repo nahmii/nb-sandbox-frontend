@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Button from '../../../components/elements/Button'
 import { burnTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
+import { limitDecimalPlaces } from '../../../utils/format';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -29,6 +30,10 @@ const BurnTokens = () => {
         setTextInput(event.target.value);
     }
 
+    const handleInput = (event) => {
+        limitDecimalPlaces(event, 4);
+    }
+
     return (
         <Card sx={cardStyle}>
             <CardContent>
@@ -50,7 +55,10 @@ const BurnTokens = () => {
                         sx={{ width: '100%' }}
                         value={textInput}
                         onChange={handleChange}
+                        onInput={handleInput}
                         InputProps={{
+                            type: 'number',
+                            min: 0,
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}

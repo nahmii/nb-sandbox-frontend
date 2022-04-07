@@ -7,6 +7,7 @@ import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
 import { parseUnits } from 'ethers/lib/utils';
+import { limitDecimalPlaces } from '../../../utils/format';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -34,6 +35,10 @@ const TransferTokens = () => {
 
     const handleChange = (event) => {
         setTextInput(event.target.value);
+    }
+
+    const handleInput = (event) => {
+        limitDecimalPlaces(event, 4);
     }
 
     useEffect(() => {
@@ -101,8 +106,10 @@ const TransferTokens = () => {
                         id="outlined-start-adornment"
                         value={textInput}
                         onChange={handleChange}
+                        onInput={handleInput}
                         sx={{ width: '100%' }}
                         InputProps={{
+                            type: 'number',
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}
