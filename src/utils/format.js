@@ -18,3 +18,18 @@ export const commify = (x) => {
 export const insertDecimalSeparator = (string, decimals) => {
     return string.slice(0, -decimals) + '.' + string.slice(-decimals);
 }
+
+/**
+ * Function that limits the number of decimal places in an input field.
+ * 
+ * @param {object} event DOM event object containing a value field. 
+ * @param {number} decimals The number of decimals to check against.
+ * @returns Either nothing or a fixed length amount of decimals.
+ */
+export const limitDecimalPlaces = (event, decimals) => {
+    if (event.target.value.indexOf('.') == -1) { return; }
+
+    if ((event.target.value.length - event.target.value.indexOf('.')) > decimals) {
+        event.target.value = parseFloat(event.target.value).toFixed(decimals);
+    }
+}
