@@ -27,13 +27,16 @@ const inputProps = {
 const TransferTokens = () => {
     const [amountToTransfer, setAmountToTransfer] = useState('0.0000');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
+    const [isMalformedAddress, setIsMalformedAddress] = useState(false);
+    const [addressHelperText, setAddressHelperText] = useState("");
 
     const [state, dispatch] = useGlobalState()
     const handleClick = () => {
         if (isAddress(address)) {
             transferTokens(address, parseUnits(amountToTransfer, 4));
         } else {
-            // TODO: inform user that the address is not valid.
+            setAddressHelperText("Malformed address. Please check again.")
+            setIsMalformedAddress(true);
         }
     }
 
@@ -47,6 +50,11 @@ const TransferTokens = () => {
 
     const handleTransferAmountInput = (event) => {
         limitDecimalPlaces(event, 4);
+    }
+
+    const handleAddressInput = () => {
+        setAddressHelperText("")
+        setIsMalformedAddress(false);
     }
 
     return (
@@ -83,7 +91,10 @@ const TransferTokens = () => {
                         label="Address"
                         id="outlined-start-adornment"
                         value={address}
+                        onInput={handleAddressInput}
                         onChange={handleAddressChange}
+                        error={isMalformedAddress}
+                        helperText={addressHelperText}
                         sx={{ width: '100%' }}
                         InputProps={{
                             style: inputProps
