@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Box, Typography, Stack, Divider, Grid } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from '../../../components/elements/Image';
+import ConnectButton from '../../../components/elements/ConnectButton';
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { getTokenBalance } from '../../../hooks/useContract';
@@ -39,9 +40,10 @@ const Wallet = () => {
                                     WALLET
                                 </Typography>
                                 <div className='text'>
-                                    <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={handleOpen} variant="h6">
+                                    {/* <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={handleOpen} variant="h6">
                                         {state.account ? state.account : "Connect wallet"} <span style={{position: "absolute", marginTop: "0px",marginLeft: "10px"}}><KeyboardArrowDownIcon /></span>
-                                    </h6>
+                                    </h6> */}
+                                    <ConnectButton></ConnectButton>
                                 </div>
 
                                 
