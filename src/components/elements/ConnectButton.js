@@ -50,7 +50,7 @@ const ConnectButton = () => {
     };
 
     return <>
-        <Button className="button button-primary button-wide-mobile button-sm" onClick={connectWalletPressed}>
+        <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={connectWalletPressed}>
             {walletAddress.length > 0 ? (
                 "Connected: " + 
                 String(walletAddress).substring(0,6) +
@@ -60,7 +60,7 @@ const ConnectButton = () => {
                 <span>Connect Wallet</span>
             )
         }
-        </Button>
+        </h6>
     </>
 }
 
