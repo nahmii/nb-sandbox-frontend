@@ -53,7 +53,7 @@ const ConnectButton = () => {
         <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={connectWalletPressed}>
             {walletAddress.length > 0 ? (
                 "Connected: " + 
-                String(walletAddress).substring(0,6) +
+                String(walletAddress).substring(0,10) +
                 "..." +
                 String(walletAddress).substring(38)
             ) : (
