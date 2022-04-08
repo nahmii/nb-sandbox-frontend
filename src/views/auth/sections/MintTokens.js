@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornment } from '@mui/material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Card, Box, CardContent, Typography, TextField, CircularProgress, InputAdornment, Snackbar } from '@mui/material'
+import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import { mintTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
@@ -20,10 +20,70 @@ const inputProps = {
 }
 
 const MintTokens = () => {
-    const [textInput, setTextInput] = useState('0.0000');
 
-    const handleClick = () =>{
-        mintTokens(parseUnits(textInput, 4));
+    const [state, setState] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right'
+    })
+
+    const { vertical, horizontal, open } = state
+    //Snackbar alert parameter
+    // const [open, setOpen] = useState(false)
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+
+        setState({ open: false });
+    }
+
+    const [textInput, setTextInput] = useState('0.0000');
+    const [msg, setMsg] = useState("")
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [disableBtn, setDisableBtn] = useState(false)
+    const [mintBtnText, setMintBtnText] = useState("MINT TOKENS")
+
+    const handleClick = (newState) => {
+
+        try {
+
+            if (textInput < 1) {
+                setState({open: true})
+                setError(true)
+                setMsg("Cannot mint 0 values")
+            } else {
+                setLoading(true)
+                setDisableBtn(true)
+                setMintBtnText("MINTING TOKENS")
+                mintTokens(parseUnits(textInput, 4)).then(transactionResponse => {
+                    // Inform user that the transaction has been sent
+                    // setOpen(true)
+                    // setInfo(true)
+                    // setMsg("Minting in process")
+                    return transactionResponse.wait()
+                }).then(transactionReceipt => {
+                    // Inform user that the transaction has been processed
+                    // Update user balance and total supply
+                    console.log(transactionReceipt)
+                    setState({ open: true, ...newState });
+                    setSuccess(true)
+                    setMsg("Mint successfully!")
+                    window.location.reload()
+    
+                });
+            }
+            
+        } catch (e) {
+            console.error(e)
+            
+            setDisableBtn(false)
+            setMintBtnText("MINT TOKENS")
+            setLoading(false)
+        }
     }
 
     const handleChange = (event) => {
@@ -34,8 +94,25 @@ const MintTokens = () => {
         limitDecimalPlaces(event, 4);
     }
 
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+    })
+
     return (
         <Card sx={cardStyle}>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity={success ? 'success' : 'error'}
+                    sx={{ width: '100%' }}
+                >
+                    {msg}
+                </Alert>
+            </Snackbar>
             <CardContent>
                 <Typography variant="h6" color="text.secondary" sx={{ fontSize: 18, color: "#153443" }}>
                     MINT TOKENS
@@ -64,7 +141,7 @@ const MintTokens = () => {
                         }}
                     />
                 </Box>
-                <Button className="button button-primary button-wide-mobile" wide onClick={handleClick}>MINT TOKENS</Button>
+                <Button disabled={disableBtn} style={{color: "white"}} className="button button-primary button-wide-mobile" wide onClick={handleClick}>{mintBtnText} {loading && <CircularProgress sx={{color: "white", padding: "5px", marginBottom: "5px"}}/>}</Button>
             </CardContent>
         </Card>
     )
