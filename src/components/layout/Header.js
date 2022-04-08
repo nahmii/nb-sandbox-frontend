@@ -130,7 +130,7 @@ const Header = ({
                         <Link to="/dashboard">DASHBOARD</Link>
                       </li>
                       <li className='nav-link'>
-                        <Link to="/admin">ADMIN</Link>
+                        <Link to="/dashboard">ADMIN</Link>
                       </li>
                     
                   </ul>
