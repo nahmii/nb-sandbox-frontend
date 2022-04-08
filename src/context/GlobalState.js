@@ -33,7 +33,11 @@ const GlobalStateProvider = ({ children }) => {
         
         getTokenBalance()
             .then((userBalance) => {
-                setState({balance: commify(insertDecimalSeparator(userBalance.toString(), 4))})
+                if (userBalance.toString() == "0") {
+                    setState({balance: "0.0000"});
+                } else {
+                    setState({balance: commify(insertDecimalSeparator(userBalance.toString(), 4))})
+                }
             })
 
         getTokenSupply()
