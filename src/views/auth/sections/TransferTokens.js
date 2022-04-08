@@ -6,7 +6,7 @@ import Image from '../../../components/elements/Image'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
-import { parseUnits } from 'ethers/lib/utils';
+import { isAddress, parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
 import { useGlobalState } from '../../../hooks/useGlobalState';
 
@@ -29,9 +29,12 @@ const TransferTokens = () => {
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
 
     const [state, dispatch] = useGlobalState()
-    const handleClick = () =>{
-        // TODO: Get a selected address
-        transferTokens(address, parseUnits(amountToTransfer, 4));
+    const handleClick = () => {
+        if (isAddress(address)) {
+            transferTokens(address, parseUnits(amountToTransfer, 4));
+        } else {
+            // TODO: inform user that the address is not valid.
+        }
     }
 
     const handleTransferAmountChange = (event) => {
