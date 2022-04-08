@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Box, Typography, Stack, Divider, Grid } from '@mui/material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Image from '../../../components/elements/Image';
 import ConnectButton from '../../../components/elements/ConnectButton';
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
-import { getTokenBalance } from '../../../hooks/useContract';
-import { getProvider } from '../../../utils/provider';
-import { commify, insertDecimalSeparator } from '../../../utils/format';
 
 import { useGlobalState } from '../../../hooks/useGlobalState'
 
