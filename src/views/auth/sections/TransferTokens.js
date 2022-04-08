@@ -22,6 +22,7 @@ const inputProps = {
     height: "50px",
     outline: "none",
     ariaLabel: 'weight',
+    fontSize: '95%',
 }
 
 const TransferTokens = () => {
