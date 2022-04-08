@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispacth } from 'react-redux'
 import { Card, Box, CardContent, Typography, TextField, CircularProgress, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
@@ -21,22 +22,15 @@ const inputProps = {
 
 const MintTokens = () => {
 
-    const [state, setState] = useState({
-        open: false,
-        vertical: 'top',
-        horizontal: 'right'
-    })
-
-    const { vertical, horizontal, open } = state
     //Snackbar alert parameter
-    // const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false)
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return
         }
 
-        setState({ open: false });
+        setOpen(false)
     }
 
     const [textInput, setTextInput] = useState('0.0000');
@@ -47,31 +41,28 @@ const MintTokens = () => {
     const [disableBtn, setDisableBtn] = useState(false)
     const [mintBtnText, setMintBtnText] = useState("MINT TOKENS")
 
-    const handleClick = (newState) => {
+    const handleClick = () => {
 
         try {
 
             if (textInput < 1) {
-                setState({open: true})
+                setOpen(true)
                 setError(true)
-                setMsg("Cannot mint 0 values")
+                setMsg("Cannot mint 0 token")
             } else {
                 setLoading(true)
                 setDisableBtn(true)
                 setMintBtnText("MINTING TOKENS")
                 mintTokens(parseUnits(textInput, 4)).then(transactionResponse => {
-                    // Inform user that the transaction has been sent
-                    // setOpen(true)
-                    // setInfo(true)
-                    // setMsg("Minting in process")
+                    // waiting time
                     return transactionResponse.wait()
                 }).then(transactionReceipt => {
                     // Inform user that the transaction has been processed
                     // Update user balance and total supply
                     console.log(transactionReceipt)
-                    setState({ open: true, ...newState });
+                    setOpen(true)
                     setSuccess(true)
-                    setMsg("Mint successfully!")
+                    setMsg(`Mint ${textInput} tokens successfully!`)
                     window.location.reload()
     
                 });

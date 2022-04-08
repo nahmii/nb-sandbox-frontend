@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Box, CardContent, Typography, TextField, InputProps, InputAdornment, FormControl, FilledInput, FormHelperText } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Card, Box, CardContent, Typography, TextField, InputAdornment, CircularProgress, Snackbar } from '@mui/material'
+import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import { burnTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
@@ -20,10 +20,54 @@ const inputProps = {
 }
 
 const BurnTokens = () => {
-    const [textInput, setTextInput] = useState('0.0000');
+    //Snackbar alert parameter
+    const [open, setOpen] = useState(false)
 
-    const handleClick = () =>{
-        burnTokens(parseUnits(textInput, 4));
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+
+        setOpen(false)
+    }
+
+    const [textInput, setTextInput] = useState('0.0000');
+    const [msg, setMsg] = useState("")
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [disableBtn, setDisableBtn] = useState(false)
+    const [burnBtnText, setBurnBtnText] = useState("BURN TOKENS")
+
+    const handleClick = () => {
+
+        try {
+            if (textInput < 1) {
+                setOpen(true)
+                setError(true)
+                setMsg("Cannot burn 0 token")
+            } else {
+                setLoading(true)
+                setDisableBtn(true)
+                setBurnBtnText("BURNING TOKENS")
+                
+                burnTokens(parseUnits(textInput, 4)).then(transactionResponse => {
+                    // waiting time
+                    return transactionResponse.wait()
+                }).then(transactionReceipt => {
+                    // Inform user that the transaction has been processed
+                    // Update user balance and total supply
+                    console.log(transactionReceipt)
+                    setOpen(true)
+                    setSuccess(true)
+                    setMsg(`Burned ${textInput} tokens successfully!`)
+                    window.location.reload()
+    
+                })
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     const handleChange = (event) => {
@@ -34,8 +78,25 @@ const BurnTokens = () => {
         limitDecimalPlaces(event, 4);
     }
 
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+    })
+
     return (
         <Card sx={cardStyle}>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity={success ? 'success' : 'error'}
+                    sx={{ width: '100%' }}
+                >
+                    {msg}
+                </Alert>
+            </Snackbar>
             <CardContent>
                 <Typography variant="h6" color="text.secondary" sx={{ fontSize: 18, color: "#153443" }}>
                     BURN TOKENS
@@ -64,7 +125,7 @@ const BurnTokens = () => {
                         }}
                     />
                 </Box>
-                <Button className="button button-primary button-wide-mobile" wide onClick={handleClick}>BURN TOKENS</Button>
+                <Button disabled={disableBtn} style={{color: "white"}} className="button button-primary button-wide-mobile" wide onClick={handleClick}>{burnBtnText} {loading && <CircularProgress sx={{color: "white", padding: "5px", marginBottom: "5px"}}/>}</Button>
             </CardContent>
         </Card>
     )
