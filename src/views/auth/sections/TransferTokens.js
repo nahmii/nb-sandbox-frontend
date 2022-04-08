@@ -25,24 +25,24 @@ const inputProps = {
 }
 
 const TransferTokens = () => {
-    const [textInput, setTextInput] = useState('0.0000');
+    const [amountToTransfer, setAmountToTransfer] = useState('0.0000');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
 
     const [state, dispatch] = useGlobalState()
     const handleClick = () =>{
         // TODO: Get a selected address
-        transferTokens(address, parseUnits(textInput, 4));
+        transferTokens(address, parseUnits(amountToTransfer, 4));
     }
 
-    const handleChange = (event) => {
-        setTextInput(event.target.value);
+    const handleTransferAmountChange = (event) => {
+        setAmountToTransfer(event.target.value);
     }
 
     const handleAddressChange = (event) => {
         setAddress(event.target.value);
     }
 
-    const handleInput = (event) => {
+    const handleTransferAmountInput = (event) => {
         limitDecimalPlaces(event, 4);
     }
 
@@ -109,9 +109,9 @@ const TransferTokens = () => {
                         className='no-border'
                         label="Amount"
                         id="outlined-start-adornment"
-                        value={textInput}
-                        onChange={handleChange}
-                        onInput={handleInput}
+                        value={amountToTransfer}
+                        onChange={handleTransferAmountChange}
+                        onInput={handleTransferAmountInput}
                         sx={{ width: '100%' }}
                         InputProps={{
                             type: 'number',
