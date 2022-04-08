@@ -38,11 +38,13 @@ const TransferTokens = () => {
         setTextInput(event.target.value);
     }
 
+    const handleAddressChange = (event) => {
+        setAddress(event.target.value);
+    }
+
     const handleInput = (event) => {
         limitDecimalPlaces(event, 4);
     }
-
-
 
     return (
         <Card sx={cardStyle}>
@@ -67,16 +69,23 @@ const TransferTokens = () => {
                 </Box>
                 <Box sx={{mt: 3}}>
                     <Stack direction="row" spacing={2}>
-                        <Image className="wallet-image" src={WalletFace} width="50" />
                         <Box className="neg-mt">
                             <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND TO
                             </Typography>
-                            <Typography className="card-text" variant="h6">
-                                0xE5aafC325cC5aafC325cC5aafC325cCTRGH6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
-                            </Typography>
                         </Box>
                     </Stack> 
+                    <TextField
+                        className='no-border'
+                        label="Address"
+                        id="outlined-start-adornment"
+                        value={address}
+                        onChange={handleAddressChange}
+                        sx={{ width: '100%' }}
+                        InputProps={{
+                            style: inputProps
+                        }}
+                    />
                 </Box>
                 <Box sx={{mt: 3}}>
                     <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
