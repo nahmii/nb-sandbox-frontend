@@ -6,7 +6,7 @@ import Image from '../../../components/elements/Image'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
 import { getProvider } from '../../../utils/provider';
-import { parseUnits } from 'ethers/lib/utils';
+import { isAddress, parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
 import { useGlobalState } from '../../../hooks/useGlobalState';
 
@@ -22,27 +22,41 @@ const inputProps = {
     height: "50px",
     outline: "none",
     ariaLabel: 'weight',
+    fontSize: '95%',
 }
 
 const TransferTokens = () => {
-    const [textInput, setTextInput] = useState('0.0000');
+    const [amountToTransfer, setAmountToTransfer] = useState('0.0000');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
+    const [isMalformedAddress, setIsMalformedAddress] = useState(false);
+    const [addressHelperText, setAddressHelperText] = useState("");
 
     const [state, dispatch] = useGlobalState()
-    const handleClick = () =>{
-        // TODO: Get a selected address
-        transferTokens(address, parseUnits(textInput, 4));
+    const handleClick = () => {
+        if (isAddress(address)) {
+            transferTokens(address, parseUnits(amountToTransfer, 4));
+        } else {
+            setAddressHelperText("Malformed address. Please check again.")
+            setIsMalformedAddress(true);
+        }
     }
 
-    const handleChange = (event) => {
-        setTextInput(event.target.value);
+    const handleTransferAmountChange = (event) => {
+        setAmountToTransfer(event.target.value);
     }
 
-    const handleInput = (event) => {
+    const handleAddressChange = (event) => {
+        setAddress(event.target.value);
+    }
+
+    const handleTransferAmountInput = (event) => {
         limitDecimalPlaces(event, 4);
     }
 
-
+    const handleAddressInput = () => {
+        setAddressHelperText("")
+        setIsMalformedAddress(false);
+    }
 
     return (
         <Card sx={cardStyle}>
@@ -67,16 +81,26 @@ const TransferTokens = () => {
                 </Box>
                 <Box sx={{mt: 3}}>
                     <Stack direction="row" spacing={2}>
-                        <Image className="wallet-image" src={WalletFace} width="50" />
                         <Box className="neg-mt">
                             <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND TO
                             </Typography>
-                            <Typography className="card-text" variant="h6">
-                                0xE5aafC325cC5aafC325cC5aafC325cCTRGH6...<span style={{position: "absolute"}}><KeyboardArrowDownIcon /></span>
-                            </Typography>
                         </Box>
                     </Stack> 
+                    <TextField
+                        className='no-border'
+                        label="Address"
+                        id="outlined-start-adornment"
+                        value={address}
+                        onInput={handleAddressInput}
+                        onChange={handleAddressChange}
+                        error={isMalformedAddress}
+                        helperText={addressHelperText}
+                        sx={{ width: '100%' }}
+                        InputProps={{
+                            style: inputProps
+                        }}
+                    />
                 </Box>
                 <Box sx={{mt: 3}}>
                     <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
@@ -100,9 +124,9 @@ const TransferTokens = () => {
                         className='no-border'
                         label="Amount"
                         id="outlined-start-adornment"
-                        value={textInput}
-                        onChange={handleChange}
-                        onInput={handleInput}
+                        value={amountToTransfer}
+                        onChange={handleTransferAmountChange}
+                        onInput={handleTransferAmountInput}
                         sx={{ width: '100%' }}
                         InputProps={{
                             type: 'number',
