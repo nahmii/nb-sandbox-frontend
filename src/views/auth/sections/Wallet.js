@@ -4,8 +4,7 @@ import Image from '../../../components/elements/Image';
 import ConnectButton from '../../../components/elements/ConnectButton';
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
-
-import { useGlobalState } from '../../../hooks/useGlobalState'
+import { useGlobalState } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -18,7 +17,7 @@ const Wallet = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [state, dispatch] = useGlobalState()
+    const [balance] = useGlobalState('balance');
 
     // const { onClick } = props
     return (
@@ -52,7 +51,7 @@ const Wallet = () => {
                             BALANCE
                         </Typography>
                         <Typography className="card-text" variant="h6">
-                            {state.balance} NOK
+                            {balance} NOK
                         </Typography>
                     </Grid>
                 </Grid>            
