@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useDispacth } from 'react-redux'
 import { Card, Box, CardContent, Typography, TextField, CircularProgress, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import { mintTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
+import { updateBalance, updateTotalSupply } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
     borderRadius: 0,
 }
-
 
 const inputProps = {
     backgroundColor: "#F2F8FA", 
@@ -21,7 +20,6 @@ const inputProps = {
 }
 
 const MintTokens = () => {
-
     //Snackbar alert parameter
     const [open, setOpen] = useState(false)
 
@@ -29,7 +27,6 @@ const MintTokens = () => {
         if (reason === 'clickaway') {
             return
         }
-
         setOpen(false)
     }
 
@@ -42,9 +39,7 @@ const MintTokens = () => {
     const [mintBtnText, setMintBtnText] = useState("MINT TOKENS")
 
     const handleClick = () => {
-
         try {
-
             if (textInput < 1) {
                 setOpen(true)
                 setError(true)
@@ -63,14 +58,14 @@ const MintTokens = () => {
                     setOpen(true)
                     setSuccess(true)
                     setMsg(`Mint ${textInput} tokens successfully!`)
-                    window.location.reload()
-    
+                    updateBalance();
+                    updateTotalSupply();
+                    setLoading(false);
+                    setDisableBtn(false);
                 });
             }
-            
         } catch (e) {
             console.error(e)
-            
             setDisableBtn(false)
             setMintBtnText("MINT TOKENS")
             setLoading(false)
