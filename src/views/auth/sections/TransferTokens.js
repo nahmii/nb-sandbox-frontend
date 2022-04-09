@@ -9,6 +9,7 @@ import { isAddress, parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
 
 import { formatWalletAddress } from '../../../utils/helpers'
+import { updateBalance } from '../../../state';
 import { useGlobalState } from '../../../state';
 
 const cardStyle = {
@@ -74,8 +75,9 @@ const TransferTokens = () => {
                         setOpen(true)
                         setSuccess(true)
                         setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
-                        window.location.reload()
-        
+                        updateBalance();
+                        setLoading(false);
+                        setDisableBtn(false);
                     })
                 }
             } else {
