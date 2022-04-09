@@ -1,5 +1,5 @@
 import { createGlobalState } from 'react-hooks-global-state';
-import { getTokenBalance } from '../hooks/useContract';
+import { getTokenBalance, getTokenSupply } from '../hooks/useContract';
 import { commify, insertDecimalSeparator } from '../utils/format';
 
 const { setGlobalState, useGlobalState } = createGlobalState({
@@ -17,6 +17,12 @@ const updateBalance = () => {
           setGlobalState('balance', commify(insertDecimalSeparator(userBalance.toString(), 4)));
         }
     })
-  }
+}
 
-export { setGlobalState, useGlobalState, updateBalance };
+const updateTotalSupply = () => {
+    getTokenSupply().then(s => {
+        setGlobalState('totalSupply', commify(insertDecimalSeparator(s.toString(), 4)));
+    });
+}
+
+export { setGlobalState, useGlobalState, updateBalance, updateTotalSupply };
