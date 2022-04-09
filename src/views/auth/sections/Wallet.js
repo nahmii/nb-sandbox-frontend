@@ -29,7 +29,7 @@ const Wallet = () => {
                 <Grid container spacing={2} sx={{mb: -1}}>
                     <Grid item xs={12} sm={7} md={7}>
                         <Stack direction="row" spacing={2}>
-                            <Image className="wallet-image" src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} style={{marginTop: "10px"}} width="50px" />
+                            <Image className="wallet-image" src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} style={{marginTop: "10px"}} />
                             <Box>
                                 <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                     WALLET

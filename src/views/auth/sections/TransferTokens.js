@@ -131,7 +131,7 @@ const TransferTokens = () => {
 
                 <Box sx={{mt: 3}}>
                     <Stack direction="row" spacing={2}>
-                        <Image className="wallet-image" src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} width="50" />
+                        <Image className="wallet-image" src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} />
                         <Box className="neg-mt">
                             <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND FROM
