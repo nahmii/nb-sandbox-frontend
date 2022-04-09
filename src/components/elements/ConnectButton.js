@@ -3,16 +3,30 @@ import Button from '../elements/Button'
 
 import { connectWallet, getCurrentWalletConnected } from '../../utils/interact'
 import { setGlobalState, useGlobalState } from '../../state'
+import { getTokenBalance } from '../../hooks/useContract'
+import { commify, insertDecimalSeparator } from '../../utils/format'
 
 
 const ConnectButton = () => {
     const [account] = useGlobalState('account');
     const [status, setStatus] = useState('')
 
+    const updateBalance = () => {
+      getTokenBalance()
+        .then((userBalance) => {
+          if (userBalance.toString() == "0") {
+            setGlobalState('balance', '0.0000');
+          } else {
+            setGlobalState('balance', commify(insertDecimalSeparator(userBalance.toString(), 4)));
+          }
+      })
+    }
+
     useEffect(() => {      
         async function fetchWallet() {
           const {address, status} = await getCurrentWalletConnected();
           setGlobalState('account', address);
+          updateBalance();
           setStatus(status); 
           addWalletListener();
         }
@@ -24,6 +38,7 @@ const ConnectButton = () => {
           window.ethereum.on("accountsChanged", (accounts) => {
             if (accounts.length > 0) {
               setGlobalState('account', accounts[0]);
+              updateBalance();
               setStatus("👆🏽 Write a message in the text-field above.");
             } else {
               setGlobalState('account', '');
@@ -48,6 +63,7 @@ const ConnectButton = () => {
         const walletResponse = await connectWallet();
         setStatus(walletResponse.status);
         setGlobalState('account', walletResponse.address);
+        updateBalance();
     };
 
     return <>
