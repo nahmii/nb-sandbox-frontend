@@ -62,6 +62,7 @@ const MintTokens = () => {
                     updateTotalSupply();
                     setLoading(false);
                     setDisableBtn(false);
+                    setMintBtnText("MINT TOKENS")
                 });
             }
         } catch (e) {

@@ -78,6 +78,7 @@ const TransferTokens = () => {
                         updateBalance();
                         setLoading(false);
                         setDisableBtn(false);
+                        setTransferBtnText("TRANSFER TOKENS")
                     })
                 }
             } else {

@@ -63,7 +63,8 @@ const BurnTokens = () => {
                     updateBalance();
                     updateTotalSupply();
                     setLoading(false);
-                    setDisableBtn(false);    
+                    setDisableBtn(false);  
+                    setBurnBtnText("BURN TOKENS")  
                 })
             }
         } catch (e) {
