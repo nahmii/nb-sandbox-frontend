@@ -11,7 +11,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
 const updateBalance = () => {
     getTokenBalance()
       .then((userBalance) => {
-        if (userBalance.toString() == "0") {
+        if (userBalance.toString() === "0") {
           setGlobalState('balance', '0.0000');
         } else {
           setGlobalState('balance', commify(insertDecimalSeparator(userBalance.toString(), 4)));
