@@ -46,8 +46,7 @@ const Wallet = () => {
                         </Stack>   
                     </Grid>
                     <Grid item xs={12} sm={5} md={5}>
-                        <Divider orientation="vertical" variant="middle" flexItem color="#000" /> 
-                        <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
+                        <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                             BALANCE
                         </Typography>
                         <Typography className="card-text" variant="h6">
