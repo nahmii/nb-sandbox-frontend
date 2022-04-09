@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import LayoutDefault from '../../layouts/LayoutDefault';
 
@@ -9,13 +9,21 @@ import BurnTokens from './sections/BurnTokens'
 import TransferTokens from './sections/TransferTokens'
 
 import SelectWalletModal from './elements/SelectWalletModal'
+import { setGlobalState } from '../../state';
+import { getTokenSupply } from '../../hooks/useContract';
+import { commify, insertDecimalSeparator } from '../../utils/format';
 
 const Dashboard = () => {
      // handle modal
      const [open, setOpen] = useState(false);
      const handleOpen = () => setOpen(true);
      const handleClose = () => setOpen(false);
-    
+
+    useEffect(() => {
+        getTokenSupply().then(s => {
+            setGlobalState('totalSupply', commify(insertDecimalSeparator(s.toString(), 4)));
+        });
+    }, []);
 
     return (
         <LayoutDefault>
