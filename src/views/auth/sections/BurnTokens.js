@@ -23,7 +23,7 @@ const BurnTokens = () => {
     //Snackbar alert parameter
     const [open, setOpen] = useState(false)
 
-    const handleClose = (event, reason) => {
+    const handleClose = (_, reason) => {
         if (reason === 'clickaway') {
             return
         }

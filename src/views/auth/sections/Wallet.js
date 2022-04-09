@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Box, Typography, Stack, Divider, Grid } from '@mui/material'
+import React, { useState } from 'react';
+import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image';
 import ConnectButton from '../../../components/elements/ConnectButton';
-import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state';
 
@@ -41,8 +40,6 @@ const Wallet = () => {
                                     </h6> */}
                                     <ConnectButton></ConnectButton>
                                 </div>
-
-                                
                             </Box>
                         </Stack>   
                     </Grid>
