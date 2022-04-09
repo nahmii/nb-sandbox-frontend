@@ -5,12 +5,12 @@ import Button from '../../../components/elements/Button'
 import { burnTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
+import { updateBalance, updateTotalSupply } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
     borderRadius: 0,
 }
-
 
 const inputProps = {
     backgroundColor: "#F2F8FA", 
@@ -40,7 +40,6 @@ const BurnTokens = () => {
     const [burnBtnText, setBurnBtnText] = useState("BURN TOKENS")
 
     const handleClick = () => {
-
         try {
             if (textInput < 1) {
                 setOpen(true)
@@ -61,8 +60,10 @@ const BurnTokens = () => {
                     setOpen(true)
                     setSuccess(true)
                     setMsg(`Burned ${textInput} tokens successfully!`)
-                    window.location.reload()
-    
+                    updateBalance();
+                    updateTotalSupply();
+                    setLoading(false);
+                    setDisableBtn(false);    
                 })
             }
         } catch (e) {
