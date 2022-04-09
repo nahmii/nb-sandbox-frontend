@@ -1,5 +1,4 @@
-import { AddressZero } from "@ethersproject/constants";
-import { Contract } from "@ethersproject/contracts";
+import { Contract, constants } from "ethers";
 import { isAddress } from "./address";
 
 /**
@@ -10,7 +9,7 @@ import { isAddress } from "./address";
  * @returns Contract object
  */
 export const getContract = (address, ABI, provider) => {
-    if (address == AddressZero || !isAddress(address)) {
+    if (address == constants.AddressZero || !isAddress(address)) {
         throw Error(`Invalid address: ${address}`)
     }
     // TODO: Make it possible to accept both providers and signers.
