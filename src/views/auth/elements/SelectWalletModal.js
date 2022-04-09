@@ -32,7 +32,7 @@ const data = [
 
 export default function SelectWalletModal(props) {
   const [selectWallet, showSelectWallet] = useState(true)
-  const [_, showImportWallet] = useState(false)
+  const [, showImportWallet] = useState(false)
   const { onClose, open } = props
 
   const handleCreateWallet = () => {

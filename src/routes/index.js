@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-import Login from '../views/Login'
 import Dashboard from '../views/auth/Dashboard'
 
 const AppRoute = () => {

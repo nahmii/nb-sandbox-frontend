@@ -4,9 +4,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/norgesLogo.png';
 import Image from '../elements/Image';
-
 // import { Menu, MenuItem } from '@mui/material';
-
 
 const propTypes = {
   navPosition: PropTypes.string,
@@ -40,17 +38,17 @@ const Header = ({
   const hamburger = useRef(null);
 
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorAboutEl, setAnchorAboutEl] = useState(null);
+  // const [anchorEl,] = useState(null);
+  // const [anchorAboutEl, setAnchorAboutEl] = useState(null);
 
-  const open = Boolean(anchorEl);
+  // const open = Boolean(anchorEl);
   // const handleClick = (event) => {
   //   setAnchorEl(event.currentTarget);
   // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   // const openAbout = Boolean(anchorAboutEl);
   // const handleAboutClick = (event) => {
@@ -132,7 +130,6 @@ const Header = ({
                       <li className='nav-link'>
                         <Link to="/dashboard">ADMIN</Link>
                       </li>
-                    
                   </ul>
                 </div>
               </nav>

@@ -27,7 +27,7 @@ const TransferTokens = () => {
     //Snackbar alert parameter
     const [open, setOpen] = useState(false)
 
-    const handleClose = (_, reason) => {
+    const handleClose = (e, reason) => {
         if (reason === 'clickaway') {
             return
         }
@@ -42,7 +42,7 @@ const TransferTokens = () => {
 
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
-    const [_, setError] = useState(false)
+    const [, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [transferBtnText, setTransferBtnText] = useState("TRANSFER TOKENS")

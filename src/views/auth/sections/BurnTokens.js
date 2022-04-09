@@ -34,7 +34,7 @@ const BurnTokens = () => {
     const [textInput, setTextInput] = useState('0.0000');
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
-    const [error, setError] = useState(false)
+    const [, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [burnBtnText, setBurnBtnText] = useState("BURN TOKENS")
