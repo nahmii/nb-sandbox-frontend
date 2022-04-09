@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, CardContent, Grid, Typography, Radio, FormControl, RadioGroup, FormLabel, FormControlLabel } from '@mui/material'
+import { Box, CardContent, Grid, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material'
 import Button from '../../../components/elements/Button';
 
 const phrases = ["Tomato", "Beef", "Cricket"]

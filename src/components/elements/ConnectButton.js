@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Button from '../elements/Button'
 import { connectWallet, getCurrentWalletConnected } from '../../utils/interact'
 import { setGlobalState, updateBalance, useGlobalState } from '../../state'
 
-
 const ConnectButton = () => {
     const [account] = useGlobalState('account');
-    const [status, setStatus] = useState('')
+    const [_, setStatus] = useState('')
 
     useEffect(() => {      
         async function fetchWallet() {

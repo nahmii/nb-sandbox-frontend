@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Typography, Modal, Step, Stepper, StepButton, Card, CardActions, Backdrop } from '@mui/material';
+import { Box, Typography, Step, Stepper, StepButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-// import WalletList from '../sections/WalletList';
 import Button from '../../../components/elements/Button';
 
 import CreateWalletForm from '../components/CreateWalletForm';
@@ -18,7 +17,7 @@ const steps = ['Create Account', 'Select Fund', 'Fill Paperwork', 'Submit Applic
 
 export default function CreateWalletModal(props) {
 
-  const { onClose, open } = props
+  const { onClose, _ } = props
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
 
@@ -48,20 +47,20 @@ export default function CreateWalletModal(props) {
     setActiveStep(newActiveStep);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
 
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
+  // const handleComplete = () => {
+  //   const newCompleted = completed;
+  //   newCompleted[activeStep] = true;
+  //   setCompleted(newCompleted);
+  //   handleNext();
+  // };
 
   const handleReset = () => {
     setActiveStep(0);
