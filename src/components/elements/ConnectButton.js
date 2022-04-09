@@ -1,26 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Button from '../elements/Button'
-
 import { connectWallet, getCurrentWalletConnected } from '../../utils/interact'
-import { setGlobalState, useGlobalState } from '../../state'
-import { getTokenBalance } from '../../hooks/useContract'
-import { commify, insertDecimalSeparator } from '../../utils/format'
+import { setGlobalState, updateBalance, useGlobalState } from '../../state'
 
 
 const ConnectButton = () => {
     const [account] = useGlobalState('account');
     const [status, setStatus] = useState('')
-
-    const updateBalance = () => {
-      getTokenBalance()
-        .then((userBalance) => {
-          if (userBalance.toString() == "0") {
-            setGlobalState('balance', '0.0000');
-          } else {
-            setGlobalState('balance', commify(insertDecimalSeparator(userBalance.toString(), 4)));
-          }
-      })
-    }
 
     useEffect(() => {      
         async function fetchWallet() {
