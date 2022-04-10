@@ -59,3 +59,11 @@ export const burnTokens = async (amount) => {
     const burned = await contract.burn(account, amount);
     return burned;
 }
+
+export const getContractOwner = async () => {
+    let { provider } = getProvider();
+
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
+    const owner = await contract.owner();
+    return owner;
+}
