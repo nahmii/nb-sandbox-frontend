@@ -5,12 +5,12 @@ import Button from '../../../components/elements/Button'
 import { burnTokens } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
+import { updateBalance, updateTotalSupply } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
     borderRadius: 0,
 }
-
 
 const inputProps = {
     backgroundColor: "#F2F8FA", 
@@ -23,7 +23,7 @@ const BurnTokens = () => {
     //Snackbar alert parameter
     const [open, setOpen] = useState(false)
 
-    const handleClose = (event, reason) => {
+    const handleClose = (_, reason) => {
         if (reason === 'clickaway') {
             return
         }
@@ -34,13 +34,12 @@ const BurnTokens = () => {
     const [textInput, setTextInput] = useState('0.0000');
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
-    const [error, setError] = useState(false)
+    const [, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [burnBtnText, setBurnBtnText] = useState("BURN TOKENS")
 
     const handleClick = () => {
-
         try {
             if (textInput < 1) {
                 setOpen(true)
@@ -61,8 +60,11 @@ const BurnTokens = () => {
                     setOpen(true)
                     setSuccess(true)
                     setMsg(`Burned ${textInput} tokens successfully!`)
-                    window.location.reload()
-    
+                    updateBalance();
+                    updateTotalSupply();
+                    setLoading(false);
+                    setDisableBtn(false);  
+                    setBurnBtnText("BURN TOKENS")  
                 })
             }
         } catch (e) {

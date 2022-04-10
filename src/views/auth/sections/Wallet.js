@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Box, Typography, Stack, Divider, Grid } from '@mui/material'
+import React, { useState } from 'react';
+import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image';
 import ConnectButton from '../../../components/elements/ConnectButton';
-import WalletFace from '../../../assets/images/Wallet-Face.png'
 import SelectWalletModal from '../elements/SelectWalletModal'
-
-import { useGlobalState } from '../../../hooks/useGlobalState'
+import { useGlobalState } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -18,7 +16,8 @@ const Wallet = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [state, dispatch] = useGlobalState()
+    const [account] = useGlobalState('account');
+    const [balance] = useGlobalState('balance');
 
     // const { onClick } = props
     return (
@@ -30,7 +29,7 @@ const Wallet = () => {
                 <Grid container spacing={2} sx={{mb: -1}}>
                     <Grid item xs={12} sm={7} md={7}>
                         <Stack direction="row" spacing={2}>
-                            <Image className="wallet-image" src={WalletFace} style={{marginTop: "10px"}} width="50px" />
+                            <Image className="wallet-image" src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} style={{marginTop: "10px"}} />
                             <Box>
                                 <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                     WALLET
@@ -41,18 +40,15 @@ const Wallet = () => {
                                     </h6> */}
                                     <ConnectButton></ConnectButton>
                                 </div>
-
-                                
                             </Box>
                         </Stack>   
                     </Grid>
                     <Grid item xs={12} sm={5} md={5}>
-                        <Divider orientation="vertical" variant="middle" flexItem color="#000" /> 
-                        <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
+                        <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                             BALANCE
                         </Typography>
                         <Typography className="card-text" variant="h6">
-                            {state.balance} NOK
+                            {balance} NOK
                         </Typography>
                     </Grid>
                 </Grid>            

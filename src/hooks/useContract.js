@@ -1,6 +1,6 @@
 import TOKEN_ABI from "../abis/cb-token.json";
 import { TOKEN_ADDRESS } from "../constants";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { getContract } from "../utils/contract";
 import { getProvider } from "../utils/provider";
 
@@ -21,7 +21,7 @@ export const useContract = (address, ABI) => {
 }
 
 export const getTokenSupply = () => {
-    let { provider, signer, account } = getProvider();
+    let { provider } = getProvider();
 
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
     const supply = contract.totalSupply();
@@ -29,7 +29,7 @@ export const getTokenSupply = () => {
 }
 
 export const getTokenBalance = async () => {
-    let { provider, signer, account } = getProvider();
+    let { provider, account } = getProvider();
 
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider);
     const balance = await contract.balanceOf(account);
@@ -37,7 +37,7 @@ export const getTokenBalance = async () => {
 }
 
 export const transferTokens = async (address, amount) => {
-    let { provider, signer, account } = getProvider();
+    let { signer } = getProvider();
 
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
     const transfer = await contract.transfer(address, amount);
@@ -45,7 +45,7 @@ export const transferTokens = async (address, amount) => {
 }
 
 export const mintTokens = async (amount) => {
-    let { provider, signer, account } = getProvider();
+    let { signer, account } = getProvider();
 
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
     const minted = await contract.mint(account, amount);
@@ -53,7 +53,7 @@ export const mintTokens = async (amount) => {
 }
 
 export const burnTokens = async (amount) => {
-    let { provider, signer, account } = getProvider();
+    let { signer, account } = getProvider();
 
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer);
     const burned = await contract.burn(account, amount);

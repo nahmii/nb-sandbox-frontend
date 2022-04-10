@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Box, CardContent, Stack, Typography, TextField, InputAdornment, CircularProgress, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
-import WalletFace from '../../../assets/images/Wallet-Face.png'
 import { transferTokens } from '../../../hooks/useContract';
 import { isAddress, parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
-import { useGlobalState } from '../../../hooks/useGlobalState';
-
 import { formatWalletAddress } from '../../../utils/helpers'
+import { useGlobalState, updateBalance } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
     borderRadius: 0,
 }
-
 
 const inputProps = {
     backgroundColor: "#F2F8FA", 
@@ -30,7 +27,7 @@ const TransferTokens = () => {
     //Snackbar alert parameter
     const [open, setOpen] = useState(false)
 
-    const handleClose = (event, reason) => {
+    const handleClose = (e, reason) => {
         if (reason === 'clickaway') {
             return
         }
@@ -45,12 +42,12 @@ const TransferTokens = () => {
 
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
-    const [error, setError] = useState(false)
+    const [, setError] = useState(false)
     const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [transferBtnText, setTransferBtnText] = useState("TRANSFER TOKENS")
 
-    const [state, dispatch] = useGlobalState()
+    const [account] = useGlobalState('account');
 
     const handleClick = () => {
 
@@ -74,8 +71,10 @@ const TransferTokens = () => {
                         setOpen(true)
                         setSuccess(true)
                         setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
-                        window.location.reload()
-        
+                        updateBalance();
+                        setLoading(false);
+                        setDisableBtn(false);
+                        setTransferBtnText("TRANSFER TOKENS")
                     })
                 }
             } else {
@@ -132,15 +131,14 @@ const TransferTokens = () => {
 
                 <Box sx={{mt: 3}}>
                     <Stack direction="row" spacing={2}>
-                        <Image className="wallet-image" src={WalletFace} width="50" />
+                        <Image className="wallet-image" src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} />
                         <Box className="neg-mt">
                             <Typography variant="p" color="text.secondary" sx={{ fontSize: 12 }}>
                                 SEND FROM
                             </Typography>
                             <Typography className="card-text" variant="h6">
-                                {state.account ? formatWalletAddress(state.account) : "Connect wallet"}<span style={{position: "absolute"}}></span>
+                                {account ? formatWalletAddress(account) : "Connect wallet"}<span style={{position: "absolute"}}></span>
                             </Typography>
-                            {/* <KeyboardArrowDownIcon sx={{mt: 1}} /> */}
                         </Box>
                     </Stack> 
                 </Box>

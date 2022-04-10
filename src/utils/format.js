@@ -31,7 +31,7 @@ export const limitDecimalPlaces = (event, decimals) => {
         event.target.value = Math.abs(event.target.value);
     }
 
-    if (event.target.value.indexOf('.') == -1) { return; }
+    if (event.target.value.indexOf('.') === -1) { return; }
 
     if ((event.target.value.length - event.target.value.indexOf('.')) > decimals) {
         event.target.value = parseFloat(event.target.value).toFixed(decimals);

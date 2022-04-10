@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Typography, Modal, Step, Stepper, StepButton, Card, CardActions, Backdrop } from '@mui/material';
+import { Box, Typography, Step, Stepper, StepButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-// import WalletList from '../sections/WalletList';
 import Button from '../../../components/elements/Button';
 
 import CreateWalletForm from '../components/CreateWalletForm';
@@ -18,7 +17,7 @@ const steps = ['Create Account', 'Select Fund', 'Fill Paperwork', 'Submit Applic
 
 export default function CreateWalletModal(props) {
 
-  const { onClose, open } = props
+  const { onClose, } = props
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({});
 
@@ -30,38 +29,38 @@ export default function CreateWalletModal(props) {
     return Object.keys(completed).length;
   };
 
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
+  // const isLastStep = () => {
+  //   return activeStep === totalSteps() - 1;
+  // };
 
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
 
-  const handleNext = () => {
-    const newActiveStep =
-      isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
-        : activeStep + 1;
-    setActiveStep(newActiveStep);
-  };
+  // const handleNext = () => {
+  //   const newActiveStep =
+  //     isLastStep() && !allStepsCompleted()
+  //       ? // It's the last step, but not all steps have been completed,
+  //         // find the first step that has been completed
+  //         steps.findIndex((step, i) => !(i in completed))
+  //       : activeStep + 1;
+  //   setActiveStep(newActiveStep);
+  // };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
 
   const handleStep = (step) => () => {
     setActiveStep(step);
   };
 
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-  };
+  // const handleComplete = () => {
+  //   const newCompleted = completed;
+  //   newCompleted[activeStep] = true;
+  //   setCompleted(newCompleted);
+  //   handleNext();
+  // };
 
   const handleReset = () => {
     setActiveStep(0);
@@ -100,7 +99,6 @@ export default function CreateWalletModal(props) {
                               <Typography variant="p" color="text.secondary" sx={{ mt: 2, pl: 2, fontSize: "12px" }}>Step {activeStep + 1}</Typography>
                               <Box>
                                 {/* <Card sx={{ minWidth: 275, p: 3, mb: 5 }}> */}
-
                                   {(() => {
                                     switch(activeStep) {
                                       case 0:
@@ -111,10 +109,10 @@ export default function CreateWalletModal(props) {
                                         return <CreateMnemonic/>
                                       case 3:
                                         return <MnemonicVerifiication/>
+                                      default:
+                                        return null
                                     }
                                   })()}
-
-                                  
                                 {/* </Card> */}
                               </Box>
                               

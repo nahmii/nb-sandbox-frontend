@@ -3,12 +3,6 @@ import { Box, Stack, Typography } from '@mui/material';
 import Image from '../../../components/elements/Image';
 import Button from '../../../components/elements/Button'
 
-// const sectionStyle = {
-//     display: "flex", 
-//     flexDirection: "column", 
-//     justifyContent: "center",
-// };
-
 const WalletDetails = (props) => {
     const { address, image } = props
 
@@ -19,7 +13,7 @@ const WalletDetails = (props) => {
 
     const handleMouseOut = () => {
         setIsHovering(false);
-      };
+    };
 
     const HoverDetails = () => (
         <Stack direction="row" spacing={2}>
@@ -29,7 +23,7 @@ const WalletDetails = (props) => {
     )
     return (
         <Stack onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} direction="row" spacing={2} sx={{mb: 2}}>
-            <Image className="wallet-image" src={image} width="50" />
+            <Image className="wallet-image" src={image} />
             <Box style={{marginTop: "-10px"}}>
                 <Typography variant="p" color="text.secondary" sx={{ fontSize: 10 }}>
                     WALLET

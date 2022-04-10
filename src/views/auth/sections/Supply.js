@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Card, CardContent, Typography } from '@mui/material'
-import { useGlobalState } from '../../../hooks/useGlobalState'
+import { useGlobalState } from '../../../state'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -9,7 +9,7 @@ const cardStyle = {
 }
 
 const Supply = () => {
-    const [state, dispatch] = useGlobalState()
+    const [totalSupply] = useGlobalState('totalSupply')
 
     return (
         <Card sx={cardStyle}>
@@ -18,7 +18,7 @@ const Supply = () => {
                     SUPPLY
                 </Typography>
                 <Typography variant="h6" className="card-text">
-                    {state.totalSupply} NOK
+                    {totalSupply} NOK
                 </Typography>
             </CardContent>
         </Card>

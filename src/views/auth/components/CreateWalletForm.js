@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardContent, Box, Typography, TextField, Grid, Stack } from '@mui/material';
+import { CardContent, Box, Typography, TextField, Grid } from '@mui/material';
 import Button from '../../../components/elements/Button';
 
 const inputProps = {
@@ -8,7 +8,6 @@ const inputProps = {
     height: "30px",
     ariaLabel: 'weight',
 }
-
 
 const CreateWalletForm = () => {
     return (

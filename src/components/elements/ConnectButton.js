@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import Button from '../elements/Button'
-
 import { connectWallet, getCurrentWalletConnected } from '../../utils/interact'
-
+import { setGlobalState, updateBalance, useGlobalState } from '../../state'
 
 const ConnectButton = () => {
-    const [walletAddress, setWallet] = useState('')
-    const [status, setStatus] = useState('')
+    const [account] = useGlobalState('account');
+    const [, setStatus] = useState('')
 
     useEffect(() => {      
         async function fetchWallet() {
           const {address, status} = await getCurrentWalletConnected();
-          setWallet(address);
+          setGlobalState('account', address);
+          updateBalance();
           setStatus(status); 
           addWalletListener();
         }
@@ -22,10 +21,11 @@ const ConnectButton = () => {
         if (window.ethereum) {
           window.ethereum.on("accountsChanged", (accounts) => {
             if (accounts.length > 0) {
-              setWallet(accounts[0]);
+              setGlobalState('account', accounts[0]);
+              updateBalance();
               setStatus("👆🏽 Write a message in the text-field above.");
             } else {
-              setWallet("");
+              setGlobalState('account', '');
               setStatus("🦊 Connect to Metamask using the top right button.");
             }
           });
@@ -34,7 +34,7 @@ const ConnectButton = () => {
             <p>
               {" "}
               🦊{" "}
-              <a target="_blank" rel="noreferrer" href={`https://metamask.io/download.html`}>
+              <a target="_blank" rel="noopener noreferrer" href={`https://metamask.io/download.html`}>
                 You must install Metamask, a virtual Ethereum wallet, in your
                 browser.
               </a>
@@ -46,16 +46,17 @@ const ConnectButton = () => {
     const connectWalletPressed = async () => {
         const walletResponse = await connectWallet();
         setStatus(walletResponse.status);
-        setWallet(walletResponse.address);
+        setGlobalState('account', walletResponse.address);
+        updateBalance();
     };
 
     return <>
         <h6 className="wallet-address" style={{cursor: "pointer"}} onClick={connectWalletPressed}>
-            {walletAddress.length > 0 ? (
+            {account.length > 0 ? (
                 "Connected: " + 
-                String(walletAddress).substring(0,10) +
+                String(account).substring(0,10) +
                 "..." +
-                String(walletAddress).substring(38)
+                String(account).substring(38)
             ) : (
                 <span>Connect Wallet</span>
             )

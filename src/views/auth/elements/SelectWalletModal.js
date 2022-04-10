@@ -7,7 +7,6 @@ import WalletFace from '../../../assets/images/Wallet-Face.png'
 import Button from '../../../components/elements/Button';
 
 import WalletDetails from '../sections/WalletDetails';
-import ImportWallet from '../sections/ImportWallet';
 
 const style = {
   bgcolor: 'background.paper',
@@ -32,9 +31,8 @@ const data = [
 ]
 
 export default function SelectWalletModal(props) {
-  const [walletForm, showWalletForm] = useState(false)
   const [selectWallet, showSelectWallet] = useState(true)
-  const [importWallet, showImportWallet] = useState(false)
+  const [, showImportWallet] = useState(false)
   const { onClose, open } = props
 
   const handleCreateWallet = () => {
