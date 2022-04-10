@@ -8,13 +8,13 @@ import { limitDecimalPlaces } from '../../../utils/format'
 import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
 
 const cardStyle = {
-    boxShadow: 0, 
+    boxShadow: 0,
     borderRadius: 0,
 }
 
 const inputProps = {
-    backgroundColor: '#F2F8FA', 
-    border: '0px', 
+    backgroundColor: '#F2F8FA',
+    border: '0px',
     height: '50px',
     ariaLabel: 'weight',
 }
@@ -110,11 +110,11 @@ const MintTokens = () => {
                 <Box
                     component='form'
                     sx={{
-                    '& .MuiTextField-root': { width: '100%' },
+                        '& .MuiTextField-root': { width: '100%' },
                     }}
                     noValidate
                     autoComplete='off'
-                    style={{marginTop: '20px', marginBottom: '20px'}}
+                    style={{ marginTop: '20px', marginBottom: '20px' }}
                 >
                     <TextField
                         label='Amount'
@@ -130,7 +130,7 @@ const MintTokens = () => {
                         }}
                     />
                 </Box>
-                <Button disabled={disableBtn} style={{color: 'white'}} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{mintBtnText} {loading && <CircularProgress sx={{color: 'white', padding: '5px', marginBottom: '5px'}}/>}</Button>
+                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{mintBtnText} {loading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}</Button>
             </CardContent>
         </Card>
     )
