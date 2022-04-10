@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from 'ethers'
 
 /**
  * Function that returns the signer on a provider based on a given account.
@@ -7,7 +7,7 @@ import { ethers } from "ethers";
  * @returns JsonRpcSigner object
  */
 export const getSigner = (provider, account) => {
-    return provider.getSigner(account);
+    return provider.getSigner(account)
 }
 
 /**
@@ -17,7 +17,7 @@ export const getSigner = (provider, account) => {
  * @returns Web3Provider or JsonRpcSigner object
  */
 export const getProviderOrSigner = (provider, account) => {
-    return account ? getSigner(provider, account) : provider;
+    return account ? getSigner(provider, account) : provider
 }
 
 /**
@@ -25,9 +25,9 @@ export const getProviderOrSigner = (provider, account) => {
  * @returns {object} Returns the provider, signer and account.
  */
 export const getProvider = () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const account = signer.getAddress();
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const account = signer.getAddress()
     return {
         provider,
         signer,
