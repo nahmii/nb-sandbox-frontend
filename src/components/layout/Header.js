@@ -125,10 +125,10 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}>
                       <li className='nav-link'>
-                        <Link to="/dashboard">DASHBOARD</Link>
+                        <Link to="/">DASHBOARD</Link>
                       </li>
                       <li className='nav-link'>
-                        <Link to="/dashboard">ADMIN</Link>
+                        <Link to="/">ADMIN</Link>
                       </li>
                   </ul>
                 </div>
