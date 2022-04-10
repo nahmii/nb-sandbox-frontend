@@ -27,19 +27,18 @@ const TransferTokens = () => {
     //Snackbar alert parameter
     const [open, setOpen] = useState(false)
 
-    const handleClose = (e, reason) => {
+    const handleClose = (_, reason) => {
         if (reason === 'clickaway') {
             return
         }
-
         setOpen(false)
     }
 
+    const [account] = useGlobalState('account');
     const [amountToTransfer, setAmountToTransfer] = useState('0.0000');
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2');
     const [isMalformedAddress, setIsMalformedAddress] = useState(false);
     const [addressHelperText, setAddressHelperText] = useState("");
-
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
     const [, setError] = useState(false)
@@ -47,35 +46,29 @@ const TransferTokens = () => {
     const [disableBtn, setDisableBtn] = useState(false)
     const [transferBtnText, setTransferBtnText] = useState("TRANSFER TOKENS")
 
-    const [account] = useGlobalState('account');
 
-    const handleClick = () => {
-
+    const handleClick = async () => {
         try {
             if (isAddress(address)) {
                 if (amountToTransfer < 1) {
                     setOpen(true)
                     setError(true)
-                    setMsg("Cannot transfer 0 token")
+                    setMsg("Cannot transfer 0 tokens.")
                 } else {
                     setLoading(true)
                     setDisableBtn(true)
                     setTransferBtnText("TRANSFERRING TOKENS")
-                    transferTokens(address, parseUnits(amountToTransfer, 4)).then(transactionResponse => {
-                        // waiting time
-                        return transactionResponse.wait()
-                    }).then(transactionReceipt => {
-                        // Inform user that the transaction has been processed
-                        // Update user balance and total supply
-                        console.log(transactionReceipt)
-                        setOpen(true)
-                        setSuccess(true)
-                        setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
-                        updateBalance();
-                        setLoading(false);
-                        setDisableBtn(false);
-                        setTransferBtnText("TRANSFER TOKENS")
-                    })
+
+                    const transactionResponse = await transferTokens(address, parseUnits(amountToTransfer, 4))
+                    await transactionResponse.wait()
+
+                    setOpen(true)
+                    setSuccess(true)
+                    setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
+                    updateBalance();
+                    setLoading(false);
+                    setDisableBtn(false);
+                    setTransferBtnText("TRANSFER TOKENS")
                 }
             } else {
                 setOpen(true)
@@ -85,6 +78,9 @@ const TransferTokens = () => {
             }
         } catch (e) {
             console.error(e)
+            setDisableBtn(false)
+            setTransferBtnText('TRANSFER TOKENS')
+            setLoading(false)
         }   
     }
 
