@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Card, Box, CardContent, Typography, TextField, CircularProgress, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
-import { mintTokens } from '../../../hooks/useContract';
+import { getContractOwner, mintTokens } from '../../../hooks/useContract'
 import { parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
-import { updateBalance, updateTotalSupply } from '../../../state';
+import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -30,7 +30,8 @@ const MintTokens = () => {
         setOpen(false)
     }
 
-    const [textInput, setTextInput] = useState('0.0000');
+    const [account] = useGlobalState('account')
+    const [amountToMint, setAmountToMint] = useState('0.0000')
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
     const [, setError] = useState(false)
@@ -38,32 +39,33 @@ const MintTokens = () => {
     const [disableBtn, setDisableBtn] = useState(false)
     const [mintBtnText, setMintBtnText] = useState("MINT TOKENS")
 
-    const handleClick = () => {
+    const handleClick = async () => {
         try {
-            if (textInput < 1) {
+            const owner = await getContractOwner();
+            if (amountToMint < 1) {
                 setOpen(true)
                 setError(true)
-                setMsg("Cannot mint 0 token")
+                setMsg("Cannot mint 0 tokens.")
+            } else if (owner.toLowerCase() !== account.toLowerCase()) {
+                setOpen(true)
+                setError(true)
+                setMsg("Only the contract owner can mint tokens.")
             } else {
                 setLoading(true)
                 setDisableBtn(true)
                 setMintBtnText("MINTING TOKENS")
-                mintTokens(parseUnits(textInput, 4)).then(transactionResponse => {
-                    // waiting time
-                    return transactionResponse.wait()
-                }).then(transactionReceipt => {
-                    // Inform user that the transaction has been processed
-                    // Update user balance and total supply
-                    console.log(transactionReceipt)
-                    setOpen(true)
-                    setSuccess(true)
-                    setMsg(`Mint ${textInput} tokens successfully!`)
-                    updateBalance();
-                    updateTotalSupply();
-                    setLoading(false);
-                    setDisableBtn(false);
-                    setMintBtnText("MINT TOKENS")
-                });
+
+                const transactionResponse = await mintTokens(parseUnits(amountToMint, 4))
+                await transactionResponse.wait()
+
+                setOpen(true)
+                setSuccess(true)
+                setMsg(`Mint ${amountToMint} tokens successfully!`)
+                updateBalance()
+                updateTotalSupply()
+                setLoading(false)
+                setDisableBtn(false)
+                setMintBtnText("MINT TOKENS")
             }
         } catch (e) {
             console.error(e)
@@ -74,7 +76,7 @@ const MintTokens = () => {
     }
 
     const handleChange = (event) => {
-        setTextInput(event.target.value);
+        setAmountToMint(event.target.value);
     }
 
     const handleInput = (event) => {
@@ -118,7 +120,7 @@ const MintTokens = () => {
                         label="Amount"
                         id="outlined-start-adornment"
                         sx={{ width: '100%' }}
-                        value={textInput}
+                        value={amountToMint}
                         onChange={handleChange}
                         onInput={handleInput}
                         InputProps={{
