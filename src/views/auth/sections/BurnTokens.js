@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Card, Box, CardContent, Typography, TextField, InputAdornment, CircularProgress, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
-import { burnTokens } from '../../../hooks/useContract';
+import { burnTokens, getContractOwner } from '../../../hooks/useContract';
 import { parseUnits } from 'ethers/lib/utils';
 import { limitDecimalPlaces } from '../../../utils/format';
-import { updateBalance, updateTotalSupply } from '../../../state';
+import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state';
 
 const cardStyle = {
     boxShadow: 0, 
@@ -31,7 +31,8 @@ const BurnTokens = () => {
         setOpen(false)
     }
 
-    const [textInput, setTextInput] = useState('0.0000');
+    const [account] = useGlobalState('account')
+    const [amountToBurn, setAmountToBurn] = useState('0.0000');
     const [msg, setMsg] = useState("")
     const [success, setSuccess] = useState(false)
     const [, setError] = useState(false)
@@ -39,41 +40,44 @@ const BurnTokens = () => {
     const [disableBtn, setDisableBtn] = useState(false)
     const [burnBtnText, setBurnBtnText] = useState("BURN TOKENS")
 
-    const handleClick = () => {
+    const handleClick = async () => {
         try {
-            if (textInput < 1) {
+            const owner = await getContractOwner()
+            if (amountToBurn < 1) {
                 setOpen(true)
                 setError(true)
-                setMsg("Cannot burn 0 token")
+                setMsg("Cannot burn 0 tokens.")
+            } else if (owner.toLowerCase() !== account.toLowerCase()) {
+                setOpen(true)
+                setError(true)
+                setMsg('Only the contract owner can burn tokens.')
             } else {
                 setLoading(true)
                 setDisableBtn(true)
                 setBurnBtnText("BURNING TOKENS")
+
+                const transactionResponse = await burnTokens(parseUnits(amountToBurn, 4))
+                await transactionResponse.wait()
                 
-                burnTokens(parseUnits(textInput, 4)).then(transactionResponse => {
-                    // waiting time
-                    return transactionResponse.wait()
-                }).then(transactionReceipt => {
-                    // Inform user that the transaction has been processed
-                    // Update user balance and total supply
-                    console.log(transactionReceipt)
-                    setOpen(true)
-                    setSuccess(true)
-                    setMsg(`Burned ${textInput} tokens successfully!`)
-                    updateBalance();
-                    updateTotalSupply();
-                    setLoading(false);
-                    setDisableBtn(false);  
-                    setBurnBtnText("BURN TOKENS")  
-                })
+                setOpen(true)
+                setSuccess(true)
+                setMsg(`Burned ${amountToBurn} tokens successfully!`)
+                updateBalance();
+                updateTotalSupply();
+                setLoading(false);
+                setDisableBtn(false);  
+                setBurnBtnText("BURN TOKENS")
             }
         } catch (e) {
             console.error(e)
+            setDisableBtn(false)
+            setBurnBtnText('BURN TOKENS')
+            setLoading(false)
         }
     }
 
     const handleChange = (event) => {
-        setTextInput(event.target.value);
+        setAmountToBurn(event.target.value);
     }
 
     const handleInput = (event) => {
@@ -116,12 +120,11 @@ const BurnTokens = () => {
                         label="Amount"
                         id="outlined-start-adornment"
                         sx={{ width: '100%' }}
-                        value={textInput}
+                        value={amountToBurn}
                         onChange={handleChange}
                         onInput={handleInput}
                         InputProps={{
                             type: 'number',
-                            min: 0,
                             endAdornment: <InputAdornment position="end">NOK</InputAdornment>,
                             style: inputProps
                         }}
