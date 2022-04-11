@@ -63,6 +63,7 @@ const BurnTokens = () => {
                     updateBalance();
                     updateTotalSupply();
                     setLoading(false);
+                    setTextInput("0.0000")
                     setDisableBtn(false);  
                     setBurnBtnText("BURN TOKENS")  
                 })
