@@ -73,6 +73,7 @@ const TransferTokens = () => {
                         setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
                         updateBalance();
                         setLoading(false);
+                        setAmountToTransfer("0.0000")
                         setDisableBtn(false);
                         setTransferBtnText("TRANSFER TOKENS")
                     })
