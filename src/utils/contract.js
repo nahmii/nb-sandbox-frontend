@@ -1,5 +1,5 @@
-import { Contract, constants } from "ethers";
-import { isAddress } from "./address";
+import { Contract, constants } from 'ethers'
+import { isAddress } from './address'
 
 /**
  * Function that instantiates a smart contract connection.
@@ -13,5 +13,5 @@ export const getContract = (address, ABI, provider) => {
         throw Error(`Invalid address: ${address}`)
     }
     // TODO: Make it possible to accept both providers and signers.
-    return new Contract(address, ABI, provider);
+    return new Contract(address, ABI, provider)
 }

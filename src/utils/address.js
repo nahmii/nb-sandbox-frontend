@@ -1,4 +1,4 @@
-import { getAddress } from "ethers/lib/utils";
+import { getAddress } from 'ethers/lib/utils'
 
 /**
  * Returns a checksummed Ethereum address if valid, else returns false.
@@ -7,9 +7,9 @@ import { getAddress } from "ethers/lib/utils";
  */
 export const isAddress = (address) => {
     try {
-        return getAddress(address);
+        return getAddress(address)
     } catch {
-        return false;
+        return false
     }
 }
 
@@ -21,10 +21,10 @@ export const isAddress = (address) => {
  * @returns 
  */
 export const shortenAddress = (address, start = 4, end = 4) => {
-    const parsed = isAddress(address);
+    const parsed = isAddress(address)
 
     if (!parsed) {
-        throw Error(`Invalid address: ${address}`);
+        throw Error(`Invalid address: ${address}`)
     }
 
     return `${parsed.slice(0, start + 2)}...${parsed.slice(-Math.abs(end))}`

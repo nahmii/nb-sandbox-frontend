@@ -5,7 +5,7 @@
  * @returns A commified and grouped string.
  */
 export const commify = (x) => {
-    return x.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    return x.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
 }
 
 /**
@@ -16,7 +16,7 @@ export const commify = (x) => {
  * @returns A string with a dot as separator.
  */
 export const insertDecimalSeparator = (string, decimals) => {
-    return string.slice(0, -decimals) + '.' + string.slice(-decimals);
+    return string.slice(0, -decimals) + '.' + string.slice(-decimals)
 }
 
 /**
@@ -28,12 +28,12 @@ export const insertDecimalSeparator = (string, decimals) => {
  */
 export const limitDecimalPlaces = (event, decimals) => {
     if (event.target.value <= 0) {
-        event.target.value = Math.abs(event.target.value);
+        event.target.value = Math.abs(event.target.value)
     }
 
-    if (event.target.value.indexOf('.') === -1) { return; }
+    if (event.target.value.indexOf('.') === -1) { return }
 
     if ((event.target.value.length - event.target.value.indexOf('.')) > decimals) {
-        event.target.value = parseFloat(event.target.value).toFixed(decimals);
+        event.target.value = parseFloat(event.target.value).toFixed(decimals)
     }
 }
