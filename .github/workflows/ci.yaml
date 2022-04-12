@@ -9,7 +9,8 @@ on:
     branches: [ master ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+env:
+  IMAGE_TAG: ${{ github.sha }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-and-push-to-ecr:
@@ -29,7 +30,18 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: besu-frontend
-        IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest --build-arg ENV=${{ github.ref_name }} .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY -a
+    - name: Send Slack Notification
+      id: slack
+      uses: slackapi/slack-github-action@v1.18.0
+      with:
+        # This data can be any valid JSON from a previous step in the GitHub Action
+        payload: |
+          {
+            "repository": "${{github.repository}}",
+            "docker_tag": "${{env.IMAGE_TAG}}"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_NOTIFY_WEBHOOK }}
