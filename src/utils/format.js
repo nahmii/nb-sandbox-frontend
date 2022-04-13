@@ -37,3 +37,14 @@ export const limitDecimalPlaces = (event, decimals) => {
         event.target.value = parseFloat(event.target.value).toFixed(decimals)
     }
 }
+
+/**
+ * Function that formats currencies for display.
+ * 
+ * @param {string} string The string to format.
+ * @param {number} [decimals=4] decimals Decimals to split the number on. (Default: 4)
+ * @returns A formatted string with a decimal separator and comma separation per thousands.
+ */
+export const displayAsCurrency = (string, decimals = 4) => {
+    return commify(insertDecimalSeparator(string, decimals))
+}
