@@ -1,3 +1,31 @@
+# Project Bergen Frontend
+
+## Running locally
+
+### Installation
+To run the frontend locally, simply run:
+```sh
+$ git clone git@github.com:nahmii.BESU-frontend.git
+$ cd BESU-frontend
+$ npm install
+```
+
+### Environment Variables
+This repository requires that a couple of environment variables are set:
+- REACT_APP_RPC_AUTH_USERNAME
+- REACT_APP_RPC_AUTH_PASSWORD
+
+You can provide these by either copying the `.env.example file, renaming it to `.env` and providing the required variables OR by setting them in your shell.
+
+### Starting the dev server
+
+Run the following command to start the development server:
+```sh
+$ npm start
+```
+
+By default, the React app should start running on [localhost:3000](http://localhost:3000/).
+
 ## Usage
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -48,35 +76,6 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-#### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-#### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-#### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-#### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-#### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
 #### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### Google Analytics Setup
-
-This template uses the [React Google Analytics Module](https://github.com/react-ga/react-ga).
-
-In order to track visitors, you need to set an [environment variable](https://create-react-app.dev/docs/adding-custom-environment-variables/) called `REACT_APP_GA_CODE` storing your [GA Tracking ID](https://support.google.com/analytics/answer/7372977).
-# template-repository
-
-This repository is a template for generating Nahmii code repositories. Please refer to GitHub's [Creating repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for instructions on how to make use of this template.
