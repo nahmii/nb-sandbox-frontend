@@ -62,7 +62,7 @@ const MintTokens = () => {
                 setOpen(true)
                 setSuccess(true)
                 setMsg(`Mint ${amountToMint} tokens successfully!`)
-                updateBalance()
+                updateBalance(account, provider)
                 updateTotalSupply(provider)
                 setLoading(false)
                 setAmountToMint("0.0000")

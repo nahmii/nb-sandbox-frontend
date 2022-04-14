@@ -63,7 +63,7 @@ const BurnTokens = () => {
                 setOpen(true)
                 setSuccess(true)
                 setMsg(`Burned ${amountToBurn} tokens successfully!`)
-                updateBalance()
+                updateBalance(account, provider)
                 updateTotalSupply(provider)
                 setLoading(false)
                 setAmountToBurn("0.0000")

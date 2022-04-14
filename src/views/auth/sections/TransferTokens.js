@@ -35,6 +35,8 @@ const TransferTokens = () => {
     }
 
     const [account] = useGlobalState('account')
+    const [balance] = useGlobalState('balance')
+    const [provider] = useGlobalState('provider')
     const [amountToTransfer, setAmountToTransfer] = useState('0.0000')
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2')
     const [isMalformedAddress, setIsMalformedAddress] = useState(false)
@@ -65,9 +67,8 @@ const TransferTokens = () => {
                     setOpen(true)
                     setSuccess(true)
                     setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
-                    updateBalance()
+                    updateBalance(account, provider)
                     setLoading(false)
-                    setAmountToTransfer("0.0000")
                     setDisableBtn(false)
                     setTransferBtnText('TRANSFER TOKENS')
                 }
