@@ -7,16 +7,18 @@ import MintTokens from './sections/MintTokens'
 import BurnTokens from './sections/BurnTokens'
 import TransferTokens from './sections/TransferTokens'
 import SelectWalletModal from './elements/SelectWalletModal'
-import { updateTotalSupply, useGlobalState } from '../../state'
+import { updateBalance, updateTotalSupply, useGlobalState } from '../../state'
 
 const Dashboard = () => {
     // handle modal
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+    const [account] = useGlobalState('account')
     const [provider] = useGlobalState('provider')
 
     useEffect(() => {
+        updateBalance(account, provider)
         updateTotalSupply(provider)
     }, [])
 
@@ -32,7 +34,6 @@ const Dashboard = () => {
                     </Grid>
                     <Grid item xs={12} md={8} sm={8}>
                         <Wallet />
-
                     </Grid>
                     <Grid item xs={12} md={6} sm={6}>
                         <Box sx={{ mb: 3 }}>
