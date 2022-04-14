@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image'
 import ConnectButton from '../../../components/elements/ConnectButton'
@@ -18,6 +18,7 @@ const Wallet = () => {
 
     const [account] = useGlobalState('account')
     const [balance] = useGlobalState('balance')
+    const [provider] = useGlobalState('provider')
 
     return (
         <Card sx={cardStyle}>
@@ -33,9 +34,9 @@ const Wallet = () => {
                                 <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
                                     WALLET
                                 </Typography>
-                                <div className='text'>
-                                    <ConnectButton></ConnectButton>
-                                </div>
+                                <Typography className='card-text' variant='h6' onClick={handleOpen}>
+                                    {account === '' ? 'Not Connected' : {account} }
+                                </Typography>
                             </Box>
                         </Stack>   
                     </Grid>
