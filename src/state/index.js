@@ -22,8 +22,8 @@ const updateBalance = () => {
         })
 }
 
-const updateTotalSupply = () => {
-    getTokenSupply().then(s => {
+const updateTotalSupply = (provider) => {
+    getTokenSupply(provider).then(s => {
         setGlobalState('totalSupply', commify(insertDecimalSeparator(s.toString(), 4)))
     })
 }

@@ -20,9 +20,7 @@ export const useContract = (address, ABI) => {
     }, [address, ABI, provider, chainId, account])
 }
 
-export const getTokenSupply = () => {
-    let { provider } = getProvider()
-
+export const getTokenSupply = (provider) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
     const supply = contract.totalSupply()
     return supply
