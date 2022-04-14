@@ -7,27 +7,19 @@ import WalletFace from '../../../assets/images/Wallet-Face.png'
 import Button from '../../../components/elements/Button'
 
 import WalletDetails from '../sections/WalletDetails'
-
-const style = {
-    bgcolor: 'background.paper',
-    p: 2
-}
-
-const cardStyle = {
-    boxShadow: 0
-}
+import NewWallet from './NewWallet'
 
 const data = [
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
-    { address: 'tyuik678999999ewsks...', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
+    { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
 ]
 
 export default function SelectWalletModal(props) {
@@ -43,30 +35,8 @@ export default function SelectWalletModal(props) {
         showImportWallet(true)
     }
 
-    const handleSelectWalletModal = () => {
-        return (
-            <Card sx={cardStyle}>
-                <CardContent>
-                    <Box>
-                        <Scrollbar style={{ height: 300 }}>
-                            {data.map((d, index) => (
-                                <WalletDetails key={index} address={d.address} image={d.image} />
-                            ))}
-                        </Scrollbar>
-                    </Box>
-                </CardContent>
-                <CardActions>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={6}>
-                            <Button sx={{ width: '100%' }} onClick={handleCreateWallet} className='button button-primary button-wide-mobile' wide>CREATE WALLET</Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
-                            <Button sx={{ width: '100%' }} onClick={handleImportWallet} className='button button-primary button-wide-mobile' wide>IMPORT WALLET</Button>
-                        </Grid>
-                    </Grid>
-                </CardActions>
-            </Card>
-        )
+    const handleNewWallet = () => {
+        showSelectWallet(false)
     }
 
 
@@ -83,12 +53,35 @@ export default function SelectWalletModal(props) {
                     timeout: 500,
                 }}
             >
-                <Box className='modal-box' sx={style}>
-                    <Typography id='modal-modal-title' variant='p' sx={{ pl: 2 }}>
-                        {selectWallet ? 'WALLETS' : 'CREATE WALLET'} <span style={{ float: 'right' }}><HighlightOffIcon onClick={onClose} /></span>
-                    </Typography>
-                    {selectWallet ? handleSelectWalletModal() : <CreateWalletModal />}
-                    {/* { importWallet ? <ImportWallet/> : null } */}
+                <Box className='modal-box'>
+                    {
+                        selectWallet ? (
+                            <Card>
+                                <Box sx={{ mt: 2, p: 2, borderBottom: "1px solid #CBE5EE"}}>
+                                    <Typography id='modal-modal-title' variant='p' sx={{ pl: 2 }}>
+                                        WALLETS <span style={{ float: 'right' }}><HighlightOffIcon onClick={onClose} /></span>
+                                    </Typography>
+                                </Box>
+                                
+                                <CardContent sx={{}}>
+                                    {/* <Box> */}
+                                        <Scrollbar style={{ height: 300 }}>
+                                            {data.map((d, index) => (
+                                                <WalletDetails key={index} address={d.address} image={d.image} />
+                                            ))}
+                                        </Scrollbar>
+                                    {/* </Box> */}
+                                </CardContent>
+                                <CardActions sx={{p: 2}}>
+                                    <Button sx={{ width: '100%' }} onClick={handleNewWallet} className='button button-primary button-wide-mobile' wide>CONNECT NEW WALLET</Button>
+                                </CardActions>
+                            </Card>
+                        ) : (
+                            <NewWallet/>
+                        )
+                    }
+                    
+                    {/* {selectWallet ? handleSelectWalletModal() : <CreateWalletModal />} */}
                 </Box>
             </Modal>
         </div>

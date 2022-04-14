@@ -27,7 +27,7 @@ const Dashboard = () => {
             {open ? (
                 <SelectWalletModal open={open} onClose={handleClose} />
             ) : null}
-            <Box className='container' sx={{ mt: 10, mb: 10 }}>
+            <Box className='container' sx={{ mt: 8, mb: 10 }}>
                 <Grid container spacing={3} sx={{ mt: 5, mb: 5 }}>
                     <Grid item xs={12} md={4} sm={4}>
                         <Supply />

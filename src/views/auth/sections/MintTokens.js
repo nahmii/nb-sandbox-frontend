@@ -133,6 +133,22 @@ const MintTokens = () => {
                     />
                 </Box>
                 <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{mintBtnText} {loading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}</Button>
+
+                {/* <Button
+                    disabled={loading}
+                    className="button button-primary button-wide-mobile"
+                    wide
+                >
+                    {' '}
+                    {loading ? (
+                        <CircularProgress
+                            style={{ color: 'white' }}
+                            size={28}
+                        />
+                    ) : (
+                        'Login'
+                    )}{' '}
+                </Button> */}
             </CardContent>
         </Card>
     )

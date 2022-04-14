@@ -12,7 +12,7 @@ const style = {
     p: 2
 }
 
-const steps = ['Create Account', 'Select Fund', 'Fill Paperwork', 'Submit Application']
+const steps = [1, 2, 3, 4]
 
 export default function CreateWalletModal(props) {
 
