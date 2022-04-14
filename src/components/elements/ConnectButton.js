@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connectWallet, getCurrentWalletConnected } from '../../utils/interact'
 import { setGlobalState, updateBalance, useGlobalState } from '../../state'
 
-const ConnectButton = () => {
+const ConnectButton = (props) => {
     const [account] = useGlobalState('account')
     const [, setStatus] = useState('')
 
@@ -50,8 +50,10 @@ const ConnectButton = () => {
         updateBalance()
     }
 
+    const { onClick } = props
+
     return <>
-        <h6 className='wallet-address' style={{ cursor: 'pointer' }} onClick={connectWalletPressed}>
+        <h6 className='wallet-address' style={{ cursor: 'pointer' }} onClick={onClick}>
             {account.length > 0 ? (
                 'Connected: ' +
                 String(account).substring(0, 10) +

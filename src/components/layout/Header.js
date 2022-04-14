@@ -105,6 +105,9 @@ const Header = ({
                                     <Link to='/'>DASHBOARD</Link>
                                 </li>
                                 <li className='nav-link'>
+                                    <Link to='/history'>HISTORY</Link>
+                                </li>
+                                <li className='nav-link'>
                                     <Link to='/'>ADMIN</Link>
                                 </li>
                             </ul>

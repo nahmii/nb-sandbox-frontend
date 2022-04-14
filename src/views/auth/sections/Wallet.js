@@ -34,7 +34,7 @@ const Wallet = () => {
                                     WALLET
                                 </Typography>
                                 <div className='text'>
-                                    <ConnectButton></ConnectButton>
+                                    <ConnectButton onClick={handleOpen} />
                                 </div>
                             </Box>
                         </Stack>   
