@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image'
-import ConnectButton from '../../../components/elements/ConnectButton'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state'
+import { shortenAddress } from '../../../utils/address'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -18,7 +18,6 @@ const Wallet = () => {
 
     const [account] = useGlobalState('account')
     const [balance] = useGlobalState('balance')
-    const [provider] = useGlobalState('provider')
 
     return (
         <Card sx={cardStyle}>
@@ -35,7 +34,7 @@ const Wallet = () => {
                                     WALLET
                                 </Typography>
                                 <Typography className='card-text' variant='h6' onClick={handleOpen}>
-                                    {account === '' ? 'Not Connected' : {account} }
+                                    {account === '' ? 'Not Connected' : `${shortenAddress(account)}` }
                                 </Typography>
                             </Box>
                         </Stack>   
