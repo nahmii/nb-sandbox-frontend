@@ -3,6 +3,7 @@ import { TOKEN_ADDRESS } from '../constants'
 import { useMemo } from 'react'
 import { getContract } from '../utils/contract'
 import { getProvider } from '../utils/provider'
+import { isAddress } from '../utils/address'
 
 export const useContract = (address, ABI) => {
     // TODO: Retrieve provider, account and chainId from hook
@@ -26,9 +27,10 @@ export const getTokenSupply = (provider) => {
     return supply
 }
 
-export const getTokenBalance = async () => {
-    let { provider, account } = getProvider()
-
+export const getTokenBalance = async (account, provider) => {
+    if (!isAddress(account)) {
+        return 0
+    }
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
     const balance = await contract.balanceOf(account)
     return balance
