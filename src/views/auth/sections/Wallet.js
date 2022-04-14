@@ -23,7 +23,7 @@ const Wallet = () => {
     return (
         <Card sx={cardStyle}>
             { open ? (
-                <SelectWalletModal open={handleOpen} onClose={handleClose} />
+                <SelectWalletModal open={open} onClose={handleClose} />
             ) : null }
             <CardContent>
                 <Grid container spacing={2} sx={{mb: -1}}>
