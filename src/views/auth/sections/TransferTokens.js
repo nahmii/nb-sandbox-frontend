@@ -6,8 +6,8 @@ import Image from '../../../components/elements/Image'
 import { transferTokens } from '../../../hooks/useContract'
 import { isAddress, parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
-import { formatWalletAddress } from '../../../utils/helpers'
 import { useGlobalState, updateBalance } from '../../../state'
+import { shortenAddress } from '../../../utils/address'
 
 const cardStyle = {
     boxShadow: 0,
@@ -135,7 +135,7 @@ const TransferTokens = () => {
                                 SEND FROM
                             </Typography>
                             <Typography className='card-text' variant='h6'>
-                                {account ? formatWalletAddress(account) : 'Connect wallet'}<span style={{ position: 'absolute' }}></span>
+                                {account ? shortenAddress(account) : 'Connect wallet'}<span style={{ position: 'absolute' }}></span>
                             </Typography>
                         </Box>
                     </Stack>
