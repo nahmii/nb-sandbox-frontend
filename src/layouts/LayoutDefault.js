@@ -5,7 +5,7 @@ const LayoutDefault = ({ children }) => {
     return (
         <>
             <Header navPosition='right' className='reveal-from-bottom' />
-            <main className='site-content' style={{ backgroundColor: '#F2F8FA' }}>
+            <main className='site-content pad-page' style={{ backgroundColor: '#F2F8FA'}}>
                 {children}
             </main>
         </>
