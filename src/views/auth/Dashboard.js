@@ -7,16 +7,17 @@ import MintTokens from './sections/MintTokens'
 import BurnTokens from './sections/BurnTokens'
 import TransferTokens from './sections/TransferTokens'
 import SelectWalletModal from './elements/SelectWalletModal'
-import { updateTotalSupply } from '../../state'
+import { updateTotalSupply, useGlobalState } from '../../state'
 
 const Dashboard = () => {
     // handle modal
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+    const [provider] = useGlobalState('provider')
 
     useEffect(() => {
-        updateTotalSupply()
+        updateTotalSupply(provider)
     }, [])
 
     return (
