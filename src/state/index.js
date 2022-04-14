@@ -11,8 +11,8 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     provider: new ethers.providers.JsonRpcProvider(connectionInfo)
 })
 
-const updateBalance = () => {
-    getTokenBalance()
+const updateBalance = (account, provider) => {
+    getTokenBalance(account, provider)
         .then((userBalance) => {
             if (userBalance.toString() === '0') {
                 setGlobalState('balance', '0.0000')
