@@ -3697,3 +3697,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.modal-box:focus {
+  outline: none;
+}
