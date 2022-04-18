@@ -6,6 +6,8 @@ import CreateWalletModal from './CreateWalletModal'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import Button from '../../../components/elements/Button'
 
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 import WalletDetails from '../sections/WalletDetails'
 import NewWallet from './NewWallet'
 
@@ -64,13 +66,11 @@ export default function SelectWalletModal(props) {
                                 </Box>
                                 
                                 <CardContent sx={{}}>
-                                    {/* <Box> */}
-                                        <Scrollbar style={{ height: 300 }}>
+                                        <PerfectScrollbar style={{ height: 300 }}>
                                             {data.map((d, index) => (
                                                 <WalletDetails key={index} address={d.address} image={d.image} />
                                             ))}
-                                        </Scrollbar>
-                                    {/* </Box> */}
+                                        </PerfectScrollbar>
                                 </CardContent>
                                 <CardActions sx={{p: 2}}>
                                     <Button sx={{ width: '100%' }} onClick={handleNewWallet} className='button button-primary button-wide-mobile' wide>CONNECT NEW WALLET</Button>
