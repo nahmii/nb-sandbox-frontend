@@ -32,6 +32,7 @@ const BurnTokens = () => {
     }
 
     const [account] = useGlobalState('account')
+    const [provider] = useGlobalState('provider')
     const [amountToBurn, setAmountToBurn] = useState('0.0000')
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
@@ -62,8 +63,8 @@ const BurnTokens = () => {
                 setOpen(true)
                 setSuccess(true)
                 setMsg(`Burned ${amountToBurn} tokens successfully!`)
-                updateBalance()
-                updateTotalSupply()
+                updateBalance(account, provider)
+                updateTotalSupply(provider)
                 setLoading(false)
                 setAmountToBurn("0.0000")
                 setDisableBtn(false)

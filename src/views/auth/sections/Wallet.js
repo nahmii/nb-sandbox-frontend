@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image'
-import ConnectButton from '../../../components/elements/ConnectButton'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state'
+import { shortenAddress } from '../../../utils/address'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -22,7 +22,7 @@ const Wallet = () => {
     return (
         <Card sx={cardStyle}>
             { open ? (
-                <SelectWalletModal open={handleOpen} onClose={handleClose} />
+                <SelectWalletModal open={open} onClose={handleClose} />
             ) : null }
             <CardContent>
                 <Grid container spacing={2} sx={{mb: -1}}>
@@ -33,9 +33,9 @@ const Wallet = () => {
                                 <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
                                     WALLET
                                 </Typography>
-                                <div className='text'>
-                                    <ConnectButton onClick={handleOpen} />
-                                </div>
+                                <Typography className='card-text' variant='h6' onClick={handleOpen}>
+                                    {account === '' ? 'Not Connected' : `${shortenAddress(account)}` }
+                                </Typography>
                             </Box>
                         </Stack>   
                     </Grid>

@@ -31,6 +31,7 @@ const MintTokens = () => {
     }
 
     const [account] = useGlobalState('account')
+    const [provider] = useGlobalState('provider')
     const [amountToMint, setAmountToMint] = useState('0.0000')
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
@@ -61,8 +62,8 @@ const MintTokens = () => {
                 setOpen(true)
                 setSuccess(true)
                 setMsg(`Mint ${amountToMint} tokens successfully!`)
-                updateBalance()
-                updateTotalSupply()
+                updateBalance(account, provider)
+                updateTotalSupply(provider)
                 setLoading(false)
                 setAmountToMint("0.0000")
                 setDisableBtn(false)
