@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, CardContent, CardActions, Typography, Grid, Box, TextField } from '@mui/material'
+import React, { useState } from 'react'
+import { CardContent, CardActions, Typography, Grid, Box, TextField, InputAdornment } from '@mui/material'
 import Button from '../../../components/elements/Button'
 
 const inputProps = {
@@ -9,7 +9,20 @@ const inputProps = {
     ariaLabel: 'weight',
 }
 
-const EnterPassword = () => {
+const EnterPassword = (props) => {
+    const { onDecryptWallet } = props
+
+    const [password, setPassword] = useState("")
+
+    const updatePassword = (event) => {
+        setPassword(event.target.value)
+    }
+
+    const passPassword = () => {
+        console.log(password)
+        onDecryptWallet(password)
+    }
+
     return (
         <Box>
             <CardContent sx={{}}>
@@ -27,6 +40,9 @@ const EnterPassword = () => {
                     style={{ marginTop: '20px' }}
                 >
                     <TextField
+                        value={password}
+                        type="password"
+                        onChange={updatePassword}
                         required
                         id='outlined-size-small'
                         placeholder="Enter keystore password"
@@ -43,7 +59,7 @@ const EnterPassword = () => {
                         <Button sx={{ width: '100%' }} className='keystore-button' wide>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
-                        <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide>ACCESS WALLET</Button>
+                        <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide onClick={passPassword}>ACCESS WALLET</Button>
                     </Grid>
                 </Grid>
             </CardActions>
