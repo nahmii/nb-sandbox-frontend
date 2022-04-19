@@ -1,20 +1,20 @@
-import React, { useState, useRef } from 'react'
-import { Card, CardContent, CardActions, Typography, Grid, Box, TextField } from '@mui/material'
+import React, { useRef } from 'react'
+import { CardContent, CardActions, Typography, Grid, Box } from '@mui/material'
 import Button from '../../../components/elements/Button'
-import FileUpload from 'react-material-file-upload'
 
-const SelectFile = () => {
+const SelectFile = (props) => {
+    const { onReceiveFile } = props
     //creating the useref references for the uploads
     const keystoreFileRef = useRef(null)
 
-    const [keystoreFile, setKeystoreFile] = useState(null)
-
     const handleKeystoreFileChange = (event) => {
         const fileUploaded = event.target.files[0]
-        setKeystoreFile(fileUploaded)
+        fileUploaded.text().then(text => {
+            onReceiveFile(text)
+        })
     }
 
-    const handleKeystoreFileClick = (event) => {
+    const handleKeystoreFileClick = () => {
         keystoreFileRef.current.click()
     }
 
