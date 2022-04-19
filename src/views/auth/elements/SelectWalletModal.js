@@ -78,7 +78,7 @@ export default function SelectWalletModal(props) {
                                 </CardActions>
                             </Card>
                         ) : (
-                            <NewWallet/>
+                            <NewWallet onClose={onClose} open={open} />
                         )
                     }
                     

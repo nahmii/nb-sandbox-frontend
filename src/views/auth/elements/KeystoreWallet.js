@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stepper, Card, Box, Typography, Step, StepButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SelectFile from '../components/SelectFile';
 import EnterPassword from '../components/EnterPassword';
-import { ethers, Signer } from 'ethers';
+import { ethers } from 'ethers';
 import { setGlobalState, useGlobalState } from '../../../state';
 
 const steps = [1, 2]
 
 const KeystoreWallet = (props) => {
-    const { onClose, } = props
+    const { onClose, open } = props
     const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
@@ -41,6 +41,7 @@ const KeystoreWallet = (props) => {
             unlockedWallet = unlockedWallet.connect(provider)
             setGlobalState('account', await unlockedWallet.getAddress())
             setGlobalState('signer', unlockedWallet)
+            onClose()
         } catch (error) {
             // TODO: Handle if a user fills in the wrong password.
             // Either propagate back to the password field that the password is wrong.
@@ -84,7 +85,6 @@ const KeystoreWallet = (props) => {
                                         }
                                     })()}
                                 </Box>
-
                             </React.Fragment>
                         )}
                     </Box>

@@ -19,7 +19,7 @@ const NewWallet = (props) => {
         <div>
             {
                 keystoreWallet ? (
-                    <KeystoreWallet/>
+                    <KeystoreWallet onClose={onClose} open={open} />
                 ) : (
                     <Card>
                         <Box sx={{ mt: 2, p: 2, borderBottom: "1px solid #CBE5EE"}}>
