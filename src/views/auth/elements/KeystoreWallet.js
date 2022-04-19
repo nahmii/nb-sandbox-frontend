@@ -3,6 +3,7 @@ import { Stepper, Card, Box, Typography, Step, StepButton } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SelectFile from '../components/SelectFile';
 import EnterPassword from '../components/EnterPassword';
+import { ethers } from 'ethers';
 
 const steps = [1, 2]
 
@@ -10,6 +11,7 @@ const KeystoreWallet = (props) => {
     const { onClose, } = props
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
+    const [encryptedWallet, setEncryptedWallet] = useState(null)
 
     const totalSteps = () => {
         return steps.length
@@ -23,8 +25,20 @@ const KeystoreWallet = (props) => {
         return Object.keys(completed).length
     }
 
-    const handleStep = (step) => () => {
-        setActiveStep(step)
+    const onReceiveFile = (text) => {
+        setEncryptedWallet(text)
+        // TODO: Retrieve address from cipher.
+        // TODO: store cipher data in local storage, make the address the key.
+        setActiveStep(1)
+    }
+
+    const onDecryptWallet = (password) => {
+        try {
+            const result = ethers.Wallet.fromEncryptedJsonSync(encryptedWallet, password)
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -38,7 +52,7 @@ const KeystoreWallet = (props) => {
                     <Stepper nonLinear activeStep={activeStep} alternativeLabel>
                         {steps.map((label, index) => (
                             <Step key={label} completed={completed[index]}>
-                                <StepButton color='#0078A0' onClick={handleStep(index)}>
+                                <StepButton color='#0078A0'>
                                 </StepButton>
                             </Step>
                         ))}
@@ -55,9 +69,9 @@ const KeystoreWallet = (props) => {
                                     {(() => {
                                         switch (activeStep) {
                                             case 0:
-                                                return <SelectFile />
+                                                return <SelectFile onReceiveFile={onReceiveFile} />
                                             case 1:
-                                                return <EnterPassword />
+                                                return <EnterPassword onDecryptWallet={onDecryptWallet} />
                                             default:
                                                 return null
                                         }
