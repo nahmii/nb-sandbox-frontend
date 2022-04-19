@@ -22,6 +22,11 @@ const Dashboard = () => {
         updateTotalSupply(provider)
     }, [])
 
+    useEffect(() => {
+        updateBalance(account, provider)
+        updateTotalSupply(provider)
+    }, [account])
+
     return (
         <LayoutDefault>
             {open ? (

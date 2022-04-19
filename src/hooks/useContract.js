@@ -2,7 +2,6 @@ import TOKEN_ABI from '../abis/cb-token.json'
 import { TOKEN_ADDRESS } from '../constants'
 import { useMemo } from 'react'
 import { getContract } from '../utils/contract'
-import { getProvider } from '../utils/provider'
 import { isAddress } from '../utils/address'
 
 export const useContract = (address, ABI) => {
@@ -36,33 +35,25 @@ export const getTokenBalance = async (account, provider) => {
     return balance
 }
 
-export const transferTokens = async (address, amount) => {
-    let { signer } = getProvider()
-
+export const transferTokens = async (address, amount, signer) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer)
     const transfer = await contract.transfer(address, amount)
     return transfer
 }
 
-export const mintTokens = async (amount) => {
-    let { signer, account } = getProvider()
-
+export const mintTokens = async (address, amount, signer) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer)
-    const minted = await contract.mint(account, amount)
+    const minted = await contract.mint(address, amount)
     return minted
 }
 
-export const burnTokens = async (amount) => {
-    let { signer, account } = getProvider()
-
+export const burnTokens = async (address, amount, signer) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, signer)
-    const burned = await contract.burn(account, amount)
+    const burned = await contract.burn(address, amount)
     return burned
 }
 
-export const getContractOwner = async () => {
-    let { provider } = getProvider()
-
+export const getContractOwner = async (provider) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
     const owner = await contract.owner()
     return owner

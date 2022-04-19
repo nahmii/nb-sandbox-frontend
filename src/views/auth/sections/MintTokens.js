@@ -32,6 +32,7 @@ const MintTokens = () => {
 
     const [account] = useGlobalState('account')
     const [provider] = useGlobalState('provider')
+    const [signer] = useGlobalState('signer')
     const [amountToMint, setAmountToMint] = useState('0.0000')
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
@@ -42,7 +43,12 @@ const MintTokens = () => {
 
     const handleClick = async () => {
         try {
-            const owner = await getContractOwner()
+            if (signer == null) {
+                // TODO: Warn user to log in
+                console.log("Signer is null")
+                return
+            }
+            const owner = await getContractOwner(provider)
             if (amountToMint < 1) {
                 setOpen(true)
                 setError(true)
@@ -56,7 +62,7 @@ const MintTokens = () => {
                 setDisableBtn(true)
                 setMintBtnText('MINTING TOKENS')
 
-                const transactionResponse = await mintTokens(parseUnits(amountToMint, 4))
+                const transactionResponse = await mintTokens(account, parseUnits(amountToMint, 4), signer)
                 await transactionResponse.wait()
 
                 setOpen(true)

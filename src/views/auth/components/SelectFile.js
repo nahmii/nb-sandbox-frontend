@@ -1,20 +1,20 @@
-import React, { useState, useRef } from 'react'
-import { Card, CardContent, CardActions, Typography, Grid, Box, TextField } from '@mui/material'
+import React, { useRef } from 'react'
+import { CardContent, CardActions, Typography, Grid, Box } from '@mui/material'
 import Button from '../../../components/elements/Button'
-import FileUpload from 'react-material-file-upload'
 
-const SelectFile = () => {
+const SelectFile = (props) => {
+    const { onReceiveFile, onBack } = props
     //creating the useref references for the uploads
     const keystoreFileRef = useRef(null)
 
-    const [keystoreFile, setKeystoreFile] = useState(null)
-
     const handleKeystoreFileChange = (event) => {
         const fileUploaded = event.target.files[0]
-        setKeystoreFile(fileUploaded)
+        fileUploaded.text().then(text => {
+            onReceiveFile(text)
+        })
     }
 
-    const handleKeystoreFileClick = (event) => {
+    const handleKeystoreFileClick = () => {
         keystoreFileRef.current.click()
     }
 
@@ -29,7 +29,7 @@ const SelectFile = () => {
             <CardActions sx={{p: 2}}>
                 <Grid container spacing={3}>
                     <Grid item xs={4} sm={4} md={4}>
-                        <Button sx={{ width: '100%' }} className='keystore-button' wide>BACK</Button>
+                        <Button sx={{ width: '100%' }} className='keystore-button' wide onClick={onBack}>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
                         <Button sx={{ width: '100%' }} onClick={handleKeystoreFileClick} className='button button-primary button-wide-mobile' wide>SELECT FILE</Button>
