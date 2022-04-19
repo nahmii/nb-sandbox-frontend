@@ -3,12 +3,14 @@ import { Stepper, Card, Box, Typography, Step, StepButton } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SelectFile from '../components/SelectFile';
 import EnterPassword from '../components/EnterPassword';
-import { ethers } from 'ethers';
+import { ethers, Signer } from 'ethers';
+import { setGlobalState, useGlobalState } from '../../../state';
 
 const steps = [1, 2]
 
 const KeystoreWallet = (props) => {
     const { onClose, } = props
+    const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
     const [encryptedWallet, setEncryptedWallet] = useState(null)
@@ -33,12 +35,15 @@ const KeystoreWallet = (props) => {
         setActiveStep(1)
     }
 
-    const onDecryptWallet = (password) => {
+    const onDecryptWallet = async (password) => {
         try {
-            const unlockedWallet = ethers.Wallet.fromEncryptedJsonSync(encryptedWallet, password)
-            // TODO: Add unlocked wallet to the global state as a signer.
-            console.log(unlockedWallet)
+            let unlockedWallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password)
+            unlockedWallet = unlockedWallet.connect(provider)
+            setGlobalState('account', await unlockedWallet.getAddress())
+            setGlobalState('signer', unlockedWallet)
         } catch (error) {
+            // TODO: Handle if a user fills in the wrong password.
+            // Either propagate back to the password field that the password is wrong.
             console.log(error)
         }
     }
