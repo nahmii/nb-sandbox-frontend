@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem } from '@mui/material';
+import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material';
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
@@ -8,7 +8,21 @@ import LayoutDefault from '../../layouts/LayoutDefault';
 const cardStyle = {
     boxShadow: 0,
     borderRadius: 0,
+    p: 2
 }
+
+function createTableData(timestamp, from, to, type, amount, currency, more) {
+    return { timestamp, from, to, type, amount, currency, more };
+}
+  
+const rows = [
+    createTableData('1 min ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-IN', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
+    createTableData('20 min ago', '0xE6aB…6503', '0xE8aB…7456', 'Mint', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
+    createTableData('1 hr ago', '0xE6aB…6503', '0xE8aB…7456', 'Burn', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
+    createTableData('4 hrs ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-OUT', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
+    createTableData('10 hrs ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-IN', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
+];
+
 
 const History = () => {
     //Snackbar alert parameter
@@ -30,6 +44,14 @@ const History = () => {
             return
         }
         setOpenAlert(false)
+    }
+
+    const handleAllTransactions = () => {
+        return
+    }
+
+    const handleSelectWallet = () => {
+        return
     }
 
     const Alert = React.forwardRef(function Alert(props, ref) {
@@ -54,16 +76,21 @@ const History = () => {
                         </Alert>
                     </Snackbar>
                     <CardContent>
-                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px' }}>
+                        <Typography 
+                            id='modal-modal-title' 
+                            variant='p' 
+                            sx={{ fontWeight: 'bold', fontSize: '14px' }}
+                            aria-controls={open ? 'basic-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}    
+                        >
                             ALL TRANSACTIONS
-                            <span style={{ position: 'absolute' }} 
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}>
+                            <span style={{ position: 'absolute' }}>
                                 <KeyboardArrowDownIcon />
                             </span>
-
+                        </Typography>
+                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: "#0078A0" }}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
                         </Typography>
                         <Menu
@@ -74,9 +101,14 @@ const History = () => {
                             MenuListProps={{
                             'aria-labelledby': 'basic-button',
                             }}
+                            sx={{mt: 2}}
                         >
-                            <MenuItem onClick={handleClose}>ALL TRANSACTIONS</MenuItem>
-                            <MenuItem onClick={handleClose}>SELECT WALLET</MenuItem>
+                            <MenuItem onClick={handleAllTransactions} sx={{fontSize: "14px", fontWeight: "bold", color: "#153443"}}>ALL TRANSACTIONS</MenuItem>
+                            <MenuItem onClick={handleSelectWallet} sx={{fontSize: "14px", fontWeight: "bold" , color: "#153443"}}>SELECT WALLET 
+                                <span style={{ position: '' }}>
+                                    <KeyboardArrowDownIcon />
+                                </span>
+                            </MenuItem>
                         </Menu>
 
                         <Box
@@ -88,7 +120,43 @@ const History = () => {
                             autoComplete='off'
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
-                        
+                            <TableContainer>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                    <TableRow>
+                                        <TableCell sx={{color: "#0078A0"}}>
+                                            Timestamp <span style={{ position: 'absolute' }}>
+                                                        <KeyboardArrowDownIcon />
+                                                    </span>
+                                        </TableCell>
+                                        <TableCell align="left">From</TableCell>
+                                        <TableCell align="left">To</TableCell>
+                                        <TableCell align="left">Type</TableCell>
+                                        <TableCell align="left">Amount</TableCell>
+                                        <TableCell align="left">Currency</TableCell>
+                                        <TableCell align="left"></TableCell>
+                                    </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {rows.map((row, index) => (
+                                        <TableRow
+                                        key={index}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row">
+                                                {row.timestamp}
+                                            </TableCell>
+                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.from}</TableCell>
+                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.to}</TableCell>
+                                            <TableCell align="left">{row.type}</TableCell>
+                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.amount}</TableCell>
+                                            <TableCell align="left">{row.currency}</TableCell>
+                                            <TableCell align="left" sx={{fontSize: "14px"}}>{row.more}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    </TableBody>
+                                </Table>
+                                </TableContainer>
                         </Box>
                     </CardContent>
                 </Card>

@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, Grid, } from '@mui/material'
+import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import Scrollbar from './Scrollbar'
-import CreateWalletModal from './CreateWalletModal'
 import WalletFace from '../../../assets/images/Wallet-Face.png'
 import Button from '../../../components/elements/Button'
 
@@ -29,14 +27,6 @@ export default function SelectWalletModal(props) {
     const [, showImportWallet] = useState(false)
     const { onClose, open } = props
 
-    const handleCreateWallet = () => {
-        showSelectWallet(false)
-    }
-
-    const handleImportWallet = () => {
-        showImportWallet(true)
-    }
-
     const handleNewWallet = () => {
         showSelectWallet(false)
     }
@@ -61,7 +51,7 @@ export default function SelectWalletModal(props) {
                             <Card>
                                 <Box sx={{ mt: 2, p: 2, borderBottom: "1px solid #CBE5EE"}}>
                                     <Typography id='modal-modal-title' variant='p' sx={{ pl: 2 }}>
-                                        WALLETS <span style={{ float: 'right' }}><HighlightOffIcon onClick={onClose} /></span>
+                                        WALLETS <span style={{ float: 'right', cursor: "pointer" }}><HighlightOffIcon onClick={onClose} /></span>
                                     </Typography>
                                 </Box>
                                 
