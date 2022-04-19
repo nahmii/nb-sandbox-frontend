@@ -3,7 +3,7 @@ import { CardContent, CardActions, Typography, Grid, Box } from '@mui/material'
 import Button from '../../../components/elements/Button'
 
 const SelectFile = (props) => {
-    const { onReceiveFile } = props
+    const { onReceiveFile, onBack } = props
     //creating the useref references for the uploads
     const keystoreFileRef = useRef(null)
 
@@ -29,7 +29,7 @@ const SelectFile = (props) => {
             <CardActions sx={{p: 2}}>
                 <Grid container spacing={3}>
                     <Grid item xs={4} sm={4} md={4}>
-                        <Button sx={{ width: '100%' }} className='keystore-button' wide>BACK</Button>
+                        <Button sx={{ width: '100%' }} className='keystore-button' wide onClick={onBack}>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
                         <Button sx={{ width: '100%' }} onClick={handleKeystoreFileClick} className='button button-primary button-wide-mobile' wide>SELECT FILE</Button>

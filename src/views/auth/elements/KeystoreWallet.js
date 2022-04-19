@@ -9,7 +9,7 @@ import { setGlobalState, useGlobalState } from '../../../state';
 const steps = [1, 2]
 
 const KeystoreWallet = (props) => {
-    const { onClose, open } = props
+    const { onClose, open, onBack } = props
     const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
@@ -77,7 +77,7 @@ const KeystoreWallet = (props) => {
                                     {(() => {
                                         switch (activeStep) {
                                             case 0:
-                                                return <SelectFile onReceiveFile={onReceiveFile} />
+                                                return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} />
                                             case 1:
                                                 return <EnterPassword onDecryptWallet={onDecryptWallet} />
                                             default:

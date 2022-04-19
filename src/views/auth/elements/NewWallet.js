@@ -15,11 +15,15 @@ const NewWallet = (props) => {
         showKeystoreWallet(true)
     }
 
+    const hideKeystoreWallet = () => {
+        showKeystoreWallet(false)
+    }
+
     return (
         <div>
             {
                 keystoreWallet ? (
-                    <KeystoreWallet onClose={onClose} open={open} />
+                    <KeystoreWallet onClose={onClose} open={open} onBack={hideKeystoreWallet} />
                 ) : (
                     <Card>
                         <Box sx={{ mt: 2, p: 2, borderBottom: "1px solid #CBE5EE"}}>
