@@ -37,6 +37,7 @@ const TransferTokens = () => {
     const [account] = useGlobalState('account')
     const [balance] = useGlobalState('balance')
     const [provider] = useGlobalState('provider')
+    const [signer] = useGlobalState('signer')
     const [amountToTransfer, setAmountToTransfer] = useState('0.0000')
     const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2')
     const [isMalformedAddress, setIsMalformedAddress] = useState(false)
@@ -51,6 +52,11 @@ const TransferTokens = () => {
 
     const handleClick = async () => {
         try {
+            if (signer == null) {
+                // TODO: Warn user to log in
+                console.log("Signer is null")
+                return
+            }
             if (isAddress(address)) {
                 if (amountToTransfer < 1) {
                     setOpen(true)
@@ -61,7 +67,7 @@ const TransferTokens = () => {
                     setDisableBtn(true)
                     setTransferBtnText('TRANSFERRING TOKENS')
 
-                    const transactionResponse = await transferTokens(address, parseUnits(amountToTransfer, 4))
+                    const transactionResponse = await transferTokens(address, parseUnits(amountToTransfer, 4), signer)
                     await transactionResponse.wait()
 
                     setOpen(true)
