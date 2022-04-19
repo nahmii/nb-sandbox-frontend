@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CardContent, CardActions, Typography, Grid, Box, TextField, InputAdornment } from '@mui/material'
+import { CardContent, CardActions, Typography, Grid, Box, TextField, InputAdornment, IconButton } from '@mui/material'
 import Button from '../../../components/elements/Button'
 
 const inputProps = {
@@ -13,13 +13,17 @@ const EnterPassword = (props) => {
     const { onDecryptWallet } = props
 
     const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword)
+    }
 
     const updatePassword = (event) => {
         setPassword(event.target.value)
     }
 
     const passPassword = () => {
-        console.log(password)
         onDecryptWallet(password)
     }
 
