@@ -14,6 +14,7 @@ const NewWallet = (props) => {
     const handlekeystore = () => {
         showKeystoreWallet(true)
     }
+
     return (
         <div>
             {
@@ -33,7 +34,7 @@ const NewWallet = (props) => {
                                     <Button variant="contained" onClick={handlekeystore} className="keystore-button">
                                         VIA KEYSTORE FILE <span style={{position: "absolute", right: 40}}> <Image src={keystore} /></span>
                                     </Button>
-                                    <Button disabled="true" className='keystore-button'>
+                                    <Button disabled={true} className='keystore-button'>
                                         CONNECT TO METAMASK <span style={{position: "absolute", right: 40}}> <Image src={metamask} /></span>
                                     </Button>
                                 </Stack>
