@@ -9,6 +9,7 @@ import Button from '../../../components/elements/Button'
 import WalletDetails from '../sections/WalletDetails'
 import NewWallet from './NewWallet'
 
+// TODO: Read address and cipher data (keystore file) from local storage.
 const data = [
     { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },
     { address: '0x281b323a10d4664b37e85917b62c6e0CC017c1F2', image: WalletFace },

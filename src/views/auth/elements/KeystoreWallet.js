@@ -27,6 +27,7 @@ const KeystoreWallet = (props) => {
 
     const onReceiveFile = (text) => {
         setEncryptedWallet(text)
+        // TODO: Check if the passed file is actually a JSON file AND conforms to the keystore file standard.
         // TODO: Retrieve address from cipher.
         // TODO: store cipher data in local storage, make the address the key.
         setActiveStep(1)
@@ -34,8 +35,9 @@ const KeystoreWallet = (props) => {
 
     const onDecryptWallet = (password) => {
         try {
-            const result = ethers.Wallet.fromEncryptedJsonSync(encryptedWallet, password)
-            console.log(result)
+            const unlockedWallet = ethers.Wallet.fromEncryptedJsonSync(encryptedWallet, password)
+            // TODO: Add unlocked wallet to the global state as a signer.
+            console.log(unlockedWallet)
         } catch (error) {
             console.log(error)
         }

@@ -15,6 +15,7 @@ const EnterPassword = (props) => {
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
 
+    // TODO: add adornment to toggle between showing and hiding the password.
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
     }
