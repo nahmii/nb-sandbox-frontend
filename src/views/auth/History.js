@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material';
+import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
@@ -8,8 +8,8 @@ import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS, TRANSFER_TOPIC } from
 import { encode } from 'base-64'
 import { useGlobalState } from '../../state'
 import { BigNumber, ethers } from 'ethers'
-import { displayAsCurrency, timestampToDateTime } from '../../utils/format';
-import { shortenAddress } from '../../utils/address';
+import { displayAsCurrency, timestampToDateTime } from '../../utils/format'
+import { shortenAddress } from '../../utils/address'
 
 const cardStyle = {
     boxShadow: 0,
@@ -118,21 +118,21 @@ const History = () => {
                         </Alert>
                     </Snackbar>
                     <CardContent>
-                        <Typography 
-                            id='modal-modal-title' 
-                            variant='p' 
+                        <Typography
+                            id='modal-modal-title'
+                            variant='p'
                             sx={{ fontWeight: 'bold', fontSize: '14px' }}
                             aria-controls={open ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
+                            aria-haspopup='true'
                             aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}    
+                            onClick={handleClick}
                         >
                             ALL TRANSACTIONS
                             <span style={{ position: 'absolute' }}>
                                 <KeyboardArrowDownIcon />
                             </span>
                         </Typography>
-                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: "#0078A0" }}>
+                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0' }}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
                         </Typography>
                         <Menu
@@ -143,10 +143,10 @@ const History = () => {
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
                             }}
-                            sx={{mt: 2}}
+                            sx={{ mt: 2 }}
                         >
-                            <MenuItem onClick={handleAllTransactions} sx={{fontSize: "14px", fontWeight: "bold", color: "#153443"}}>ALL TRANSACTIONS</MenuItem>
-                            <MenuItem onClick={handleSelectWallet} sx={{fontSize: "14px", fontWeight: "bold" , color: "#153443"}}>SELECT WALLET 
+                            <MenuItem onClick={handleAllTransactions} sx={{ fontSize: '14px', fontWeight: 'bold', color: '#153443' }}>ALL TRANSACTIONS</MenuItem>
+                            <MenuItem onClick={handleSelectWallet} sx={{ fontSize: '14px', fontWeight: 'bold', color: '#153443' }}>SELECT WALLET
                                 <span style={{ position: '' }}>
                                     <KeyboardArrowDownIcon />
                                 </span>
@@ -163,43 +163,43 @@ const History = () => {
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
                             <TableContainer>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                                     <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{color: "#0078A0"}}>
-                                            Timestamp <span style={{ position: 'absolute' }}>
-                                                        <KeyboardArrowDownIcon />
-                                                    </span>
-                                        </TableCell>
-                                        <TableCell align="left">From</TableCell>
-                                        <TableCell align="left">To</TableCell>
-                                        <TableCell align="left">Type</TableCell>
-                                        <TableCell align="left">Amount</TableCell>
-                                        <TableCell align="left">Currency</TableCell>
-                                        <TableCell align="left"></TableCell>
-                                    </TableRow>
+                                        <TableRow>
+                                            <TableCell sx={{ color: '#0078A0' }}>
+                                                Timestamp <span style={{ position: 'absolute' }}>
+                                                    <KeyboardArrowDownIcon />
+                                                </span>
+                                            </TableCell>
+                                            <TableCell align='left'>From</TableCell>
+                                            <TableCell align='left'>To</TableCell>
+                                            <TableCell align='left'>Type</TableCell>
+                                            <TableCell align='left'>Amount</TableCell>
+                                            <TableCell align='left'>Currency</TableCell>
+                                            <TableCell align='left'></TableCell>
+                                        </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {transactions.map((row, index) => (
-                                        <TableRow
-                                        key={index}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell component="th" scope="row">
-                                                {row.timestamp}
-                                            </TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{shortenAddress(row.from)}</TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{shortenAddress(row.to)}</TableCell>
-                                            <TableCell align="left">{row.type}</TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.amount}</TableCell>
-                                            <TableCell align="left">{row.currency}</TableCell>
-                                            <TableCell align="left" sx={{fontSize: "14px"}}><a target="_blank" rel="noopener noreferrer" href={row.more}>VIEW MORE</a></TableCell>
-                                        </TableRow>
-                                    ))}
+                                        {transactions.map((row, index) => (
+                                            <TableRow
+                                                key={index}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell component='th' scope='row'>
+                                                    {row.timestamp}
+                                                </TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{shortenAddress(row.from)}</TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{shortenAddress(row.to)}</TableCell>
+                                                <TableCell align='left'>{row.type}</TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{row.amount}</TableCell>
+                                                <TableCell align='left'>{row.currency}</TableCell>
+                                                <TableCell align='left' sx={{ fontSize: '14px' }}><a target='_blank' rel='noopener noreferrer' href={row.more}>VIEW MORE</a></TableCell>
+                                            </TableRow>
+                                        ))}
                                     </TableBody>
                                 </Table>
-                                </TableContainer>
-                                {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
+                            </TableContainer>
+                            {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
                 </Card>
