@@ -10,7 +10,7 @@ const inputProps = {
 }
 
 const EnterPassword = (props) => {
-    const { onDecryptWallet } = props
+    const { onDecryptWallet, error, setError } = props
 
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -22,6 +22,7 @@ const EnterPassword = (props) => {
 
     const updatePassword = (event) => {
         setPassword(event.target.value)
+        setError(false)
     }
 
     const passPassword = () => {
@@ -53,6 +54,8 @@ const EnterPassword = (props) => {
                         placeholder="Enter keystore password"
                         variant='outlined'
                         size='small'
+                        error={error}
+                        helperText={error ? 'Wrong password.' : ''}
                         inputProps={{ style: inputProps }}
                         InputLabelProps={{ style: { fontSize: '14px' } }}
                     />

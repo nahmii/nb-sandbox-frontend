@@ -13,6 +13,7 @@ const KeystoreWallet = (props) => {
     const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
+    const [isPasswordWrong, setIsPasswordWrong] = useState(false)
     const [encryptedWallet, setEncryptedWallet] = useState(null)
 
     const totalSteps = () => {
@@ -44,6 +45,7 @@ const KeystoreWallet = (props) => {
             onClose()
         } catch (error) {
             // TODO: Handle if a user fills in the wrong password.
+            setIsPasswordWrong(true)
             // Either propagate back to the password field that the password is wrong.
             console.log(error)
         }
@@ -79,7 +81,7 @@ const KeystoreWallet = (props) => {
                                             case 0:
                                                 return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} />
                                             case 1:
-                                                return <EnterPassword onDecryptWallet={onDecryptWallet} />
+                                                return <EnterPassword onDecryptWallet={onDecryptWallet} error={isPasswordWrong} setError={setIsPasswordWrong} />
                                             default:
                                                 return null
                                         }
