@@ -6,7 +6,10 @@ import ReplayIcon from '@mui/icons-material/Replay'
 import LayoutDefault from '../../layouts/LayoutDefault'
 import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS } from '../../constants'
 import { encode } from 'base-64'
-import { useGlobalState } from '../../state';
+import { useGlobalState } from '../../state'
+import { BigNumber, ethers } from 'ethers'
+import { displayAsCurrency, timestampToDateTime } from '../../utils/format';
+import { shortenAddress } from '../../utils/address';
 
 const cardStyle = {
     boxShadow: 0,
@@ -63,8 +66,24 @@ const History = () => {
         return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
     })
 
-    const getTransactions = (page = 0, offset = 10) => {
-        const URL = `${SUPPORTED_NETWORK.blockExplorerUrl}api?module=account&action=txlist&address=${TOKEN_ADDRESS}&page=${page}&offset=${offset}&filterby="to"`
+    const transactionType = (from, to) => {
+        if (from.toLowerCase() === ethers.constants.AddressZero) {
+            return 'Mint'
+        } else if (to.toLowerCase() === ethers.constants.AddressZero) {
+            return 'Burn'
+        } else {
+            if (from.toLowerCase() === account.toLowerCase()) {
+                return 'Transfer - IN'
+            } else if (to.toLowerCase() === account.toLowerCase()) {
+                return 'Transfer - OUT'
+            } else {
+                return 'Transfer'
+            }
+        }
+    }
+
+    const getTransactions = () => {
+        const URL = `${SUPPORTED_NETWORK.blockExplorerUrl}api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${TOKEN_ADDRESS}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef`
         fetch(URL, {
             headers: new Headers({
                 'Authorization': 'Basic ' + encode(connectionInfo.user + ':' + connectionInfo.password),
@@ -73,8 +92,20 @@ const History = () => {
         })
             .then(response => response.json())
             .then(({ result }) => {
-                setTransactions(result)
-                console.log(result)
+                const formattedData = result.map(item => {
+                    const fromAddress = `0x${item.topics[1].slice(-40)}`
+                    const toAddress = `0x${item.topics[2].slice(-40)}`
+                    return {
+                        timestamp: timestampToDateTime(BigNumber.from(item.timeStamp).toNumber()),
+                        amount: displayAsCurrency(BigNumber.from(item.data).toString()),
+                        type: transactionType(fromAddress, toAddress),
+                        from: fromAddress,
+                        to: toAddress,
+                        currency: 'NOK',
+                        more: `${SUPPORTED_NETWORK.blockExplorerUrl}tx/${item.transactionHash}`
+                    }
+                }).reverse()
+                setTransactions([...formattedData])
             })
     }
 
@@ -162,7 +193,7 @@ const History = () => {
                                     </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {rows.map((row, index) => (
+                                    {transactions.map((row, index) => (
                                         <TableRow
                                         key={index}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -170,12 +201,12 @@ const History = () => {
                                             <TableCell component="th" scope="row">
                                                 {row.timestamp}
                                             </TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.from}</TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.to}</TableCell>
+                                            <TableCell align="left" sx={{color: "#0078A0"}}>{shortenAddress(row.from)}</TableCell>
+                                            <TableCell align="left" sx={{color: "#0078A0"}}>{shortenAddress(row.to)}</TableCell>
                                             <TableCell align="left">{row.type}</TableCell>
                                             <TableCell align="left" sx={{color: "#0078A0"}}>{row.amount}</TableCell>
                                             <TableCell align="left">{row.currency}</TableCell>
-                                            <TableCell align="left" sx={{fontSize: "14px"}}>{row.more}</TableCell>
+                                            <TableCell align="left" sx={{fontSize: "14px"}}><a target="_blank" rel="noopener noreferrer" href={row.more}>VIEW MORE</a></TableCell>
                                         </TableRow>
                                     ))}
                                     </TableBody>
