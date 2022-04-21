@@ -46,7 +46,7 @@ export default function SelectWalletModal(props) {
                                 </Box>
                                 
                                 <CardContent sx={{}}>
-                                        <PerfectScrollbar style={{ height: 300 }}>
+                                        <PerfectScrollbar style={{ height: 3 }}>
                                             {data.map((d, index) => (
                                                 <WalletDetails key={index} address={d.address} image={d.image} />
                                             ))}
