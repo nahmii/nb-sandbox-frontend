@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { connectionInfo } from '../constants'
 
 /**
  * Function that returns the signer on a provider based on a given account.
@@ -25,7 +26,7 @@ export const getProviderOrSigner = (provider, account) => {
  * @returns {object} Returns the provider, signer and account.
  */
 export const getProvider = () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.JsonRpcProvider(connectionInfo)
     const signer = provider.getSigner()
     const account = signer.getAddress()
     return {
