@@ -89,7 +89,7 @@ const History = () => {
                         from: fromAddress,
                         to: toAddress,
                         currency: 'NOK',
-                        more: `${SUPPORTED_NETWORK.blockExplorerUrl}tx/${item.transactionHash}`
+                        transactionHash: item.transactionHash
                     }
                 }).reverse()
                 setTransactions([...formattedData])
@@ -188,12 +188,12 @@ const History = () => {
                                                 <TableCell component='th' scope='row'>
                                                     {row.timestamp}
                                                 </TableCell>
-                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{shortenAddress(row.from)}</TableCell>
-                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{shortenAddress(row.to)}</TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${row.from}`}>{shortenAddress(row.from)}</a></TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${row.to}`}>{shortenAddress(row.to)}</a></TableCell>
                                                 <TableCell align='left'>{row.type}</TableCell>
                                                 <TableCell align='left' sx={{ color: '#0078A0' }}>{row.amount}</TableCell>
                                                 <TableCell align='left'>{row.currency}</TableCell>
-                                                <TableCell align='left' sx={{ fontSize: '14px' }}><a target='_blank' rel='noopener noreferrer' href={row.more}>VIEW MORE</a></TableCell>
+                                                <TableCell align='left' sx={{ fontSize: '14px' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}tx/${row.transactionHash}`}>VIEW MORE</a></TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
