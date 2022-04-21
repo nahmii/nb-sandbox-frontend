@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem } from '@mui/material'
+import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Button } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
 import LayoutDefault from '../../layouts/LayoutDefault'
 import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS } from '../../constants'
 import { encode } from 'base-64'
+import { useGlobalState } from '../../state';
 
 const cardStyle = {
     boxShadow: 0,
@@ -13,6 +14,7 @@ const cardStyle = {
 }
 
 const History = () => {
+    const [account] = useGlobalState('account')
     //Snackbar alert parameter
     const [openAlert, setOpenAlert] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -110,7 +112,7 @@ const History = () => {
                             autoComplete='off'
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
-
+                                {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
                 </Card>
