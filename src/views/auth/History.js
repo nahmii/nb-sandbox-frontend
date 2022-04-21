@@ -4,7 +4,7 @@ import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
 import LayoutDefault from '../../layouts/LayoutDefault'
-import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS } from '../../constants'
+import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS, TRANSFER_TOPIC } from '../../constants'
 import { encode } from 'base-64'
 import { useGlobalState } from '../../state'
 import { BigNumber, ethers } from 'ethers'
@@ -83,7 +83,7 @@ const History = () => {
     }
 
     const getTransactions = () => {
-        const URL = `${SUPPORTED_NETWORK.blockExplorerUrl}api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${TOKEN_ADDRESS}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef`
+        const URL = `${SUPPORTED_NETWORK.blockExplorerUrl}api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${TOKEN_ADDRESS}&topic0=${TRANSFER_TOPIC}`
         fetch(URL, {
             headers: new Headers({
                 'Authorization': 'Basic ' + encode(connectionInfo.user + ':' + connectionInfo.password),
