@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker'
 import './App.css'
 
 import 'react-toastify/dist/ReactToastify.css'
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 ReactDOM.render(
     <App />,

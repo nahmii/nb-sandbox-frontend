@@ -603,7 +603,7 @@ figcaption {
 }
 
 a:not(.button) {
-  color: #ECEDED;
+  color: #0078A0;
   text-decoration: none;
 }
 
@@ -616,7 +616,7 @@ a.button-link {
 }
 
 a.button-link:hover, a.button-link:active {
-  color: #ECEDED;
+  color: #0078A0;
 }
 
 h1,
@@ -903,7 +903,7 @@ strong {
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 10px;
-  padding-top: -15px!important;
+  padding-top: -25px!important;
   font-size: 12px;
   text-decoration: none !important;
   background-color: transparent !important;
@@ -913,6 +913,16 @@ strong {
   border-color: #42567A;
   border-radius: 0px;
   cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .button-wallet {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: -25px!important;
+    font-size: 10px;
+  }
 }
 
 .keystore-button {

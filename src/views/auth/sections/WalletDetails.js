@@ -17,11 +17,11 @@ const WalletDetails = (props) => {
     }
 
     const handleRename = () => {
-        return
+        alert("You clicked me! Rename")
     }
 
     const handleRemove = () => {
-        return
+        alert("You clicked Remove")
     }
 
     const HoverDetails = () => (
@@ -34,14 +34,17 @@ const WalletDetails = (props) => {
         <Stack className="wallet-details" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
             <Image className='wallet-image' src={image} />
             <Box style={{ marginTop: '-10px' }}>
-                <Typography variant='p' color='text.secondary' sx={{ fontSize: 10 }}>
+                <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
                     DNB
                 </Typography>
                 <Typography className='card-text' variant='h6'>
                     {shortenAddress(address)}
                 </Typography>
             </Box>
-            {isHovering && <span style={{float: "right"}}><HoverDetails /></span>}
+            {isHovering ? 
+                (<span style={{float: "right", position: "absolute", right: 0}}><HoverDetails /></span>) :
+                null    
+            }
         </Stack>
     )
 }
