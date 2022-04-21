@@ -13,6 +13,8 @@ const KeystoreWallet = (props) => {
     const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
+    const [isFileError, setFileError] = useState(false)
+    const [isPasswordWrong, setIsPasswordWrong] = useState(false)
     const [encryptedWallet, setEncryptedWallet] = useState(null)
 
     const totalSteps = () => {
@@ -28,11 +30,18 @@ const KeystoreWallet = (props) => {
     }
 
     const onReceiveFile = (text) => {
-        setEncryptedWallet(text)
-        // TODO: Check if the passed file is actually a JSON file AND conforms to the keystore file standard.
-        // TODO: Retrieve address from cipher.
-        // TODO: store cipher data in local storage, make the address the key.
-        setActiveStep(1)
+        try {
+            const parsedFile = JSON.parse(text)
+            setEncryptedWallet(text)
+            setActiveStep(1)
+            // TODO: Retrieve address from cipher.
+            // TODO: store cipher data in local storage, make the address the key.
+        } catch (error) {
+            if (error.message.includes('Unexpected token')) {
+                // It's reasonable to assume it isn't a properly formatted JSON file or a JSON file.
+                setFileError(true)
+            }
+        }
     }
 
     const onDecryptWallet = async (password) => {
@@ -43,9 +52,7 @@ const KeystoreWallet = (props) => {
             setGlobalState('signer', unlockedWallet)
             onClose()
         } catch (error) {
-            // TODO: Handle if a user fills in the wrong password.
-            // Either propagate back to the password field that the password is wrong.
-            console.log(error)
+            setIsPasswordWrong(true)
         }
     }
 
@@ -77,9 +84,9 @@ const KeystoreWallet = (props) => {
                                     {(() => {
                                         switch (activeStep) {
                                             case 0:
-                                                return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} />
+                                                return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} error={isFileError} setError={setFileError} />
                                             case 1:
-                                                return <EnterPassword onDecryptWallet={onDecryptWallet} />
+                                                return <EnterPassword onDecryptWallet={onDecryptWallet} error={isPasswordWrong} setError={setIsPasswordWrong} onBack={onBack} />
                                             default:
                                                 return null
                                         }

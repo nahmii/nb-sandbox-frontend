@@ -10,7 +10,7 @@ const inputProps = {
 }
 
 const EnterPassword = (props) => {
-    const { onDecryptWallet } = props
+    const { onDecryptWallet, error, setError, onBack } = props
 
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -22,6 +22,7 @@ const EnterPassword = (props) => {
 
     const updatePassword = (event) => {
         setPassword(event.target.value)
+        setError(false)
     }
 
     const passPassword = () => {
@@ -53,6 +54,8 @@ const EnterPassword = (props) => {
                         placeholder="Enter keystore password"
                         variant='outlined'
                         size='small'
+                        error={error}
+                        helperText={error ? 'Wrong password.' : ''}
                         inputProps={{ style: inputProps }}
                         InputLabelProps={{ style: { fontSize: '14px' } }}
                     />
@@ -61,7 +64,7 @@ const EnterPassword = (props) => {
             <CardActions sx={{p: 2}}>
                 <Grid container spacing={3}>
                     <Grid item xs={4} sm={4} md={4}>
-                        <Button sx={{ width: '100%' }} className='keystore-button' wide>BACK</Button>
+                        <Button sx={{ width: '100%' }} className='keystore-button' wide onClick={onBack}>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
                         <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide onClick={passPassword}>ACCESS WALLET</Button>

@@ -6,6 +6,7 @@ import ReplayIcon from '@mui/icons-material/Replay'
 import LayoutDefault from '../../layouts/LayoutDefault'
 import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS } from '../../constants'
 import { encode } from 'base-64'
+import { useGlobalState } from '../../state';
 
 const cardStyle = {
     boxShadow: 0,
@@ -27,6 +28,7 @@ const rows = [
 
 
 const History = () => {
+    const [account] = useGlobalState('account')
     //Snackbar alert parameter
     const [openAlert, setOpenAlert] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -179,6 +181,7 @@ const History = () => {
                                     </TableBody>
                                 </Table>
                                 </TableContainer>
+                                {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
                 </Card>
