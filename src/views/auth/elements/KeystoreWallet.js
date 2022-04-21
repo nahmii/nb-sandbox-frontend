@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stepper, Card, Box, Typography, Step, StepButton } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SelectFile from '../components/SelectFile';
 import EnterPassword from '../components/EnterPassword';
+import { ethers } from 'ethers';
+import { setGlobalState, useGlobalState } from '../../../state';
 
 const steps = [1, 2]
 
 const KeystoreWallet = (props) => {
-    const { onClose, } = props
+    const { onClose, open, onBack } = props
+    const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
+    const [isFileError, setFileError] = useState(false)
+    const [isPasswordWrong, setIsPasswordWrong] = useState(false)
+    const [encryptedWallet, setEncryptedWallet] = useState(null)
 
     const totalSteps = () => {
         return steps.length
@@ -23,8 +29,31 @@ const KeystoreWallet = (props) => {
         return Object.keys(completed).length
     }
 
-    const handleStep = (step) => () => {
-        setActiveStep(step)
+    const onReceiveFile = (text) => {
+        try {
+            const parsedFile = JSON.parse(text)
+            setEncryptedWallet(text)
+            setActiveStep(1)
+            // TODO: Retrieve address from cipher.
+            // TODO: store cipher data in local storage, make the address the key.
+        } catch (error) {
+            if (error.message.includes('Unexpected token')) {
+                // It's reasonable to assume it isn't a properly formatted JSON file or a JSON file.
+                setFileError(true)
+            }
+        }
+    }
+
+    const onDecryptWallet = async (password) => {
+        try {
+            let unlockedWallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password)
+            unlockedWallet = unlockedWallet.connect(provider)
+            setGlobalState('account', await unlockedWallet.getAddress())
+            setGlobalState('signer', unlockedWallet)
+            onClose()
+        } catch (error) {
+            setIsPasswordWrong(true)
+        }
     }
 
     return (
@@ -38,7 +67,7 @@ const KeystoreWallet = (props) => {
                     <Stepper nonLinear activeStep={activeStep} alternativeLabel>
                         {steps.map((label, index) => (
                             <Step key={label} completed={completed[index]}>
-                                <StepButton color='#0078A0' onClick={handleStep(index)}>
+                                <StepButton color='#0078A0'>
                                 </StepButton>
                             </Step>
                         ))}
@@ -55,15 +84,14 @@ const KeystoreWallet = (props) => {
                                     {(() => {
                                         switch (activeStep) {
                                             case 0:
-                                                return <SelectFile />
+                                                return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} error={isFileError} setError={setFileError} />
                                             case 1:
-                                                return <EnterPassword />
+                                                return <EnterPassword onDecryptWallet={onDecryptWallet} error={isPasswordWrong} setError={setIsPasswordWrong} onBack={onBack} />
                                             default:
                                                 return null
                                         }
                                     })()}
                                 </Box>
-
                             </React.Fragment>
                         )}
                     </Box>

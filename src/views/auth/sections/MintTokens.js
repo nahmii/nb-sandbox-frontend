@@ -31,6 +31,8 @@ const MintTokens = () => {
     }
 
     const [account] = useGlobalState('account')
+    const [provider] = useGlobalState('provider')
+    const [signer] = useGlobalState('signer')
     const [amountToMint, setAmountToMint] = useState('0.0000')
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
@@ -41,7 +43,13 @@ const MintTokens = () => {
 
     const handleClick = async () => {
         try {
-            const owner = await getContractOwner()
+            if (signer == null) {
+                setOpen(true)
+                setError(true)
+                setMsg('Please connect a wallet.')
+                return
+            }
+            const owner = await getContractOwner(provider)
             if (amountToMint < 1) {
                 setOpen(true)
                 setError(true)
@@ -55,14 +63,14 @@ const MintTokens = () => {
                 setDisableBtn(true)
                 setMintBtnText('MINTING TOKENS')
 
-                const transactionResponse = await mintTokens(parseUnits(amountToMint, 4))
+                const transactionResponse = await mintTokens(account, parseUnits(amountToMint, 4), signer)
                 await transactionResponse.wait()
 
                 setOpen(true)
                 setSuccess(true)
                 setMsg(`Mint ${amountToMint} tokens successfully!`)
-                updateBalance()
-                updateTotalSupply()
+                updateBalance(account, provider)
+                updateTotalSupply(provider)
                 setLoading(false)
                 setAmountToMint("0.0000")
                 setDisableBtn(false)

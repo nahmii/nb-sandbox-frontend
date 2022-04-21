@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image'
-import ConnectButton from '../../../components/elements/ConnectButton'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state'
+import { shortenAddress } from '../../../utils/address'
+import { ContentCopyOutlined } from '@mui/icons-material'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -15,14 +16,18 @@ const Wallet = () => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-
+    
     const [account] = useGlobalState('account')
     const [balance] = useGlobalState('balance')
+
+    const copyAddress = () => {
+        navigator.clipboard.writeText(account)
+    }
 
     return (
         <Card sx={cardStyle}>
             { open ? (
-                <SelectWalletModal open={handleOpen} onClose={handleClose} />
+                <SelectWalletModal open={open} onClose={handleClose} />
             ) : null }
             <CardContent>
                 <Grid container spacing={2} sx={{mb: -1}}>
@@ -33,9 +38,12 @@ const Wallet = () => {
                                 <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
                                     WALLET
                                 </Typography>
-                                <div className='text'>
-                                    <ConnectButton onClick={handleOpen} />
-                                </div>
+                                <Stack direction='row' spacing={1}>
+                                    <Typography className='card-text' variant='h6' onClick={handleOpen}>
+                                        {account === '' ? 'Connect wallet' : `${shortenAddress(account)}` }
+                                    </Typography>
+                                    {account === '' ? '' : <ContentCopyOutlined onClick={copyAddress}></ContentCopyOutlined>}
+                                </Stack>
                             </Box>
                         </Stack>   
                     </Grid>

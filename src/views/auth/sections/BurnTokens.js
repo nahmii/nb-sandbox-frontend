@@ -32,6 +32,8 @@ const BurnTokens = () => {
     }
 
     const [account] = useGlobalState('account')
+    const [provider] = useGlobalState('provider')
+    const [signer] = useGlobalState('signer')
     const [amountToBurn, setAmountToBurn] = useState('0.0000')
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
@@ -42,7 +44,13 @@ const BurnTokens = () => {
 
     const handleClick = async () => {
         try {
-            const owner = await getContractOwner()
+            if (signer == null) {
+                setOpen(true)
+                setError(true)
+                setMsg('Please connect a wallet.')
+                return
+            }
+            const owner = await getContractOwner(provider)
             if (amountToBurn < 1) {
                 setOpen(true)
                 setError(true)
@@ -56,14 +64,14 @@ const BurnTokens = () => {
                 setDisableBtn(true)
                 setBurnBtnText('BURNING TOKENS')
 
-                const transactionResponse = await burnTokens(parseUnits(amountToBurn, 4))
+                const transactionResponse = await burnTokens(account, parseUnits(amountToBurn, 4), signer)
                 await transactionResponse.wait()
 
                 setOpen(true)
                 setSuccess(true)
                 setMsg(`Burned ${amountToBurn} tokens successfully!`)
-                updateBalance()
-                updateTotalSupply()
+                updateBalance(account, provider)
+                updateTotalSupply(provider)
                 setLoading(false)
                 setAmountToBurn("0.0000")
                 setDisableBtn(false)
