@@ -96,8 +96,20 @@ const History = () => {
             })
     }
 
+    const refreshHistory = () => {
+        getTransactions()
+    }
+
     useEffect(() => {
         getTransactions()
+
+        const historyInterval = setInterval(() => {
+            getTransactions()
+        }, 15 * 60 * 1000)
+
+        return () => {
+            clearInterval(historyInterval)
+        }
     }, [])
 
     return (
@@ -132,7 +144,7 @@ const History = () => {
                                 <KeyboardArrowDownIcon />
                             </span>
                         </Typography>
-                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0' }}>
+                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0' }} onClick={refreshHistory}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
                         </Typography>
                         <Menu
