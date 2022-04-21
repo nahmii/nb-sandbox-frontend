@@ -53,8 +53,9 @@ const TransferTokens = () => {
     const handleClick = async () => {
         try {
             if (signer == null) {
-                // TODO: Warn user to log in
-                console.log("Signer is null")
+                setOpen(true)
+                setError(true)
+                setMsg('Please connect a wallet.')
                 return
             }
             if (isAddress(address)) {
