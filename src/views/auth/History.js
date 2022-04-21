@@ -1,31 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material';
+import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
 import LayoutDefault from '../../layouts/LayoutDefault'
-import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS } from '../../constants'
+import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS, TRANSFER_TOPIC } from '../../constants'
 import { encode } from 'base-64'
-import { useGlobalState } from '../../state';
+import { useGlobalState } from '../../state'
+import { BigNumber, ethers } from 'ethers'
+import { displayAsCurrency, timestampToDateTime } from '../../utils/format'
+import { shortenAddress } from '../../utils/address'
 
 const cardStyle = {
     boxShadow: 0,
     borderRadius: 0,
     p: 2
 }
-
-function createTableData(timestamp, from, to, type, amount, currency, more) {
-    return { timestamp, from, to, type, amount, currency, more };
-}
-  
-const rows = [
-    createTableData('1 min ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-IN', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('20 min ago', '0xE6aB…6503', '0xE8aB…7456', 'Mint', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('1 hr ago', '0xE6aB…6503', '0xE8aB…7456', 'Burn', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('4 hrs ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-OUT', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('10 hrs ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-IN', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-];
-
 
 const History = () => {
     const [account] = useGlobalState('account')
@@ -63,8 +53,24 @@ const History = () => {
         return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
     })
 
-    const getTransactions = (page = 0, offset = 10) => {
-        const URL = `${SUPPORTED_NETWORK.blockExplorerUrl}api?module=account&action=txlist&address=${TOKEN_ADDRESS}&page=${page}&offset=${offset}&filterby="to"`
+    const transactionType = (from, to) => {
+        if (from.toLowerCase() === ethers.constants.AddressZero) {
+            return 'Mint'
+        } else if (to.toLowerCase() === ethers.constants.AddressZero) {
+            return 'Burn'
+        } else {
+            if (from.toLowerCase() === account.toLowerCase()) {
+                return 'Transfer - IN'
+            } else if (to.toLowerCase() === account.toLowerCase()) {
+                return 'Transfer - OUT'
+            } else {
+                return 'Transfer'
+            }
+        }
+    }
+
+    const getTransactions = () => {
+        const URL = `${SUPPORTED_NETWORK.blockExplorerUrl}api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${TOKEN_ADDRESS}&topic0=${TRANSFER_TOPIC}`
         fetch(URL, {
             headers: new Headers({
                 'Authorization': 'Basic ' + encode(connectionInfo.user + ':' + connectionInfo.password),
@@ -73,13 +79,37 @@ const History = () => {
         })
             .then(response => response.json())
             .then(({ result }) => {
-                setTransactions(result)
-                console.log(result)
+                const formattedData = result.map(item => {
+                    const fromAddress = `0x${item.topics[1].slice(-40)}`
+                    const toAddress = `0x${item.topics[2].slice(-40)}`
+                    return {
+                        timestamp: timestampToDateTime(BigNumber.from(item.timeStamp).toNumber()),
+                        amount: displayAsCurrency(BigNumber.from(item.data).toString()),
+                        type: transactionType(fromAddress, toAddress),
+                        from: fromAddress,
+                        to: toAddress,
+                        currency: 'NOK',
+                        transactionHash: item.transactionHash
+                    }
+                }).reverse()
+                setTransactions([...formattedData])
             })
+    }
+
+    const refreshHistory = () => {
+        getTransactions()
     }
 
     useEffect(() => {
         getTransactions()
+
+        const historyInterval = setInterval(() => {
+            getTransactions()
+        }, 15 * 60 * 1000)
+
+        return () => {
+            clearInterval(historyInterval)
+        }
     }, [])
 
     return (
@@ -100,21 +130,21 @@ const History = () => {
                         </Alert>
                     </Snackbar>
                     <CardContent>
-                        <Typography 
-                            id='modal-modal-title' 
-                            variant='p' 
+                        <Typography
+                            id='modal-modal-title'
+                            variant='p'
                             sx={{ fontWeight: 'bold', fontSize: '14px' }}
                             aria-controls={open ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
+                            aria-haspopup='true'
                             aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}    
+                            onClick={handleClick}
                         >
                             ALL TRANSACTIONS
                             <span style={{ position: 'absolute' }}>
                                 <KeyboardArrowDownIcon />
                             </span>
                         </Typography>
-                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: "#0078A0" }}>
+                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0' }} onClick={refreshHistory}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
                         </Typography>
                         <Menu
@@ -125,10 +155,10 @@ const History = () => {
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
                             }}
-                            sx={{mt: 2}}
+                            sx={{ mt: 2 }}
                         >
-                            <MenuItem onClick={handleAllTransactions} sx={{fontSize: "14px", fontWeight: "bold", color: "#153443"}}>ALL TRANSACTIONS</MenuItem>
-                            <MenuItem onClick={handleSelectWallet} sx={{fontSize: "14px", fontWeight: "bold" , color: "#153443"}}>SELECT WALLET 
+                            <MenuItem onClick={handleAllTransactions} sx={{ fontSize: '14px', fontWeight: 'bold', color: '#153443' }}>ALL TRANSACTIONS</MenuItem>
+                            <MenuItem onClick={handleSelectWallet} sx={{ fontSize: '14px', fontWeight: 'bold', color: '#153443' }}>SELECT WALLET
                                 <span style={{ position: '' }}>
                                     <KeyboardArrowDownIcon />
                                 </span>
@@ -145,43 +175,43 @@ const History = () => {
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
                             <TableContainer>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                                     <TableHead>
-                                    <TableRow>
-                                        <TableCell sx={{color: "#0078A0"}}>
-                                            Timestamp <span style={{ position: 'absolute' }}>
-                                                        <KeyboardArrowDownIcon />
-                                                    </span>
-                                        </TableCell>
-                                        <TableCell align="left">From</TableCell>
-                                        <TableCell align="left">To</TableCell>
-                                        <TableCell align="left">Type</TableCell>
-                                        <TableCell align="left">Amount</TableCell>
-                                        <TableCell align="left">Currency</TableCell>
-                                        <TableCell align="left"></TableCell>
-                                    </TableRow>
+                                        <TableRow>
+                                            <TableCell sx={{ color: '#0078A0' }}>
+                                                Timestamp <span style={{ position: 'absolute' }}>
+                                                    <KeyboardArrowDownIcon />
+                                                </span>
+                                            </TableCell>
+                                            <TableCell align='left'>From</TableCell>
+                                            <TableCell align='left'>To</TableCell>
+                                            <TableCell align='left'>Type</TableCell>
+                                            <TableCell align='left'>Amount</TableCell>
+                                            <TableCell align='left'>Currency</TableCell>
+                                            <TableCell align='left'></TableCell>
+                                        </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {rows.map((row, index) => (
-                                        <TableRow
-                                        key={index}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell component="th" scope="row">
-                                                {row.timestamp}
-                                            </TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.from}</TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.to}</TableCell>
-                                            <TableCell align="left">{row.type}</TableCell>
-                                            <TableCell align="left" sx={{color: "#0078A0"}}>{row.amount}</TableCell>
-                                            <TableCell align="left">{row.currency}</TableCell>
-                                            <TableCell align="left" sx={{fontSize: "14px"}}>{row.more}</TableCell>
-                                        </TableRow>
-                                    ))}
+                                        {transactions.map((row, index) => (
+                                            <TableRow
+                                                key={index}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell component='th' scope='row'>
+                                                    {row.timestamp}
+                                                </TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${row.from}`}>{shortenAddress(row.from)}</a></TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${row.to}`}>{shortenAddress(row.to)}</a></TableCell>
+                                                <TableCell align='left'>{row.type}</TableCell>
+                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{row.amount}</TableCell>
+                                                <TableCell align='left'>{row.currency}</TableCell>
+                                                <TableCell align='left' sx={{ fontSize: '14px' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}tx/${row.transactionHash}`}>VIEW MORE</a></TableCell>
+                                            </TableRow>
+                                        ))}
                                     </TableBody>
                                 </Table>
-                                </TableContainer>
-                                {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
+                            </TableContainer>
+                            {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
                 </Card>
