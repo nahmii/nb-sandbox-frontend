@@ -8,6 +8,8 @@ import BurnTokens from './sections/BurnTokens'
 import TransferTokens from './sections/TransferTokens'
 import SelectWalletModal from './elements/SelectWalletModal'
 import { updateBalance, updateTotalSupply, useGlobalState } from '../../state'
+import { TOKEN_ADDRESS } from '../../constants'
+import { ethers } from 'ethers'
 
 const Dashboard = () => {
     // handle modal
@@ -20,6 +22,15 @@ const Dashboard = () => {
     useEffect(() => {
         updateBalance(account, provider)
         updateTotalSupply(provider)
+
+        provider.on({
+            address: TOKEN_ADDRESS,
+            topics: [ethers.utils.id("Transfer(address,address,uint256)"),]
+        }, (log, event) => {
+            console.log(log, event)
+            updateBalance(account, provider)
+            updateTotalSupply(provider)
+        })
     }, [])
 
     useEffect(() => {

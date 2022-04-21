@@ -4,6 +4,7 @@ import Image from '../../../components/elements/Image'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state'
 import { shortenAddress } from '../../../utils/address'
+import { ContentCopyOutlined } from '@mui/icons-material'
 
 const cardStyle = {
     boxShadow: 0, 
@@ -15,9 +16,13 @@ const Wallet = () => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-
+    
     const [account] = useGlobalState('account')
     const [balance] = useGlobalState('balance')
+
+    const copyAddress = () => {
+        navigator.clipboard.writeText(account)
+    }
 
     return (
         <Card sx={cardStyle}>
@@ -33,9 +38,12 @@ const Wallet = () => {
                                 <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
                                     WALLET
                                 </Typography>
-                                <Typography className='card-text' variant='h6' onClick={handleOpen}>
-                                    {account === '' ? 'Not Connected' : `${shortenAddress(account)}` }
-                                </Typography>
+                                <Stack direction='row' spacing={1}>
+                                    <Typography className='card-text' variant='h6' onClick={handleOpen}>
+                                        {account === '' ? 'Connect wallet' : `${shortenAddress(account)}` }
+                                    </Typography>
+                                    {account === '' ? '' : <ContentCopyOutlined onClick={copyAddress}></ContentCopyOutlined>}
+                                </Stack>
                             </Box>
                         </Stack>   
                     </Grid>
