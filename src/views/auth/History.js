@@ -17,19 +17,6 @@ const cardStyle = {
     p: 2
 }
 
-function createTableData(timestamp, from, to, type, amount, currency, more) {
-    return { timestamp, from, to, type, amount, currency, more };
-}
-  
-const rows = [
-    createTableData('1 min ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-IN', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('20 min ago', '0xE6aB…6503', '0xE8aB…7456', 'Mint', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('1 hr ago', '0xE6aB…6503', '0xE8aB…7456', 'Burn', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('4 hrs ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-OUT', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-    createTableData('10 hrs ago', '0xE6aB…6503', '0xE8aB…7456', 'Transfer-IN', '34,543,543.6446', 'NOK', <a target="_blank" rel="noopener noreferrer" href="https://">VIEW MORE</a>),
-];
-
-
 const History = () => {
     const [account] = useGlobalState('account')
     //Snackbar alert parameter
