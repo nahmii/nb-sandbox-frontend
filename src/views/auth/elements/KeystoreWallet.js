@@ -81,7 +81,7 @@ const KeystoreWallet = (props) => {
                                             case 0:
                                                 return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} />
                                             case 1:
-                                                return <EnterPassword onDecryptWallet={onDecryptWallet} error={isPasswordWrong} setError={setIsPasswordWrong} />
+                                                return <EnterPassword onDecryptWallet={onDecryptWallet} error={isPasswordWrong} setError={setIsPasswordWrong} onBack={onBack} />
                                             default:
                                                 return null
                                         }
