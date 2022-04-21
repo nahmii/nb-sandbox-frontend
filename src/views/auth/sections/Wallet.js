@@ -40,7 +40,7 @@ const Wallet = () => {
                                 </Typography>
                                 <Stack direction='row' spacing={1}>
                                     <Typography className='card-text' variant='h6' onClick={handleOpen}>
-                                        {account === '' ? 'Not Connected' : `${shortenAddress(account)}` }
+                                        {account === '' ? 'Connect wallet' : `${shortenAddress(account)}` }
                                     </Typography>
                                     {account === '' ? '' : <ContentCopyOutlined onClick={copyAddress}></ContentCopyOutlined>}
                                 </Stack>

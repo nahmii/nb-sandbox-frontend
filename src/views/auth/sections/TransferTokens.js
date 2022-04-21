@@ -142,7 +142,7 @@ const TransferTokens = () => {
                                 SEND FROM
                             </Typography>
                             <Typography className='card-text' variant='h6'>
-                                {account ? shortenAddress(account) : 'Connect wallet'}<span style={{ position: 'absolute' }}></span>
+                                {account ? shortenAddress(account) : '-'}<span style={{ position: 'absolute' }}></span>
                             </Typography>
                         </Box>
                     </Stack>
