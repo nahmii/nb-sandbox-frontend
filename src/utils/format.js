@@ -48,3 +48,15 @@ export const limitDecimalPlaces = (event, decimals) => {
 export const displayAsCurrency = (string, decimals = 4) => {
     return commify(insertDecimalSeparator(string, decimals))
 }
+
+/**
+ * Formats a timestamp into a locale based datetime.
+ * 
+ * @param {number} seconds The number of seconds from unix time since the timestamp has been generated.
+ * @returns A string containing the formatted timestamp.
+ */
+ export const timestampToDateTime = (seconds) => {
+    let date = new Date(0);
+    date.setSeconds(seconds, 0);
+    return new Intl.DateTimeFormat('default', { dateStyle: "short", timeStyle: "short" }).format(date);
+}

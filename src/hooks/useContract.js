@@ -3,6 +3,7 @@ import { TOKEN_ADDRESS } from '../constants'
 import { useMemo } from 'react'
 import { getContract } from '../utils/contract'
 import { isAddress } from '../utils/address'
+import { updateBalance, updateTotalSupply } from '../state'
 
 export const useContract = (address, ABI) => {
     // TODO: Retrieve provider, account and chainId from hook
@@ -57,4 +58,18 @@ export const getContractOwner = async (provider) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
     const owner = await contract.owner()
     return owner
+}
+
+export const getTokenContract = (provider) => {
+    return getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
+}
+
+export const listenToContract = (account, provider) => {
+    getTokenContract(provider)
+        .once("Transfer", () => {
+            updateTotalSupply(provider)
+            if (account !== '') {
+                updateBalance(account, provider)
+            }
+        })
 }

@@ -46,11 +46,11 @@ export default function SelectWalletModal(props) {
                                 </Box>
                                 
                                 <CardContent sx={{}}>
-                                    {/* <PerfectScrollbar style={{ height: 300 }}>
-                                        {data.map((d, index) => (
-                                            <WalletDetails key={index} address={d.address} image={d.image} />
-                                        ))}
-                                    </PerfectScrollbar> */}
+                                        <PerfectScrollbar style={{ height: 3 }}>
+                                            {data.map((d, index) => (
+                                                <WalletDetails key={index} address={d.address} image={d.image} />
+                                            ))}
+                                        </PerfectScrollbar>
                                 </CardContent>
                                 <CardActions sx={{p: 2}}>
                                     <Button sx={{ width: '100%' }} onClick={handleNewWallet} className='button button-primary button-wide-mobile' wide>CONNECT NEW WALLET</Button>
