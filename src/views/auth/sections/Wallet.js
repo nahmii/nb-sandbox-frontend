@@ -39,10 +39,10 @@ const Wallet = () => {
                                     WALLET
                                 </Typography>
                                 <Stack direction='row' spacing={1}>
-                                    <Typography className='card-text' variant='h6' onClick={handleOpen}>
+                                    <Typography sx={{cursor: "pointer"}} className='card-text' variant='h6' onClick={handleOpen}>
                                         {account === '' ? 'Connect wallet' : `${shortenAddress(account)}` }
                                     </Typography>
-                                    {account === '' ? '' : <ContentCopyOutlined onClick={copyAddress}></ContentCopyOutlined>}
+                                    {account === '' ? '' : <ContentCopyOutlined sx={{cursor: "pointer"}} onClick={copyAddress}></ContentCopyOutlined>}
                                 </Stack>
                             </Box>
                         </Stack>   
