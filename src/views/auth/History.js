@@ -101,19 +101,6 @@ const History = () => {
         getTransactions()
     }
 
-    function getFrom(params) {
-        return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.from}`}>{shortenAddress(params.row.from)}</a>
-    }
-      
-    function setFrom(params) {
-        const from = shortenAddress(params.value)
-        return { ...params.row, from };
-    }
-      
-      function parseFrom(value) {
-        return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${value}`}>{value}</a>
-      }
-
     const columns = [
         { field: 'timestamp', headerName: 'Timestamp', width: 180, headerClassName: 'primary-color' },
         { 
@@ -156,7 +143,6 @@ const History = () => {
 
     useEffect(() => {
         getTransactions()
-        // getRows()
         const historyInterval = setInterval(() => {
             getTransactions()
         }, 15 * 60 * 1000)
@@ -165,8 +151,6 @@ const History = () => {
             clearInterval(historyInterval)
         }
     }, [])
-
-    // console.log(transactions)
 
     return (
         <LayoutDefault>
