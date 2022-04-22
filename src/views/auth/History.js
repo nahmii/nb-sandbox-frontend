@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid';
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
@@ -100,9 +101,62 @@ const History = () => {
         getTransactions()
     }
 
+    function getFrom(params) {
+        return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.from}`}>{shortenAddress(params.row.from)}</a>
+    }
+      
+    function setFrom(params) {
+        const from = shortenAddress(params.value)
+        return { ...params.row, from };
+    }
+      
+      function parseFrom(value) {
+        return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${value}`}>{value}</a>
+      }
+
+    const columns = [
+        { field: 'timestamp', headerName: 'Timestamp', width: 180, headerClassName: 'primary-color' },
+        { 
+            field: 'from', 
+            headerName: 'From', 
+            width: 160, 
+            cellClassName: 'primary-color',
+            renderCell: (params) => {
+                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.from}`}>{shortenAddress(params.row.from)}</a>
+            }
+        },
+        { 
+            field: 'to', 
+            headerName: 'To', 
+            width: 160, 
+            cellClassName: 'primary-color',
+            renderCell: (params) => {
+                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.to}`}>{shortenAddress(params.row.to)}</a>
+            }
+        },
+        { field: 'type', headerName: 'Type', width: 100 },
+        { field: 'amount', headerName: 'Amount', width: 160, cellClassName: 'primary-color' },
+        { 
+            field: 'currency', 
+            headerName: 'Currency',
+            width: 100,
+            sortable: false
+        },
+        { 
+            field: 'transactionHash', 
+            headerName: ' ',
+            cellClassName: 'primary-color',
+            width: 150,
+            sortable: false,
+            renderCell: (params) => {
+                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}tx/${params.row.transactionHash}`}>VIEW MORE</a>
+            }
+        },
+    ]
+
     useEffect(() => {
         getTransactions()
-
+        // getRows()
         const historyInterval = setInterval(() => {
             getTransactions()
         }, 15 * 60 * 1000)
@@ -111,6 +165,8 @@ const History = () => {
             clearInterval(historyInterval)
         }
     }, [])
+
+    // console.log(transactions)
 
     return (
         <LayoutDefault>
@@ -144,7 +200,7 @@ const History = () => {
                                 <KeyboardArrowDownIcon />
                             </span>
                         </Typography>
-                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0' }} onClick={refreshHistory}>
+                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0', cursor: 'pointer' }} onClick={refreshHistory}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
                         </Typography>
                         <Menu
@@ -174,43 +230,15 @@ const History = () => {
                             autoComplete='off'
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
-                            <TableContainer>
-                                <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell sx={{ color: '#0078A0' }}>
-                                                Timestamp <span style={{ position: 'absolute' }}>
-                                                    <KeyboardArrowDownIcon />
-                                                </span>
-                                            </TableCell>
-                                            <TableCell align='left'>From</TableCell>
-                                            <TableCell align='left'>To</TableCell>
-                                            <TableCell align='left'>Type</TableCell>
-                                            <TableCell align='left'>Amount</TableCell>
-                                            <TableCell align='left'>Currency</TableCell>
-                                            <TableCell align='left'></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {transactions.map((row, index) => (
-                                            <TableRow
-                                                key={index}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell component='th' scope='row'>
-                                                    {row.timestamp}
-                                                </TableCell>
-                                                <TableCell align='left' sx={{ color: '#0078A0' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${row.from}`}>{shortenAddress(row.from)}</a></TableCell>
-                                                <TableCell align='left' sx={{ color: '#0078A0' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${row.to}`}>{shortenAddress(row.to)}</a></TableCell>
-                                                <TableCell align='left'>{row.type}</TableCell>
-                                                <TableCell align='left' sx={{ color: '#0078A0' }}>{row.amount}</TableCell>
-                                                <TableCell align='left'>{row.currency}</TableCell>
-                                                <TableCell align='left' sx={{ fontSize: '14px' }}><a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}tx/${row.transactionHash}`}>VIEW MORE</a></TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            <div style={{ height: 670, width: '100%' }}>
+                                <DataGrid
+                                    rows={transactions}
+                                    getRowId={(row) => row.transactionHash}
+                                    columns={columns}
+                                    pageSize={10}
+                                    rowsPerPageOptions={[10]}
+                                />
+                            </div>
                             {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
