@@ -59,11 +59,8 @@ const TransferTokens = () => {
                 return
             }
             if (isAddress(address)) {
-                if (amountToTransfer < 1) {
-                    setOpen(true)
-                    setError(true)
-                    setMsg('Cannot transfer 0 tokens.')
-                } else {
+                if (amountToTransfer > 0) {
+
                     setLoading(true)
                     setDisableBtn(true)
                     setTransferBtnText('TRANSFERRING TOKENS')
@@ -78,6 +75,12 @@ const TransferTokens = () => {
                     setLoading(false)
                     setDisableBtn(false)
                     setTransferBtnText('TRANSFER TOKENS')
+                    
+                } else {
+                    
+                    setOpen(true)
+                    setError(true)
+                    setMsg('Cannot transfer 0 tokens.')
                 }
             } else {
                 setOpen(true)
