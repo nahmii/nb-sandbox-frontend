@@ -87,7 +87,9 @@ const Header = ({
                         'site-header-inner',
                         bottomDivider && 'has-bottom-divider'
                     )}>
-                    <Image src={Logo} style={{ width: '140px' }} component={Link} to='/' />
+                        <Link to="/">
+                            <Image src={Logo} style={{ width: '140px' }} />
+                        </Link>
                     <nav
                         ref={nav}
                         className={
