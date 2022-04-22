@@ -8,7 +8,7 @@ import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS, TRANSFER_TOPIC } from
 import { encode } from 'base-64'
 import { useGlobalState } from '../../state'
 import { BigNumber, ethers } from 'ethers'
-import { displayAsCurrency, timestampToDateTime } from '../../utils/format'
+import { timestampToDateTime } from '../../utils/format'
 import { shortenAddress } from '../../utils/address'
 
 const cardStyle = {
@@ -60,9 +60,9 @@ const History = () => {
             return 'Burn'
         } else {
             if (from.toLowerCase() === account.toLowerCase()) {
-                return 'Transfer - IN'
-            } else if (to.toLowerCase() === account.toLowerCase()) {
                 return 'Transfer - OUT'
+            } else if (to.toLowerCase() === account.toLowerCase()) {
+                return 'Transfer - IN'
             } else {
                 return 'Transfer'
             }
@@ -84,7 +84,7 @@ const History = () => {
                     const toAddress = `0x${item.topics[2].slice(-40)}`
                     return {
                         timestamp: timestampToDateTime(BigNumber.from(item.timeStamp).toNumber()),
-                        amount: displayAsCurrency(BigNumber.from(item.data).toString()),
+                        amount: ethers.utils.formatUnits(BigNumber.from(item.data), 4),
                         type: transactionType(fromAddress, toAddress),
                         from: fromAddress,
                         to: toAddress,

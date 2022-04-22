@@ -56,7 +56,7 @@ export const displayAsCurrency = (string, decimals = 4) => {
  * @returns A string containing the formatted timestamp.
  */
  export const timestampToDateTime = (seconds) => {
-    let date = new Date(0);
-    date.setSeconds(seconds, 0);
-    return new Intl.DateTimeFormat('default', { dateStyle: "short", timeStyle: "short" }).format(date);
+    let date = new Date(0)
+    date.setSeconds(seconds, 0)
+    return new Intl.DateTimeFormat('default', { dateStyle: 'short', timeStyle: 'short' }).format(date)
 }
