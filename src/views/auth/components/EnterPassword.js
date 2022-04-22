@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CardContent, CardActions, Typography, Grid, Box, InputLabel, OutlinedInput, FormControl, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material'
+import { CardContent, CardActions, Typography, Grid, Box, InputLabel, FormHelperText, OutlinedInput, FormControl, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '../../../components/elements/Button'
@@ -65,9 +65,7 @@ const EnterPassword = (props) => {
                             placeholder="Enter keystore password"
                             size='small'
                             error={error}
-                            helperText={error ? 'Wrong password.' : ''}
                             inputProps={{ style: inputProps }}
-                            InputLabelProps={{ style: { fontSize: '12px' } }}
                             endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -80,6 +78,7 @@ const EnterPassword = (props) => {
                             </InputAdornment>
                             }
                         />
+                        <FormHelperText id="component-error-text">{error ? 'Wrong password.' : ''}</FormHelperText>
                     </FormControl>
                 </Box>
             </CardContent>
