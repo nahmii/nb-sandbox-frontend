@@ -5,7 +5,6 @@ import { useGlobalState } from '../../../state'
 const cardStyle = {
     boxShadow: 0,
     borderRadius: 0,
-    height: '110px'
 }
 
 const Supply = () => {
