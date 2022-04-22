@@ -39,7 +39,7 @@ const TransferTokens = () => {
     const [provider] = useGlobalState('provider')
     const [signer] = useGlobalState('signer')
     const [amountToTransfer, setAmountToTransfer] = useState('0.0000')
-    const [address, setAddress] = useState('0x281b323a10d4664b37e85917b62c6e0CC017c1F2')
+    const [address, setAddress] = useState('')
     const [isMalformedAddress, setIsMalformedAddress] = useState(false)
     const [addressHelperText, setAddressHelperText] = useState('')
     const [msg, setMsg] = useState('')

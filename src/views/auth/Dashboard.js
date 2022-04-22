@@ -8,6 +8,7 @@ import BurnTokens from './sections/BurnTokens'
 import TransferTokens from './sections/TransferTokens'
 import SelectWalletModal from './elements/SelectWalletModal'
 import { updateBalance, updateTotalSupply, useGlobalState } from '../../state'
+import { listenToContract } from '../../hooks/useContract'
 
 const Dashboard = () => {
     // handle modal
@@ -20,11 +21,12 @@ const Dashboard = () => {
     useEffect(() => {
         updateBalance(account, provider)
         updateTotalSupply(provider)
-    }, [])
+        provider.removeAllListeners()
+        listenToContract(account, provider)
 
-    useEffect(() => {
-        updateBalance(account, provider)
-        updateTotalSupply(provider)
+        return () => {
+            provider.removeAllListeners()
+        }
     }, [account])
 
     return (
