@@ -50,15 +50,8 @@ const MintTokens = () => {
                 return
             }
             const owner = await getContractOwner(provider)
-            if (amountToMint < 1) {
-                setOpen(true)
-                setError(true)
-                setMsg('Cannot mint 0 tokens.')
-            } else if (owner.toLowerCase() !== account.toLowerCase()) {
-                setOpen(true)
-                setError(true)
-                setMsg('Only the contract owner can mint tokens.')
-            } else {
+            if (amountToMint > 0) {
+
                 setLoading(true)
                 setDisableBtn(true)
                 setMintBtnText('MINTING TOKENS')
@@ -75,6 +68,15 @@ const MintTokens = () => {
                 setAmountToMint("0.0000")
                 setDisableBtn(false)
                 setMintBtnText('MINT TOKENS')
+
+            } else if (owner.toLowerCase() !== account.toLowerCase()) {
+                setOpen(true)
+                setError(true)
+                setMsg('Only the contract owner can mint tokens.')
+            } else {
+                setOpen(true)
+                setError(true)
+                setMsg('Cannot mint 0 tokens.')
             }
         } catch (e) {
             console.error(e)

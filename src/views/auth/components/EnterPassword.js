@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { CardContent, CardActions, Typography, Grid, Box, TextField, InputAdornment, IconButton } from '@mui/material'
+import { CardContent, CardActions, Typography, Grid, Box, InputLabel, OutlinedInput, FormControl, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material'
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '../../../components/elements/Button'
 
 const inputProps = {
@@ -15,7 +17,9 @@ const EnterPassword = (props) => {
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
 
-    // TODO: add adornment to toggle between showing and hiding the password.
+    const [btnText, setBtnText] = useState("ACCESS WALLET")
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
     }
@@ -26,7 +30,13 @@ const EnterPassword = (props) => {
     }
 
     const passPassword = () => {
+        if(password === "") {
+            setError(true)
+        }
+        setIsLoading(true)
+        setBtnText("ACCESSING WALLET...")
         onDecryptWallet(password)
+        setIsLoading(false)
     }
 
     return (
@@ -36,7 +46,7 @@ const EnterPassword = (props) => {
                     ENTER PASSWORD</Typography><br />
                 <Typography variant='p' sx={{ fontWeight: 'bold', fontSize: '13px', color: "#153443" }}>
                     Enter password to unlock your wallet</Typography>
-                    <Box
+                <Box
                     component='form'
                     sx={{
                         '& .MuiTextField-root': { width: '100%'},
@@ -45,20 +55,32 @@ const EnterPassword = (props) => {
                     autoComplete='off'
                     style={{ marginTop: '20px' }}
                 >
-                    <TextField
-                        value={password}
-                        type="password"
-                        onChange={updatePassword}
-                        required
-                        id='outlined-size-small'
-                        placeholder="Enter keystore password"
-                        variant='outlined'
-                        size='small'
-                        error={error}
-                        helperText={error ? 'Wrong password.' : ''}
-                        inputProps={{ style: inputProps }}
-                        InputLabelProps={{ style: { fontSize: '14px' } }}
-                    />
+
+                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={updatePassword}
+                            placeholder="Enter keystore password"
+                            size='small'
+                            error={error}
+                            helperText={error ? 'Wrong password.' : ''}
+                            inputProps={{ style: inputProps }}
+                            InputLabelProps={{ style: { fontSize: '12px' } }}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                edge="end"
+                                >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                        />
+                    </FormControl>
                 </Box>
             </CardContent>
             <CardActions sx={{p: 2}}>
@@ -67,7 +89,9 @@ const EnterPassword = (props) => {
                         <Button sx={{ width: '100%' }} className='keystore-button' wide onClick={onBack}>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
-                        <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide onClick={passPassword}>ACCESS WALLET</Button>
+                        <Button sx={{ width: '100%' }} disabled={isLoading} className='button button-primary button-wide-mobile' wide onClick={passPassword}>
+                          {btnText} {isLoading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}
+                        </Button>
                     </Grid>
                 </Grid>
             </CardActions>
