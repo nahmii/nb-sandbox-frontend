@@ -3711,3 +3711,7 @@ input[type=number] {
 .modal-box:focus {
   outline: none;
 }
+
+.font-14 {
+  font-size: 14px!important;
+}
