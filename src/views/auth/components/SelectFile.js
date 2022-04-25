@@ -22,12 +22,12 @@ const SelectFile = (props) => {
     return (
         <Box>
             <CardContent sx={{}}>
-                <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '15px', color: "#153443" }}>
+                <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '15px', color: '#153443' }}>
                     SELECT YOUR KEYSTORE FILE</Typography><br />
-                <Typography variant='p' sx={{ fontWeight: 'bold', fontSize: '13px', color: "#153443" }}>
+                <Typography variant='p' sx={{ fontWeight: 'bold', fontSize: '13px', color: '#153443' }}>
                     Select keystore file that unlocks your wallet</Typography>
                 {error ?
-                    <Typography variant='p' sx={{ fontWeight: 'bold', fontSize: '13px', color: "#FF6171" }}>
+                    <Typography variant='p' sx={{ fontWeight: 'bold', fontSize: '13px', color: '#FF6171' }}>
                         <br />Please select a valid keystore file.</Typography> : ''}
             </CardContent>
             <CardActions sx={{ p: 2 }}>
@@ -38,7 +38,7 @@ const SelectFile = (props) => {
                     <Grid item xs={8} sm={8} md={8}>
                         <Button sx={{ width: '100%' }} onClick={handleKeystoreFileClick} className='button button-primary button-wide-mobile' wide>SELECT FILE</Button>
                         <input
-                            type="file"
+                            type='file'
                             ref={keystoreFileRef}
                             onChange={handleKeystoreFileChange}
                             style={{ display: 'none' }}
