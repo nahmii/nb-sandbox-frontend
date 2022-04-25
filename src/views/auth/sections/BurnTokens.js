@@ -51,8 +51,12 @@ const BurnTokens = () => {
                 return
             }
             const owner = await getContractOwner(provider)
-            if (amountToBurn > 0) {
 
+            if (owner.toLowerCase() !== account.toLowerCase()) {
+                setOpen(true)
+                setError(true)
+                setMsg('Only the contract owner can burn tokens.')
+            } else if (amountToBurn > 0) {
                 setLoading(true)
                 setDisableBtn(true)
                 setBurnBtnText('BURNING TOKENS')
@@ -69,11 +73,6 @@ const BurnTokens = () => {
                 setAmountToBurn("0.0000")
                 setDisableBtn(false)
                 setBurnBtnText('BURN TOKENS')
-                
-            } else if (owner.toLowerCase() !== account.toLowerCase()) {
-                setOpen(true)
-                setError(true)
-                setMsg('Only the contract owner can burn tokens.')
             } else {
                 setOpen(true)
                 setError(true)

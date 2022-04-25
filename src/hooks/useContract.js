@@ -66,7 +66,7 @@ export const getTokenContract = (provider) => {
 
 export const listenToContract = (account, provider) => {
     getTokenContract(provider)
-        .on("Transfer", () => {
+        .on('Transfer', () => {
             updateTotalSupply(provider)
             if (account !== '') {
                 updateBalance(account, provider)
