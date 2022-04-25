@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem, Table, TableContainer, TableHead, TableCell, TableRow, TableBody, Paper } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid';
+import { Typography, Box, Card, CardContent, Snackbar, Menu, MenuItem } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
 import MuiAlert from '@mui/material/Alert'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import ReplayIcon from '@mui/icons-material/Replay'
@@ -103,19 +103,19 @@ const History = () => {
 
     const columns = [
         { field: 'timestamp', headerName: 'Timestamp', width: 180, headerClassName: 'primary-color' },
-        { 
-            field: 'from', 
-            headerName: 'From', 
-            width: 160, 
+        {
+            field: 'from',
+            headerName: 'From',
+            width: 160,
             cellClassName: 'primary-color',
             renderCell: (params) => {
                 return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.from}`}>{shortenAddress(params.row.from)}</a>
             }
         },
-        { 
-            field: 'to', 
-            headerName: 'To', 
-            width: 160, 
+        {
+            field: 'to',
+            headerName: 'To',
+            width: 160,
             cellClassName: 'primary-color',
             renderCell: (params) => {
                 return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.to}`}>{shortenAddress(params.row.to)}</a>
@@ -123,14 +123,14 @@ const History = () => {
         },
         { field: 'type', headerName: 'Type', width: 100 },
         { field: 'amount', headerName: 'Amount', width: 160, cellClassName: 'primary-color' },
-        { 
-            field: 'currency', 
+        {
+            field: 'currency',
             headerName: 'Currency',
             width: 100,
             sortable: false
         },
-        { 
-            field: 'transactionHash', 
+        {
+            field: 'transactionHash',
             headerName: ' ',
             cellClassName: 'primary-color',
             width: 150,
