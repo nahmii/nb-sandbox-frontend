@@ -10,9 +10,21 @@ import WalletDetails from '../sections/WalletDetails'
 import NewWallet from './NewWallet'
 
 // TODO: Read address and cipher data (keystore file) from local storage.
-const data = []
+const data = [
+    { addressName: 'Norges Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
+    { addressName: 'DEX Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
+    { addressName: 'Test Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
+    { addressName: 'Green Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
+]
 
 export default function SelectWalletModal(props) {
+    const [addresses, setAddresses] = useState([
+        {
+            address: '',
+            image: '',
+            name: ''
+        }
+    ])
     const [selectWallet, showSelectWallet] = useState(true)
     const [, showImportWallet] = useState(false)
     const { onClose, open } = props
@@ -46,11 +58,11 @@ export default function SelectWalletModal(props) {
                                 </Box>
                                 
                                 <CardContent sx={{}}>
-                                        <PerfectScrollbar style={{ height: 3 }}>
-                                            {data.map((d, index) => (
-                                                <WalletDetails key={index} address={d.address} image={d.image} />
-                                            ))}
-                                        </PerfectScrollbar>
+                                    <PerfectScrollbar style={{ height: '300px' }}>
+                                        {data.map((d, index) => (
+                                            <WalletDetails key={index} address={d.address} addressName={d.addressName} image={d.image} />
+                                        ))}
+                                    </PerfectScrollbar>
                                 </CardContent>
                                 <CardActions sx={{p: 2}}>
                                     <Button sx={{ width: '100%' }} onClick={handleNewWallet} className='button button-primary button-wide-mobile' wide>CONNECT NEW WALLET</Button>
