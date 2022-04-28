@@ -223,7 +223,6 @@ const History = () => {
                                     rowsPerPageOptions={[10]}
                                 />
                             </div>
-                            {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
                 </Card>
