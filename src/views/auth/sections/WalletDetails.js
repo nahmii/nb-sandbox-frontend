@@ -6,7 +6,7 @@ import { shortenAddress } from '../../../utils/address'
 import RenameAddress from '../elements/RenameAddress'
 
 const WalletDetails = (props) => {
-    const { address, image, addressName } = props
+    const { address, addressList, image, addressName } = props
 
     // handle modal
     const [open, setOpen] = useState(false)
@@ -28,8 +28,9 @@ const WalletDetails = (props) => {
         setOpen(true)
     }
 
-    const handleRemove = (address) => {
-        const newAddressList = address.filter(item => item.id !== 1);
+    const handleRemove = (selectedAddress) => {
+        const newAddressList = addressList.filter(item => item.address !== address);
+        return newAddressList
     }
 
     const HoverDetails = () => (
@@ -54,7 +55,7 @@ const WalletDetails = (props) => {
                     </Typography>
                 </Box>
                 {isHovering ? 
-                    (<span style={{float: "right", position: "absolute", right: 0}}><HoverDetails /></span>) :
+                    (<span style={{float: "right", position: "absolute", right: 0}}><HoverDetails handleRemove={handleRemove} handleRename={handleRename} /></span>) :
                     null    
                 }
             </Stack>
