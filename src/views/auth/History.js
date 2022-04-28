@@ -214,7 +214,7 @@ const History = () => {
                             autoComplete='off'
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
-                            <div style={{ height: 670, width: '100%' }}>
+                            <div className={'history-table'} style={{ height: 670, width: '100%' }}>
                                 <DataGrid
                                     rows={transactions}
                                     getRowId={(row) => row.transactionHash}
