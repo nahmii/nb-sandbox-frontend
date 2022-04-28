@@ -214,7 +214,7 @@ const History = () => {
                             autoComplete='off'
                             style={{ marginTop: '20px', marginBottom: '20px' }}
                         >
-                            <div style={{ height: 670, width: '100%' }}>
+                            <div className={'history-table'} style={{ height: 670, width: '100%' }}>
                                 <DataGrid
                                     rows={transactions}
                                     getRowId={(row) => row.transactionHash}
@@ -223,7 +223,6 @@ const History = () => {
                                     rowsPerPageOptions={[10]}
                                 />
                             </div>
-                            {account === '' ? '' : <a style={{ color: '#000' }} href={`https://blockscout.bergen.nahmii.io/address/${account}`}>Click here to view the history of the connected wallet.</a>}
                         </Box>
                     </CardContent>
                 </Card>
