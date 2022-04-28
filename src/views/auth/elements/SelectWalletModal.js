@@ -11,10 +11,10 @@ import NewWallet from './NewWallet'
 
 // TODO: Read address and cipher data (keystore file) from local storage.
 const data = [
-    { addressName: 'Norges Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
-    { addressName: 'DEX Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df78', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
-    { addressName: 'Test Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df77', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
-    { addressName: 'Green Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df76', image: `https://avatars.dicebear.com/api/jdenticon/0x807fe5f6216240de3705f29fd80470b0e7b1df79.svg?r=50` },
+    { addressName: 'Norges Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79' },
+    { addressName: 'DEX Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df78' },
+    { addressName: 'Test Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df77' },
+    { addressName: 'Green Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df76' },
 ]
 
 export default function SelectWalletModal(props) {
@@ -60,7 +60,7 @@ export default function SelectWalletModal(props) {
                                 <CardContent sx={{}}>
                                     <PerfectScrollbar style={{ height: '300px' }}>
                                         {data.map((d, index) => (
-                                            <WalletDetails key={index} addressList={data} address={d.address} addressName={d.addressName} image={d.image} />
+                                            <WalletDetails key={index} addressList={data} address={d.address} addressName={d.addressName} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} />
                                         ))}
                                     </PerfectScrollbar>
                                 </CardContent>
