@@ -20,6 +20,7 @@ const Wallet = () => {
     const [account] = useGlobalState('account')
     const [balance] = useGlobalState('balance')
 
+    {/* TODO: Give UI feedback when account is copied */}
     const copyAddress = () => {
         navigator.clipboard.writeText(account)
     }
