@@ -30,7 +30,7 @@ const WalletDetails = (props) => {
 
     const handleRemove = (selectedAddress) => {
         const newAddressList = addressList.filter(item => item.address !== address);
-        return newAddressList
+        // TODO: update address list state
     }
 
     const HoverDetails = () => (
