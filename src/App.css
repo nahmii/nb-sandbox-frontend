@@ -3715,3 +3715,11 @@ input[type=number] {
 .font-14 {
   font-size: 14px!important;
 }
+
+.history-table .MuiDataGrid-cell {
+  outline: none !important;
+}
+
+.history-table .MuiDataGrid-selectedRowCount {
+  font-size: 0px;
+}
