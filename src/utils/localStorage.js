@@ -17,13 +17,20 @@ export const modifyItemByAddress = (key, address, callback) => {
     storeItem(key, items)
 }
 
-export const appendItemByAddress = (key, itemKey, itemValue, object) => {
+export const appendItemByAddress = (key, address, object) => {
     const items = retrieveItem(key)
-    const index = items.findIndex(item => item[itemKey] === itemValue)
+    const index = items.findIndex(item => item.address.toLowerCase() === address)
 
     if (index < 0) {
         items.push(object)
     } else {
         items[index] = object
     }
+    storeItem(key, items)
+}
+
+export const deleteItemByAddress = (key, address) => {
+    const items = retrieveItem(key)
+    const newItems = items.filter(item => item.address.toLowerCase() !== address.toLowerCase())
+    storeItem(key, newItems)
 }
