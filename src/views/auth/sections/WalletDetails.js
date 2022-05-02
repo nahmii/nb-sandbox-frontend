@@ -4,7 +4,8 @@ import Image from '../../../components/elements/Image'
 import Button from '../../../components/elements/Button'
 import { shortenAddress } from '../../../utils/address'
 import RenameAddress from '../elements/RenameAddress'
-import { deleteItemByAddress } from '../../../utils/localStorage'
+import { deleteItemByAddress, retrieveItem } from '../../../utils/localStorage'
+import { setGlobalState } from '../../../state'
 
 const WalletDetails = (props) => {
     const { address, image, addressName } = props
@@ -31,6 +32,7 @@ const WalletDetails = (props) => {
 
     const handleRemove = (address) => {
         deleteItemByAddress('wallets', address)
+        setGlobalState('wallets', retrieveItem('wallets'))
     }
 
     const HoverDetails = ({ address }) => (
