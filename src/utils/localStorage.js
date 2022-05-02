@@ -46,7 +46,7 @@ export const appendItemByAddress = (key, address, object) => {
         items = []
     }
 
-    const index = items.findIndex(item => item.address.toLowerCase() === address)
+    const index = items.findIndex(item => item.address.toLowerCase() === address.toLowerCase())
 
     if (index < 0) {
         items.push(object)
