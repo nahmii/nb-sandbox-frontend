@@ -40,7 +40,12 @@ export const modifyItemByAddress = (key, address, callback) => {
  * @param {Object} object The object to append in LocalStorage.
  */
 export const appendItemByAddress = (key, address, object) => {
-    const items = retrieveItem(key)
+    let items = retrieveItem(key)
+
+    if (!items) {
+        items = []
+    }
+
     const index = items.findIndex(item => item.address.toLowerCase() === address)
 
     if (index < 0) {
