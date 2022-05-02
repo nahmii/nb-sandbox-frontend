@@ -10,7 +10,7 @@ import { encode } from 'base-64'
 import { useGlobalState } from '../../state'
 import { BigNumber, ethers } from 'ethers'
 import { timestampToDateTime } from '../../utils/format'
-import { lookupAddressName, shortenAddress } from '../../utils/address'
+import { lookupAddressName } from '../../utils/address'
 
 const cardStyle = {
     boxShadow: 0,
