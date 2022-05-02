@@ -8,6 +8,7 @@ const { setGlobalState, useGlobalState } = createGlobalState({
     account: '',
     balance: '0.0000',
     totalSupply: '0.0000',
+    wallets: [],
     provider: new ethers.providers.JsonRpcProvider(connectionInfo),
     signer: null
 })
