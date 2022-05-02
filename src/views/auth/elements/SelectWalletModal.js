@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Button from '../../../components/elements/Button'
-
 import PerfectScrollbar from 'react-perfect-scrollbar'
-
 import WalletDetails from '../sections/WalletDetails'
 import NewWallet from './NewWallet'
 import { retrieveItem } from '../../../utils/localStorage'
@@ -42,20 +40,20 @@ export default function SelectWalletModal(props) {
                     {
                         selectWallet ? (
                             <Card>
-                                <Box sx={{ mt: 2, p: 2, borderBottom: "1px solid #CBE5EE"}}>
+                                <Box sx={{ mt: 2, p: 2, borderBottom: '1px solid #CBE5EE' }}>
                                     <Typography id='modal-modal-title' variant='p' sx={{ pl: 2 }}>
-                                        WALLETS <span style={{ float: 'right', cursor: "pointer" }}><HighlightOffIcon onClick={onClose} /></span>
+                                        WALLETS <span style={{ float: 'right', cursor: 'pointer' }}><HighlightOffIcon onClick={onClose} /></span>
                                     </Typography>
                                 </Box>
-                                
+
                                 <CardContent sx={{}}>
                                     <PerfectScrollbar style={{ height: '300px' }}>
                                         {wallets.map((d, index) => (
-                                            <WalletDetails key={index} address={d.address} addressName={'noname'} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} />
+                                            <WalletDetails key={index} address={d.address} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} />
                                         ))}
                                     </PerfectScrollbar>
                                 </CardContent>
-                                <CardActions sx={{p: 2}}>
+                                <CardActions sx={{ p: 2 }}>
                                     <Button sx={{ width: '100%' }} onClick={handleNewWallet} className='button button-primary button-wide-mobile' wide>CONNECT NEW WALLET</Button>
                                 </CardActions>
                             </Card>
@@ -63,7 +61,7 @@ export default function SelectWalletModal(props) {
                             <NewWallet onClose={onClose} open={open} />
                         )
                     }
-                    
+
                     {/* {selectWallet ? handleSelectWalletModal() : <CreateWalletModal />} */}
                 </Box>
             </Modal>
