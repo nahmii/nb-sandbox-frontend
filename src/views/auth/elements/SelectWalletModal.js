@@ -1,30 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import WalletFace from '../../../assets/images/Wallet-Face.png'
 import Button from '../../../components/elements/Button'
 
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import WalletDetails from '../sections/WalletDetails'
 import NewWallet from './NewWallet'
-
-// TODO: Read address and cipher data (keystore file) from local storage.
-const data = [
-    { addressName: 'Norges Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df79' },
-    { addressName: 'DEX Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df78' },
-    { addressName: 'Test Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df77' },
-    { addressName: 'Green Bank', address: '0x807fe5f6216240de3705f29fd80470b0e7b1df76' },
-]
+import { retrieveItem } from '../../../utils/localStorage'
+import { setGlobalState, useGlobalState } from '../../../state'
 
 export default function SelectWalletModal(props) {
-    const [addresses, setAddresses] = useState([
-        {
-            address: '',
-            image: '',
-            name: ''
-        }
-    ])
+    const [wallets] = useGlobalState('wallets')
     const [selectWallet, showSelectWallet] = useState(true)
     const [, showImportWallet] = useState(false)
     const { onClose, open } = props
@@ -33,6 +20,10 @@ export default function SelectWalletModal(props) {
         showSelectWallet(false)
     }
 
+    useEffect(() => {
+        const _wallets = retrieveItem('wallets')
+        setGlobalState('wallets', _wallets ? _wallets : [])
+    }, [])
 
     return (
         <div>
@@ -59,8 +50,8 @@ export default function SelectWalletModal(props) {
                                 
                                 <CardContent sx={{}}>
                                     <PerfectScrollbar style={{ height: '300px' }}>
-                                        {data.map((d, index) => (
-                                            <WalletDetails key={index} addressList={data} address={d.address} addressName={d.addressName} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} />
+                                        {wallets.map((d, index) => (
+                                            <WalletDetails key={index} address={d.address} addressName={'noname'} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} />
                                         ))}
                                     </PerfectScrollbar>
                                 </CardContent>
