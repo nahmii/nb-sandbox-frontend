@@ -5,6 +5,8 @@ import SelectFile from '../components/SelectFile'
 import EnterPassword from '../components/EnterPassword'
 import { ethers } from 'ethers'
 import { setGlobalState, useGlobalState } from '../../../state'
+import { appendItemByAddress, retrieveItem } from '../../../utils/localStorage'
+import { isAddress } from '../../../utils/address'
 
 const steps = [1, 2]
 
@@ -32,13 +34,25 @@ const KeystoreWallet = (props) => {
     const onReceiveFile = (text) => {
         try {
             const _parsedFile = JSON.parse(text)
-            setEncryptedWallet(text)
-            setActiveStep(1)
-            // TODO: Retrieve address from cipher.
-            // TODO: store cipher data in local storage, make the address the key.
+            if (!_parsedFile.address) {
+                throw new Error('Address field missing')
+            }
+
+            const _address = isAddress(_parsedFile.address)
+            if (!_address) {
+                throw new Error('Invalid address')
+            }  else {
+                _parsedFile.address = _address
+                setEncryptedWallet(text)
+                setActiveStep(1)
+                appendItemByAddress('wallets', _address, _parsedFile)
+                setGlobalState('wallets', retrieveItem('wallets'))
+            }
         } catch (error) {
             if (error.message.includes('Unexpected token')) {
                 // It's reasonable to assume it isn't a properly formatted JSON file or a JSON file.
+                setFileError(true)
+            } else if (error.message.includes('Address field missing')) {
                 setFileError(true)
             }
         }
