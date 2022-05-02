@@ -6,6 +6,7 @@ import { connectionInfo } from '../constants'
 
 const { setGlobalState, useGlobalState } = createGlobalState({
     account: '',
+    addressBook: [],
     balance: '0.0000',
     totalSupply: '0.0000',
     wallets: [],
