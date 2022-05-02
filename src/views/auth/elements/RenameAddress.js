@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, TextField } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Button from '../../../components/elements/Button'
+import { appendItemByAddress, retrieveItem } from '../../../utils/localStorage'
+import { setGlobalState } from '../../../state'
 
 const RenameAddress = (props) => {
-    const { onClose, open } = props
+    const { address, onClose, open } = props
     const [addressName, setAddressName] = useState('')
 
     const handleSaveAddress = () => {
-        return
+        appendItemByAddress('addressBook', address, { address, addressName })
+        setGlobalState('addressBook', retrieveItem('addressBook'))
+        onClose()
     }
 
     const handleChange = (event) => {
@@ -31,7 +35,7 @@ const RenameAddress = (props) => {
                 <Card>
                     <Box sx={{ mt: 2, p: 2, borderBottom: '1px solid #CBE5EE' }}>
                         <Typography id='modal-modal-title' variant='p' sx={{ pl: 2 }}>
-                            {addressName} <span style={{ float: 'right', cursor: 'pointer' }}><HighlightOffIcon onClick={onClose} /></span>
+                            RENAME <span style={{ float: 'right', cursor: 'pointer' }}><HighlightOffIcon onClick={onClose} /></span>
                         </Typography>
                     </Box>
 
