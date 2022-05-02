@@ -4,9 +4,10 @@ import Image from '../../../components/elements/Image'
 import Button from '../../../components/elements/Button'
 import { shortenAddress } from '../../../utils/address'
 import RenameAddress from '../elements/RenameAddress'
+import { deleteItemByAddress } from '../../../utils/localStorage'
 
 const WalletDetails = (props) => {
-    const { address, addressList, image, addressName } = props
+    const { address, image, addressName } = props
 
     // handle modal
     const [open, setOpen] = useState(false)
@@ -28,15 +29,14 @@ const WalletDetails = (props) => {
         setOpen(true)
     }
 
-    const handleRemove = (selectedAddress) => {
-        const newAddressList = addressList.filter(item => item.address !== address);
-        // TODO: update address list state
+    const handleRemove = (address) => {
+        deleteItemByAddress('wallets', address)
     }
 
-    const HoverDetails = () => (
+    const HoverDetails = ({ address }) => (
         <Stack direction='row' spacing={2}>
             <Button className='button-wallet' onClick={handleRename}>RENAME</Button>
-            <Button className='button-wallet' onClick={handleRemove(address)}>REMOVE</Button>
+            <Button className='button-wallet' onClick={() => handleRemove(address)}>REMOVE</Button>
         </Stack>
     )
     return (
@@ -44,7 +44,7 @@ const WalletDetails = (props) => {
             { open ? (
                 <RenameAddress open={open} addressName={addressName} onClose={handleClose} />
             ) : null }
-            <Stack className="wallet-details" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
+            <Stack className='wallet-details' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
                 <Image className='wallet-image' src={image} />
                 <Box style={{ marginTop: '-10px' }}>
                     <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
@@ -55,7 +55,7 @@ const WalletDetails = (props) => {
                     </Typography>
                 </Box>
                 {isHovering ? 
-                    (<span style={{float: "right", position: "absolute", right: 0}}><HoverDetails handleRemove={handleRemove} handleRename={handleRename} /></span>) :
+                    (<span style={{float: 'right', position: 'absolute', right: 0}}><HoverDetails address={address} /></span>) :
                     null    
                 }
             </Stack>
