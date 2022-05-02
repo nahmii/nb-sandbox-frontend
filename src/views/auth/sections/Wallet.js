@@ -3,7 +3,7 @@ import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state'
-import { shortenAddress } from '../../../utils/address'
+import { lookupAddressName, shortenAddress } from '../../../utils/address'
 import { ContentCopyOutlined } from '@mui/icons-material'
 
 const cardStyle = {
@@ -18,6 +18,7 @@ const Wallet = () => {
     const handleClose = () => setOpen(false)
     
     const [account] = useGlobalState('account')
+    const [addressBook] = useGlobalState('addressBook')
     const [balance] = useGlobalState('balance')
 
     {/* TODO: Give UI feedback when account is copied */}
@@ -41,7 +42,7 @@ const Wallet = () => {
                                 </Typography>
                                 <Stack direction='row' spacing={1}>
                                     <Typography sx={{cursor: "pointer"}} className='card-text' variant='h6' onClick={handleOpen}>
-                                        {account === '' ? 'Connect wallet' : `${shortenAddress(account)}` }
+                                        {account === '' ? 'Connect wallet' : `${lookupAddressName(account, addressBook)}` }
                                     </Typography>
                                     {account === '' ? '' : <ContentCopyOutlined sx={{cursor: "pointer"}} onClick={copyAddress}></ContentCopyOutlined>}
                                 </Stack>
