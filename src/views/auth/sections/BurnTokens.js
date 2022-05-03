@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { Card, Box, CardContent, Typography, TextField, InputAdornment, CircularProgress, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
-import { burnTokens, getContractOwner } from '../../../hooks/useContract'
+import { burnTokens, hasRole } from '../../../hooks/useContract'
 import { parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
 import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
+import { BURNER_ROLE } from '../../../constants'
 
 const cardStyle = {
     boxShadow: 0,
@@ -50,12 +51,12 @@ const BurnTokens = () => {
                 setMsg('Please connect a wallet.')
                 return
             }
-            const owner = await getContractOwner(provider)
 
-            if (owner.toLowerCase() !== account.toLowerCase()) {
+            const isBurner = await hasRole(account, BURNER_ROLE, provider)
+            if (!isBurner) {
                 setOpen(true)
                 setError(true)
-                setMsg('Only the contract owner can burn tokens.')
+                setMsg('Only wallets with the burner role can burn tokens.')
             } else if (amountToBurn > 0) {
                 setLoading(true)
                 setDisableBtn(true)
