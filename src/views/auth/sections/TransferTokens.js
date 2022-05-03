@@ -3,7 +3,7 @@ import { Card, Box, CardContent, Stack, Typography, TextField, InputAdornment, C
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
-import { transferTokens } from '../../../hooks/useContract'
+import { getTokenBalance, transferTokens } from '../../../hooks/useContract'
 import { isAddress, parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
 import { useGlobalState, updateBalance } from '../../../state'
@@ -53,6 +53,9 @@ const TransferTokens = () => {
 
     const handleClick = async () => {
         try {
+            setSuccess(false)
+            setOpen(false)
+            setError(false)
             if (signer == null) {
                 setOpen(true)
                 setError(true)
@@ -60,12 +63,16 @@ const TransferTokens = () => {
                 return
             }
             if (isAddress(address)) {
-                if (amountToTransfer > 0) {
-
+                const parsedAmount = parseUnits(amountToTransfer, 4)
+                const accountBalance = (await getTokenBalance(account, provider))
+                if (parsedAmount.gt(accountBalance)) {
+                    setOpen(true)
+                    setError(true)
+                    setMsg('Balance too low.')
+                } else if (amountToTransfer > 0) {
                     setLoading(true)
                     setDisableBtn(true)
                     setTransferBtnText('TRANSFERRING TOKENS')
-
                     const transactionResponse = await transferTokens(address, parseUnits(amountToTransfer, 4), signer)
                     await transactionResponse.wait()
 
@@ -76,9 +83,7 @@ const TransferTokens = () => {
                     setLoading(false)
                     setDisableBtn(false)
                     setTransferBtnText('TRANSFER TOKENS')
-                    
                 } else {
-                    
                     setOpen(true)
                     setError(true)
                     setMsg('Cannot transfer 0 tokens.')
