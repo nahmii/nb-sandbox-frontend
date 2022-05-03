@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, TextField } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Button from '../../../components/elements/Button'
@@ -6,7 +6,7 @@ import { appendItemByAddress, retrieveItem } from '../../../utils/localStorage'
 import { setGlobalState } from '../../../state'
 
 const RenameAddress = (props) => {
-    const { address, onClose, open } = props
+    const { address, name, onClose, open } = props
     const [addressName, setAddressName] = useState('')
 
     const handleSaveAddress = () => {
@@ -18,6 +18,10 @@ const RenameAddress = (props) => {
     const handleChange = (event) => {
         setAddressName(event.target.value)
     }
+
+    useEffect(() => {
+        setAddressName(name)
+    }, [name])
 
     return (
         <Modal

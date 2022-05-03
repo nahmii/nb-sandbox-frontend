@@ -54,12 +54,12 @@ const WalletDetails = (props) => {
         } else {
             setAddressName('noname')
         }
-    }, [addressBook])
+    }, [address, addressName, addressBook])
 
     return (
         <div>
             {open ? (
-                <RenameAddress address={address} open={open} addressName={addressName} onClose={handleClose} />
+                <RenameAddress address={address} name={addressName} open={open} onClose={handleClose} />
             ) : null}
             <Stack className='wallet-details' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
                 <Image className='wallet-image' src={image} />
