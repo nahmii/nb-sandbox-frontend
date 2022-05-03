@@ -60,7 +60,7 @@ const Wallet = () => {
                                     {account === ''
                                         ? ''
                                         : <Tooltip arrow title='Copied!' open={openTooltip} disableFocusListener disableHoverListener disableTouchListener>
-                                            <ContentCopyOutlined sx={{ cursor: 'pointer' }} onClick={copyAddress}></ContentCopyOutlined>
+                                            <ContentCopyOutlined style={{marginTop: '-8px'}} sx={{ cursor: 'pointer' }} onClick={copyAddress}></ContentCopyOutlined>
                                         </Tooltip>
                                     }
                                 </Stack>
