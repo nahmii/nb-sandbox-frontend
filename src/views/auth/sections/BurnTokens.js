@@ -45,6 +45,9 @@ const BurnTokens = () => {
 
     const handleClick = async () => {
         try {
+            setSuccess(false)
+            setOpen(false)
+            setError(false)
             if (signer == null) {
                 setOpen(true)
                 setError(true)
