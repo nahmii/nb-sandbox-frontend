@@ -60,6 +60,12 @@ export const getContractOwner = async (provider) => {
     return owner
 }
 
+export const hasRole = async (address, role, provider) => {
+    const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
+    const isRole = await contract.hasRole(role, address)
+    return isRole
+}
+
 export const getTokenContract = (provider) => {
     return getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
 }
