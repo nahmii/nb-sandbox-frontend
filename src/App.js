@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import AppRoute from './routes'
+import { retrieveItem } from './utils/localStorage'
+import { setGlobalState } from './state'
 
 const THEME = createTheme({
     typography: {
@@ -16,6 +18,11 @@ const THEME = createTheme({
 })
 
 const App = () => {
+    useEffect(() => {
+        const addressBook = retrieveItem('addressBook')
+        setGlobalState('addressBook', addressBook ? addressBook : [])
+    }, [])
+
     return (
         <ThemeProvider theme={THEME}>
             <AppRoute />

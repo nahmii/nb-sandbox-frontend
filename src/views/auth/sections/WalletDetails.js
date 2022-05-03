@@ -1,19 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import Image from '../../../components/elements/Image'
 import Button from '../../../components/elements/Button'
 import { shortenAddress } from '../../../utils/address'
 import RenameAddress from '../elements/RenameAddress'
+import { deleteItemByAddress, retrieveItem } from '../../../utils/localStorage'
+import { setGlobalState, useGlobalState } from '../../../state'
 
 const WalletDetails = (props) => {
-    const { address, addressList, image, addressName } = props
+    const { address, image } = props
+
+    const [addressBook] = useGlobalState('addressBook')
 
     // handle modal
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    const [walletName, setWalletName] = useState('')
+    const [addressName, setAddressName] = useState('')
     const [isHovering, setIsHovering] = useState(false)
 
     const handleMouseEnter = () => {
@@ -24,27 +28,40 @@ const WalletDetails = (props) => {
         setIsHovering(false)
     }
 
-    const handleRename = (address) => {
+    const handleRename = () => {
         setOpen(true)
     }
 
-    const handleRemove = (selectedAddress) => {
-        const newAddressList = addressList.filter(item => item.address !== address);
-        // TODO: update address list state
+    const handleRemove = (address) => {
+        deleteItemByAddress('wallets', address)
+        setGlobalState('wallets', retrieveItem('wallets'))
     }
 
-    const HoverDetails = () => (
+    const HoverDetails = ({ address }) => (
         <Stack direction='row' spacing={2}>
             <Button className='button-wallet' onClick={handleRename}>RENAME</Button>
-            <Button className='button-wallet' onClick={handleRemove(address)}>REMOVE</Button>
+            <Button className='button-wallet' onClick={() => handleRemove(address)}>REMOVE</Button>
         </Stack>
     )
+
+    useEffect(() => {
+        const addressEntry = addressBook.find((ab) => {
+            return ab.address.toLowerCase() === address.toLowerCase()
+        })
+
+        if (addressEntry && addressEntry?.addressName) {
+            setAddressName(addressEntry.addressName)
+        } else {
+            setAddressName('noname')
+        }
+    }, [address, addressName, addressBook])
+
     return (
         <div>
-            { open ? (
-                <RenameAddress open={open} addressName={addressName} onClose={handleClose} />
-            ) : null }
-            <Stack className="wallet-details" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
+            {open ? (
+                <RenameAddress address={address} name={addressName} open={open} onClose={handleClose} />
+            ) : null}
+            <Stack className='wallet-details' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
                 <Image className='wallet-image' src={image} />
                 <Box style={{ marginTop: '-10px' }}>
                     <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
@@ -54,9 +71,9 @@ const WalletDetails = (props) => {
                         {shortenAddress(address)}
                     </Typography>
                 </Box>
-                {isHovering ? 
-                    (<span style={{float: "right", position: "absolute", right: 0}}><HoverDetails handleRemove={handleRemove} handleRename={handleRename} /></span>) :
-                    null    
+                {isHovering ?
+                    (<span style={{ float: 'right', position: 'absolute', right: 0 }}><HoverDetails address={address} /></span>) :
+                    null
                 }
             </Stack>
         </div>

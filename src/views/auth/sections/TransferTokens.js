@@ -7,7 +7,7 @@ import { transferTokens } from '../../../hooks/useContract'
 import { isAddress, parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
 import { useGlobalState, updateBalance } from '../../../state'
-import { shortenAddress } from '../../../utils/address'
+import { lookupAddressName } from '../../../utils/address'
 
 const cardStyle = {
     boxShadow: 0,
@@ -35,6 +35,7 @@ const TransferTokens = () => {
     }
 
     const [account] = useGlobalState('account')
+    const [addressBook] = useGlobalState('addressBook')
     const [balance] = useGlobalState('balance')
     const [provider] = useGlobalState('provider')
     const [signer] = useGlobalState('signer')
@@ -113,6 +114,10 @@ const TransferTokens = () => {
         setIsMalformedAddress(false)
     }
 
+    const handleAddressName = (_address) => {
+        return lookupAddressName(_address, addressBook)
+    }
+
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
     })
@@ -145,7 +150,7 @@ const TransferTokens = () => {
                                 SEND FROM
                             </Typography>
                             <Typography className='card-text' variant='h6'>
-                                {account ? shortenAddress(account) : '-'}<span style={{ position: 'absolute' }}></span>
+                                {account ? handleAddressName(account) : '-'}<span style={{ position: 'absolute' }}></span>
                             </Typography>
                         </Box>
                     </Stack>

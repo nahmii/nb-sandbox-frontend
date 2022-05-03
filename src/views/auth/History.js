@@ -10,7 +10,7 @@ import { encode } from 'base-64'
 import { useGlobalState } from '../../state'
 import { BigNumber, ethers } from 'ethers'
 import { timestampToDateTime } from '../../utils/format'
-import { shortenAddress } from '../../utils/address'
+import { lookupAddressName } from '../../utils/address'
 
 const cardStyle = {
     boxShadow: 0,
@@ -20,6 +20,7 @@ const cardStyle = {
 
 const History = () => {
     const [account] = useGlobalState('account')
+    const [addressBook] = useGlobalState('addressBook')
     //Snackbar alert parameter
     const [openAlert, setOpenAlert] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -109,7 +110,7 @@ const History = () => {
             width: 160,
             cellClassName: 'primary-color',
             renderCell: (params) => {
-                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.from}`}>{shortenAddress(params.row.from)}</a>
+                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.from}`}>{lookupAddressName(params.row.from, addressBook)}</a>
             }
         },
         {
@@ -118,7 +119,7 @@ const History = () => {
             width: 160,
             cellClassName: 'primary-color',
             renderCell: (params) => {
-                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.to}`}>{shortenAddress(params.row.to)}</a>
+                return <a target='_blank' rel='noopener noreferrer' href={`${SUPPORTED_NETWORK.blockExplorerUrl}address/${params.row.to}`}>{lookupAddressName(params.row.to, addressBook)}</a>
             }
         },
         { field: 'type', headerName: 'Type', width: 100 },
