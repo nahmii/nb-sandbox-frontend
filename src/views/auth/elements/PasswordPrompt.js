@@ -24,7 +24,7 @@ const PasswordPrompt = (props) => {
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
 
-    const [btnText, setBtnText] = useState('ACCESS WALLET')
+    const [btnText, setBtnText] = useState('UNLOCK WALLET')
     const [isLoading, setIsLoading] = useState(false)
 
     const handleClickShowPassword = () => {
@@ -51,8 +51,9 @@ const PasswordPrompt = (props) => {
             onClose()
             setIsLoading(false)
         } catch (error) {
-            console.log(error)
             setError(true)
+            setIsLoading(false)
+            setBtnText('UNLOCK WALLET')
         }
     }
 
