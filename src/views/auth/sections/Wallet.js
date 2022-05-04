@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Card, CardContent, Box, Typography, Stack, Grid } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { Card, CardContent, Box, Tooltip, Typography, Stack, Grid } from '@mui/material'
 import Image from '../../../components/elements/Image'
 import SelectWalletModal from '../elements/SelectWalletModal'
 import { useGlobalState } from '../../../state'
@@ -21,10 +21,23 @@ const Wallet = () => {
     const [addressBook] = useGlobalState('addressBook')
     const [balance] = useGlobalState('balance')
 
-    {/* TODO: Give UI feedback when account is copied */ }
+    const [openTooltip, setOpenTooltip] = useState(false)
+    const timeout = useRef(null)
+
     const copyAddress = () => {
+        setOpenTooltip(true);
         navigator.clipboard.writeText(account)
+        timeout.current = setTimeout(() => {
+            setOpenTooltip(false)
+        }, 750)
     }
+
+    useEffect(() => {
+        if (timeout.current) {
+            clearTimeout(timeout.current)
+            timeout.current = null
+        }
+    }, [])
 
     return (
         <Card sx={cardStyle}>
@@ -41,10 +54,15 @@ const Wallet = () => {
                                     WALLET
                                 </Typography>
                                 <Stack direction='row' spacing={1}>
-                                    <Typography sx={{ cursor: "pointer" }} className='card-text' variant='h6' onClick={handleOpen}>
+                                    <Typography sx={{ cursor: 'pointer' }} className='card-text' variant='h6' onClick={handleOpen}>
                                         {account === '' ? 'Connect wallet' : `${lookupAddressName(account, addressBook)}`}
                                     </Typography>
-                                    {account === '' ? '' : <ContentCopyOutlined sx={{ cursor: "pointer" }} onClick={copyAddress}></ContentCopyOutlined>}
+                                    {account === ''
+                                        ? ''
+                                        : <Tooltip arrow title='Copied!' open={openTooltip} disableFocusListener disableHoverListener disableTouchListener>
+                                            <ContentCopyOutlined style={{ marginTop: '-8px', marginBottom: '8px' }} sx={{ cursor: 'pointer' }} onClick={copyAddress}></ContentCopyOutlined>
+                                        </Tooltip>
+                                    }
                                 </Stack>
                             </Box>
                         </Stack>

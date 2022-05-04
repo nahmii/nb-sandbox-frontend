@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { Card, Box, CardContent, Typography, TextField, CircularProgress, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
-import { getContractOwner, mintTokens } from '../../../hooks/useContract'
+import { hasRole, mintTokens } from '../../../hooks/useContract'
 import { parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
 import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
+import { MINTER_ROLE } from '../../../constants'
 
 const cardStyle = {
     boxShadow: 0,
@@ -43,20 +44,22 @@ const MintTokens = () => {
 
     const handleClick = async () => {
         try {
+            setSuccess(false)
+            setOpen(false)
+            setError(false)
             if (signer == null) {
                 setOpen(true)
                 setError(true)
                 setMsg('Please connect a wallet.')
                 return
             }
-            const owner = await getContractOwner(provider)
 
-            if (owner.toLowerCase() !== account.toLowerCase()) {
+            const isMinter = await hasRole(account, MINTER_ROLE, provider)
+            if (!isMinter) {
                 setOpen(true)
                 setError(true)
-                setMsg('Only the contract owner can mint tokens.')
+                setMsg('Only wallets with the minter role can mint tokens.')
             } else if (amountToMint > 0) {
-
                 setLoading(true)
                 setDisableBtn(true)
                 setMintBtnText('MINTING TOKENS')

@@ -54,10 +54,10 @@ export const burnTokens = async (address, amount, signer) => {
     return burned
 }
 
-export const getContractOwner = async (provider) => {
+export const hasRole = async (address, role, provider) => {
     const contract = getContract(TOKEN_ADDRESS, TOKEN_ABI, provider)
-    const owner = await contract.owner()
-    return owner
+    const isRole = await contract.hasRole(role, address)
+    return isRole
 }
 
 export const getTokenContract = (provider) => {
