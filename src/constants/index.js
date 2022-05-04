@@ -19,7 +19,7 @@ export const CONTRACT_CALL_SIGNATURE = {
     mint: '0x40c10f19'
 }
 
-export const TOKEN_ADDRESS = '0xB537b9121840881B976C7478f21530d9957AaF95'
+export const TOKEN_ADDRESS = '0xe823495E1851DE8D40c6Ed62bE5e8E80F8310695'
 export const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
 
 // RBAC roles on the token contract
