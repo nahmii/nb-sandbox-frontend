@@ -72,18 +72,20 @@ const WalletDetails = (props) => {
             {unlockWallet ? (
                 <PasswordPrompt address={address} name={addressName} open={unlockWallet} onClose={handlePasswordPromptClose} />
             ): null}
-            <Stack className='wallet-details' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
-                <Image className='wallet-image' src={image} />
-                <Box style={{ marginTop: '-10px', cursor: 'pointer' }} onClick={handlePasswordPrompt}>
-                    <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
-                        {addressName}
-                    </Typography>
-                    <Typography className='card-text' variant='h6'>
-                        {shortenAddress(address)}
-                    </Typography>
-                </Box>
+            <Stack style={{ justifyContent: 'space-between' }} className='wallet-details' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
+                <Stack style={{ cursor: 'pointer' }} direction='row' spacing={2} onClick={handlePasswordPrompt}>
+                    <Image className='wallet-image' src={image} />
+                    <Box style={{ marginTop: '-10px' }}>
+                        <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
+                            {addressName}
+                        </Typography>
+                        <Typography className='card-text' variant='h6'>
+                            {shortenAddress(address)}
+                        </Typography>
+                    </Box>
+                </Stack>
                 {isHovering ?
-                    (<span style={{ float: 'right', position: 'absolute', right: 0 }}><HoverDetails address={address} /></span>) :
+                    (<span><HoverDetails address={address} /></span>) :
                     null
                 }
             </Stack>
