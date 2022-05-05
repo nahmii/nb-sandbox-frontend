@@ -6,6 +6,7 @@ import { shortenAddress } from '../../../utils/address'
 import RenameAddress from '../elements/RenameAddress'
 import { deleteItemByAddress, retrieveItem } from '../../../utils/localStorage'
 import { setGlobalState, useGlobalState } from '../../../state'
+import PasswordPrompt from '../elements/PasswordPrompt'
 
 const WalletDetails = (props) => {
     const { address, image } = props
@@ -16,6 +17,9 @@ const WalletDetails = (props) => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
+
+    const [unlockWallet, setUnlockWallet] = useState(false)
+    const handlePasswordPromptClose = () => setUnlockWallet(false)
 
     const [addressName, setAddressName] = useState('')
     const [isHovering, setIsHovering] = useState(false)
@@ -35,6 +39,10 @@ const WalletDetails = (props) => {
     const handleRemove = (address) => {
         deleteItemByAddress('wallets', address)
         setGlobalState('wallets', retrieveItem('wallets'))
+    }
+
+    const handlePasswordPrompt = () => {
+        setUnlockWallet(true)
     }
 
     const HoverDetails = ({ address }) => (
@@ -61,9 +69,12 @@ const WalletDetails = (props) => {
             {open ? (
                 <RenameAddress address={address} name={addressName} open={open} onClose={handleClose} />
             ) : null}
+            {unlockWallet ? (
+                <PasswordPrompt address={address} name={addressName} open={unlockWallet} onClose={handlePasswordPromptClose} />
+            ): null}
             <Stack className='wallet-details' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} direction='row' spacing={2}>
                 <Image className='wallet-image' src={image} />
-                <Box style={{ marginTop: '-10px' }}>
+                <Box style={{ marginTop: '-10px', cursor: 'pointer' }} onClick={handlePasswordPrompt}>
                     <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
                         {addressName}
                     </Typography>
