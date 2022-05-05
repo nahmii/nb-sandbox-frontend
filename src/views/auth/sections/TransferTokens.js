@@ -73,6 +73,7 @@ const TransferTokens = () => {
                     setLoading(true)
                     setDisableBtn(true)
                     setTransferBtnText('TRANSFERRING TOKENS')
+
                     const transactionResponse = await transferTokens(address, parseUnits(amountToTransfer, 4), signer)
                     await transactionResponse.wait()
 
