@@ -65,6 +65,7 @@ const MintTokens = () => {
                 setMintBtnText('MINTING TOKENS')
 
                 const transactionResponse = await mintTokens(account, parseUnits(amountToMint, 4), signer)
+                console.log(transactionResponse)
                 await transactionResponse.wait()
 
                 setOpen(true)

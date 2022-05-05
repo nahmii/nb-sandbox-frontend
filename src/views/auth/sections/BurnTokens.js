@@ -66,6 +66,8 @@ const BurnTokens = () => {
                 setBurnBtnText('BURNING TOKENS')
 
                 const transactionResponse = await burnTokens(account, parseUnits(amountToBurn, 4), signer)
+                console.log(transactionResponse)
+                
                 await transactionResponse.wait()
 
                 setOpen(true)
