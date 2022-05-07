@@ -185,9 +185,9 @@ const History = () => {
                                 <KeyboardArrowDownIcon />
                             </span>
                         </Typography>
-                        <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0', cursor: 'pointer' }} onClick={refreshHistory}>
+                        {/* <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0', cursor: 'pointer' }} onClick={refreshHistory}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
-                        </Typography>
+                        </Typography> */}
                         <Menu
                             id='basic-menu'
                             anchorEl={anchorEl}
