@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Card, Box, CardContent, Typography, TextField, CircularProgress, InputAdornment, Snackbar } from '@mui/material'
+import { Card, Box, CardContent, Typography, TextField, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import { hasRole, mintTokens } from '../../../hooks/useContract'
 import { parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
-import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
+import { setGlobalState, updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
 import { MINTER_ROLE } from '../../../constants'
 
 const cardStyle = {
@@ -38,7 +38,6 @@ const MintTokens = () => {
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
     const [, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [mintBtnText, setMintBtnText] = useState('MINT TOKENS')
 
@@ -60,7 +59,7 @@ const MintTokens = () => {
                 setError(true)
                 setMsg('Only wallets with the minter role can mint tokens.')
             } else if (amountToMint > 0) {
-                setLoading(true)
+                setGlobalState('loading', true)
                 setDisableBtn(true)
                 setMintBtnText('MINTING TOKENS')
 
@@ -72,7 +71,7 @@ const MintTokens = () => {
                 setMsg(`Mint ${amountToMint} tokens successfully!`)
                 updateBalance(account, provider)
                 updateTotalSupply(provider)
-                setLoading(false)
+                setGlobalState('loading', false)
                 setAmountToMint("0.0000")
                 setDisableBtn(false)
                 setMintBtnText('MINT TOKENS')
@@ -85,7 +84,7 @@ const MintTokens = () => {
             console.error(e)
             setDisableBtn(false)
             setMintBtnText('MINT TOKENS')
-            setLoading(false)
+            setGlobalState('loading', false)
         }
     }
 
@@ -144,23 +143,7 @@ const MintTokens = () => {
                         }}
                     />
                 </Box>
-                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{mintBtnText} {loading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}</Button>
-
-                {/* <Button
-                    disabled={loading}
-                    className="button button-primary button-wide-mobile"
-                    wide
-                >
-                    {' '}
-                    {loading ? (
-                        <CircularProgress
-                            style={{ color: 'white' }}
-                            size={28}
-                        />
-                    ) : (
-                        'Login'
-                    )}{' '}
-                </Button> */}
+                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{mintBtnText}</Button>
             </CardContent>
         </Card>
     )

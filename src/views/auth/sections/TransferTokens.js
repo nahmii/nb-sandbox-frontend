@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Card, Box, CardContent, Stack, Typography, TextField, InputAdornment, CircularProgress, Snackbar } from '@mui/material'
+import { Card, Box, CardContent, Stack, Typography, TextField, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
 import { getTokenBalance, transferTokens } from '../../../hooks/useContract'
 import { isAddress, parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
-import { useGlobalState, updateBalance } from '../../../state'
+import { useGlobalState, updateBalance, setGlobalState } from '../../../state'
 import { lookupAddressName } from '../../../utils/address'
 
 const cardStyle = {
@@ -46,7 +46,6 @@ const TransferTokens = () => {
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
     const [, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [transferBtnText, setTransferBtnText] = useState('TRANSFER TOKENS')
 
@@ -70,7 +69,7 @@ const TransferTokens = () => {
                     setError(true)
                     setMsg('Balance too low.')
                 } else if (amountToTransfer > 0) {
-                    setLoading(true)
+                    setGlobalState('loading', true)
                     setDisableBtn(true)
                     setTransferBtnText('TRANSFERRING TOKENS')
 
@@ -81,7 +80,7 @@ const TransferTokens = () => {
                     setSuccess(true)
                     setMsg(`Transferred ${amountToTransfer} tokens successfully!`)
                     updateBalance(account, provider)
-                    setLoading(false)
+                    setGlobalState('loading', false)
                     setDisableBtn(false)
                     setTransferBtnText('TRANSFER TOKENS')
                 } else {
@@ -99,7 +98,7 @@ const TransferTokens = () => {
             console.error(e)
             setDisableBtn(false)
             setTransferBtnText('TRANSFER TOKENS')
-            setLoading(false)
+            setGlobalState('loading', false)
         }
     }
 
@@ -226,8 +225,7 @@ const TransferTokens = () => {
                         0.0000
                     </Typography>
                 </Box>
-
-                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{transferBtnText} {loading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}</Button>
+                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{transferBtnText}</Button>
             </CardContent>
         </Card>
     )

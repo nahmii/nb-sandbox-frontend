@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Card, Box, CardContent, Typography, TextField, InputAdornment, CircularProgress, Snackbar } from '@mui/material'
+import { Card, Box, CardContent, Typography, TextField, InputAdornment, Snackbar } from '@mui/material'
 import MuiAlert from '@mui/material/Alert'
 import Button from '../../../components/elements/Button'
 import { burnTokens, hasRole } from '../../../hooks/useContract'
 import { parseUnits } from 'ethers/lib/utils'
 import { limitDecimalPlaces } from '../../../utils/format'
-import { updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
+import { setGlobalState, updateBalance, updateTotalSupply, useGlobalState } from '../../../state'
 import { BURNER_ROLE } from '../../../constants'
 
 const cardStyle = {
@@ -39,7 +39,6 @@ const BurnTokens = () => {
     const [msg, setMsg] = useState('')
     const [success, setSuccess] = useState(false)
     const [, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [disableBtn, setDisableBtn] = useState(false)
     const [burnBtnText, setBurnBtnText] = useState('BURN TOKENS')
 
@@ -61,11 +60,11 @@ const BurnTokens = () => {
                 setError(true)
                 setMsg('Only wallets with the burner role can burn tokens.')
             } else if (amountToBurn > 0) {
-                setLoading(true)
+                setGlobalState('loading', true)
                 setDisableBtn(true)
                 setBurnBtnText('BURNING TOKENS')
 
-                const transactionResponse = await burnTokens(account, parseUnits(amountToBurn, 4), signer)                
+                const transactionResponse = await burnTokens(account, parseUnits(amountToBurn, 4), signer)
                 await transactionResponse.wait()
 
                 setOpen(true)
@@ -73,7 +72,7 @@ const BurnTokens = () => {
                 setMsg(`Burned ${amountToBurn} tokens successfully!`)
                 updateBalance(account, provider)
                 updateTotalSupply(provider)
-                setLoading(false)
+                setGlobalState('loading', false)
                 setAmountToBurn("0.0000")
                 setDisableBtn(false)
                 setBurnBtnText('BURN TOKENS')
@@ -86,7 +85,7 @@ const BurnTokens = () => {
             console.error(e)
             setDisableBtn(false)
             setBurnBtnText('BURN TOKENS')
-            setLoading(false)
+            setGlobalState('loading', false)
         }
     }
 
@@ -144,7 +143,7 @@ const BurnTokens = () => {
                         }}
                     />
                 </Box>
-                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{burnBtnText} {loading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}</Button>
+                <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{burnBtnText}</Button>
             </CardContent>
         </Card>
     )

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, FormHelperText, OutlinedInput, FormControl, InputAdornment, IconButton, CircularProgress } from '@mui/material'
+import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, FormHelperText, OutlinedInput, FormControl, InputAdornment, IconButton } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -25,7 +25,6 @@ const PasswordPrompt = (props) => {
     const [showPassword, setShowPassword] = useState(false)
 
     const [btnText, setBtnText] = useState('UNLOCK WALLET')
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
@@ -39,7 +38,7 @@ const PasswordPrompt = (props) => {
     }
 
     const updatePassword = (event) => {
-        setIsLoading(false)
+        setGlobalState('loading', false)
         setBtnText('ACCESS WALLET')
         setPassword(event.target.value)
         setError(false)
@@ -49,7 +48,7 @@ const PasswordPrompt = (props) => {
         if (password === '') {
             setError(true)
         }
-        setIsLoading(true)
+        setGlobalState('loading', true)
         setBtnText('UNLOCKING WALLET...')
         const encryptedWallet = retrieveItem('wallets').find(w => w.address === address)
         try {
@@ -58,10 +57,10 @@ const PasswordPrompt = (props) => {
             setGlobalState('account', await unlockedWallet.getAddress())
             setGlobalState('signer', unlockedWallet)
             onClose()
-            setIsLoading(false)
+            setGlobalState('loading', false)
         } catch (error) {
             setError(true)
-            setIsLoading(false)
+            setGlobalState('loading', false)
             setBtnText('UNLOCK WALLET')
         }
     }
@@ -128,7 +127,7 @@ const PasswordPrompt = (props) => {
                     </CardContent>
                     <CardActions sx={{ p: 2 }}>
                         <Button sx={{ width: '100%' }} onClick={onDecryptWallet} className='button button-primary button-wide-mobile' wide>
-                            {btnText} {isLoading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}
+                            {btnText}
                         </Button>
                     </CardActions>
                 </Card>
