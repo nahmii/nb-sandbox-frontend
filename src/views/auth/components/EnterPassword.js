@@ -3,7 +3,8 @@ import { CardContent, CardActions, Typography, Grid, Box, FormHelperText, Outlin
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Button from '../../../components/elements/Button'
-import { setGlobalState } from '../../../state'
+import { setGlobalState, useGlobalState } from '../../../state'
+import { ethers } from 'ethers'
 
 const inputProps = {
     backgroundColor: '#F2F8FA',
@@ -13,11 +14,11 @@ const inputProps = {
 }
 
 const EnterPassword = (props) => {
-    const { onDecryptWallet, error, setError, onBack } = props
+    const { encryptedWallet, error, setError, onBack, onClose } = props
 
+    const [provider] = useGlobalState('provider')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
-
     const [btnText, setBtnText] = useState('ACCESS WALLET')
 
     const handleClickShowPassword = () => {
@@ -26,7 +27,7 @@ const EnterPassword = (props) => {
 
     const handleKeyPress = async (event) => {
         if (event.key === 'Enter') {
-            await passPassword()
+            await onDecryptWallet()
             event.preventDefault()
         }
     }
@@ -38,13 +39,25 @@ const EnterPassword = (props) => {
         setError(false)
     }
 
-    const passPassword = async () => {
+    const onDecryptWallet = async () => {
         if (password === '') {
             setError(true)
         }
         setGlobalState('loading', true)
         setBtnText('ACCESSING WALLET...')
-        await onDecryptWallet(password)
+        try {
+            let unlockedWallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password)
+            unlockedWallet = unlockedWallet.connect(provider)
+            setGlobalState('account', await unlockedWallet.getAddress())
+            setGlobalState('signer', unlockedWallet)
+            setBtnText('ACCESS WALLET')
+            setGlobalState('loading', false)
+            onClose()
+        } catch (error) {
+            setError(true)
+            setBtnText('ACCESS WALLET')
+            setGlobalState('loading', false)
+        }
     }
 
     return (
@@ -98,7 +111,7 @@ const EnterPassword = (props) => {
                         <Button sx={{ width: '100%' }} className='keystore-button' wide onClick={onBack}>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
-                        <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide onClick={passPassword}>
+                        <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide onClick={onDecryptWallet}>
                             {btnText}
                         </Button>
                     </Grid>
