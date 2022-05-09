@@ -24,6 +24,12 @@ const EnterPassword = (props) => {
         setShowPassword(!showPassword)
     }
 
+    const handleKeyPress = event => {
+        if (event.key === 'Enter') {
+            passPassword()
+        }
+    }
+
     const updatePassword = (event) => {
         setPassword(event.target.value)
         setError(false)
@@ -58,10 +64,12 @@ const EnterPassword = (props) => {
 
                     <FormControl sx={{ width: '100%' }} variant='outlined'>
                         <OutlinedInput
+                            autoFocus
                             id='outlined-adornment-password'
                             type={showPassword ? 'text' : 'password'}
                             value={password}
                             onChange={updatePassword}
+                            onKeyDown={handleKeyPress}
                             placeholder='Enter keystore password'
                             size='small'
                             error={error}
