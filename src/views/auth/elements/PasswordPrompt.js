@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, FormHelperText, OutlinedInput, FormControl, InputAdornment, IconButton, CircularProgress } from '@mui/material'
+import { Box, Typography, Modal, CardActions, Backdrop, Card, CardContent, FormHelperText, OutlinedInput, FormControl, InputAdornment, IconButton } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
@@ -19,19 +19,26 @@ const PasswordPrompt = (props) => {
     const { address, name, onClose, open } = props
 
     const [provider] = useGlobalState('provider')
-
     const [error, setError] = useState(false)
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
 
     const [btnText, setBtnText] = useState('UNLOCK WALLET')
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
     }
 
+    const handleKeyPress = async (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            await onDecryptWallet()
+        }
+    }
+
     const updatePassword = (event) => {
+        setGlobalState('loading', false)
+        setBtnText('ACCESS WALLET')
         setPassword(event.target.value)
         setError(false)
     }
@@ -40,7 +47,7 @@ const PasswordPrompt = (props) => {
         if (password === '') {
             setError(true)
         }
-        setIsLoading(true)
+        setGlobalState('loading', true)
         setBtnText('UNLOCKING WALLET...')
         const encryptedWallet = retrieveItem('wallets').find(w => w.address === address)
         try {
@@ -48,11 +55,11 @@ const PasswordPrompt = (props) => {
             unlockedWallet = unlockedWallet.connect(provider)
             setGlobalState('account', await unlockedWallet.getAddress())
             setGlobalState('signer', unlockedWallet)
+            setGlobalState('loading', false)
             onClose()
-            setIsLoading(false)
         } catch (error) {
             setError(true)
-            setIsLoading(false)
+            setGlobalState('loading', false)
             setBtnText('UNLOCK WALLET')
         }
     }
@@ -91,10 +98,12 @@ const PasswordPrompt = (props) => {
                         >
                             <FormControl sx={{ width: '100%' }} variant='outlined'>
                                 <OutlinedInput
+                                    autoFocus
                                     id='outlined-adornment-password'
                                     type={showPassword ? 'text' : 'password'}
                                     value={password}
                                     onChange={updatePassword}
+                                    onKeyDown={handleKeyPress}
                                     placeholder='Enter keystore password'
                                     size='small'
                                     error={error}
@@ -117,7 +126,7 @@ const PasswordPrompt = (props) => {
                     </CardContent>
                     <CardActions sx={{ p: 2 }}>
                         <Button sx={{ width: '100%' }} onClick={onDecryptWallet} className='button button-primary button-wide-mobile' wide>
-                            {btnText} {isLoading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}
+                            {btnText}
                         </Button>
                     </CardActions>
                 </Card>

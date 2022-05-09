@@ -9,7 +9,7 @@ import { setGlobalState, useGlobalState } from '../../../state'
 import PasswordPrompt from '../elements/PasswordPrompt'
 
 const WalletDetails = (props) => {
-    const { address, image } = props
+    const { address, image, onWalletPickerClose } = props
 
     const [addressBook] = useGlobalState('addressBook')
 
@@ -19,8 +19,10 @@ const WalletDetails = (props) => {
     const handleClose = () => setOpen(false)
 
     const [unlockWallet, setUnlockWallet] = useState(false)
-    const handlePasswordPromptClose = () => setUnlockWallet(false)
-
+    const handlePasswordPromptClose = () => {
+        setUnlockWallet(false)
+        onWalletPickerClose(true)
+    }
     const [addressName, setAddressName] = useState('')
     const [isHovering, setIsHovering] = useState(false)
 

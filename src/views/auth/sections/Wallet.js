@@ -25,7 +25,7 @@ const Wallet = () => {
     const timeout = useRef(null)
 
     const copyAddress = () => {
-        setOpenTooltip(true);
+        setOpenTooltip(true)
         navigator.clipboard.writeText(account)
         timeout.current = setTimeout(() => {
             setOpenTooltip(false)
@@ -47,10 +47,10 @@ const Wallet = () => {
             <CardContent>
                 <Grid container spacing={2} sx={{ mb: -1 }}>
                     <Grid item xs={12} sm={7} md={7}>
-                        <Stack direction='row' spacing={2}>
-                            <Image className='wallet-image' src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} style={{ marginTop: '10px' }} />
+                        <Stack direction='row'>
+                            <Image className='wallet-image' src={`https://avatars.dicebear.com/api/jdenticon/${account}.svg?r=50`} style={{ marginTop: '10px', cursor: 'pointer', paddingRight: '16px', width: '56px' }} onClick={handleOpen} />
                             <Box>
-                                <Typography variant='p' color='text.secondary' sx={{ fontSize: 12 }}>
+                                <Typography variant='p' color='text.secondary' sx={{ fontSize: 12, cursor: 'pointer' }} onClick={handleOpen}>
                                     WALLET
                                 </Typography>
                                 <Stack direction='row' spacing={1}>

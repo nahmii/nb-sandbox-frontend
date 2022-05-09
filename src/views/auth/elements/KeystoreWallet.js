@@ -3,8 +3,7 @@ import { Stepper, Card, Box, Typography, Step, StepButton } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SelectFile from '../components/SelectFile'
 import EnterPassword from '../components/EnterPassword'
-import { ethers } from 'ethers'
-import { setGlobalState, useGlobalState } from '../../../state'
+import { setGlobalState } from '../../../state'
 import { appendItemByAddress, retrieveItem } from '../../../utils/localStorage'
 import { isAddress } from '../../../utils/address'
 
@@ -12,7 +11,6 @@ const steps = [1, 2]
 
 const KeystoreWallet = (props) => {
     const { onClose, open, onBack } = props
-    const [provider] = useGlobalState('provider')
     const [activeStep, setActiveStep] = useState(0)
     const [completed, setCompleted] = useState({})
     const [isFileError, setFileError] = useState(false)
@@ -58,18 +56,6 @@ const KeystoreWallet = (props) => {
         }
     }
 
-    const onDecryptWallet = async (password) => {
-        try {
-            let unlockedWallet = await ethers.Wallet.fromEncryptedJson(encryptedWallet, password)
-            unlockedWallet = unlockedWallet.connect(provider)
-            setGlobalState('account', await unlockedWallet.getAddress())
-            setGlobalState('signer', unlockedWallet)
-            onClose()
-        } catch (error) {
-            setIsPasswordWrong(true)
-        }
-    }
-
     return (
         <Card className=''>
             <Box sx={{ mt: 2, p: 2, borderBottom: '1px solid #CBE5EE' }}>
@@ -100,7 +86,7 @@ const KeystoreWallet = (props) => {
                                         case 0:
                                             return <SelectFile onReceiveFile={onReceiveFile} onBack={onBack} error={isFileError} setError={setFileError} />
                                         case 1:
-                                            return <EnterPassword onDecryptWallet={onDecryptWallet} error={isPasswordWrong} setError={setIsPasswordWrong} onBack={onBack} />
+                                            return <EnterPassword encryptedWallet={encryptedWallet} error={isPasswordWrong} setError={setIsPasswordWrong} onBack={onBack} onClose={onClose} />
                                         default:
                                             return null
                                     }
