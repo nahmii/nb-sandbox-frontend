@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
-import Logo from '../../assets/images/norgesLogo.png'
-import Image from '../elements/Image'
+import Logo from '../../components/elements/Logo'
 
 const propTypes = {
     navPosition: PropTypes.string,
@@ -87,9 +86,7 @@ const Header = ({
                         'site-header-inner',
                         bottomDivider && 'has-bottom-divider'
                     )}>
-                        <Link to="/">
-                            <Image src={Logo} style={{ width: '140px' }} />
-                        </Link>
+                        <Logo />
                     <nav
                         ref={nav}
                         className={
