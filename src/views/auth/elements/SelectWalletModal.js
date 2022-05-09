@@ -49,7 +49,7 @@ export default function SelectWalletModal(props) {
                                 <CardContent sx={{}}>
                                     <PerfectScrollbar style={{ height: '300px' }}>
                                         {wallets.map((d, index) => (
-                                            <WalletDetails key={index} address={d.address} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} />
+                                            <WalletDetails key={index} address={d.address} image={`https://avatars.dicebear.com/api/jdenticon/${d.address}.svg?r=50`} onWalletPickerClose={onClose} />
                                         ))}
                                     </PerfectScrollbar>
                                 </CardContent>
