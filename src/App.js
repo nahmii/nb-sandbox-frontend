@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import AppRoute from './routes'
 import { retrieveItem } from './utils/localStorage'
-import { setGlobalState } from './state'
+import { setGlobalState, useGlobalState } from './state'
+import { Backdrop, CircularProgress } from '@mui/material'
 
 const THEME = createTheme({
     typography: {
@@ -18,6 +19,8 @@ const THEME = createTheme({
 })
 
 const App = () => {
+    const [loading] = useGlobalState('loading')
+
     useEffect(() => {
         const addressBook = retrieveItem('addressBook')
         setGlobalState('addressBook', addressBook ? addressBook : [])
@@ -25,6 +28,14 @@ const App = () => {
 
     return (
         <ThemeProvider theme={THEME}>
+            {loading ? (
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            ) : null}
             <AppRoute />
         </ThemeProvider>
     )
