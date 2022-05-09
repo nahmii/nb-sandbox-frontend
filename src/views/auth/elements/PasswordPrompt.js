@@ -19,7 +19,6 @@ const PasswordPrompt = (props) => {
     const { address, name, onClose, open } = props
 
     const [provider] = useGlobalState('provider')
-
     const [error, setError] = useState(false)
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
@@ -32,8 +31,8 @@ const PasswordPrompt = (props) => {
 
     const handleKeyPress = async (event) => {
         if (event.key === 'Enter') {
-            await onDecryptWallet()
             event.preventDefault()
+            await onDecryptWallet()
         }
     }
 
@@ -56,8 +55,8 @@ const PasswordPrompt = (props) => {
             unlockedWallet = unlockedWallet.connect(provider)
             setGlobalState('account', await unlockedWallet.getAddress())
             setGlobalState('signer', unlockedWallet)
-            onClose()
             setGlobalState('loading', false)
+            onClose()
         } catch (error) {
             setError(true)
             setGlobalState('loading', false)
