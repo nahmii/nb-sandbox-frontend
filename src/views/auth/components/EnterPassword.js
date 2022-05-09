@@ -24,9 +24,10 @@ const EnterPassword = (props) => {
         setShowPassword(!showPassword)
     }
 
-    const handleKeyPress = event => {
+    const handleKeyPress = async (event) => {
         if (event.key === 'Enter') {
-            passPassword()
+            await passPassword()
+            event.preventDefault()
         }
     }
 
@@ -35,14 +36,13 @@ const EnterPassword = (props) => {
         setError(false)
     }
 
-    const passPassword = () => {
+    const passPassword = async () => {
         if (password === '') {
             setError(true)
         }
         setIsLoading(true)
         setBtnText('ACCESSING WALLET...')
-        onDecryptWallet(password)
-        setIsLoading(false)
+        await onDecryptWallet(password)
     }
 
     return (

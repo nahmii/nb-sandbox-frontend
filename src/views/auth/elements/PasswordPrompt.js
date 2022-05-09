@@ -31,9 +31,10 @@ const PasswordPrompt = (props) => {
         setShowPassword(!showPassword)
     }
 
-    const handleKeyPress = event => {
+    const handleKeyPress = async (event) => {
         if (event.key === 'Enter') {
-            onDecryptWallet()
+            await onDecryptWallet()
+            event.preventDefault()
         }
     }
 
