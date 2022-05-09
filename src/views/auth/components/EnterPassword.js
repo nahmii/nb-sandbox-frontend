@@ -32,6 +32,8 @@ const EnterPassword = (props) => {
     }
 
     const updatePassword = (event) => {
+        setIsLoading(false)
+        setBtnText('ACCESS WALLET')
         setPassword(event.target.value)
         setError(false)
     }
