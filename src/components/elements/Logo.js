@@ -16,9 +16,9 @@ export default function Logo({ disabledLink = false, sx }) {
     <Box sx={{ width: 200, height: "auto", ...sx }}>
         <svg version="1.1" id="Norges_Bank_Investment_Management"
 	 xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="500"
-	 height="auto" viewBox="0 0 272.126 48.189" enable-background="new 0 0 272.126 48.189" >
+	 height="100%" viewBox="0 0 272.126 48.189" enableBackground="new 0 0 272.126 48.189" >
             <g>
-                <rect x="-23.662" y="-24" fill="none" width="500" height="auto"/>
+                <rect x="-23.662" y="-24" fill="none" width="500" height="100%"/>
                 <g>
                     <g>
                         <polygon fill="#7BB6CE" points="0.482,0.138 0.482,47.861 24.621,47.861 24.621,22.78 6.262,0.138 			"/>
