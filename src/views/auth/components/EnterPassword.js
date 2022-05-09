@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { CardContent, CardActions, Typography, Grid, Box, FormHelperText, OutlinedInput, FormControl, InputAdornment, IconButton, CircularProgress } from '@mui/material'
+import { CardContent, CardActions, Typography, Grid, Box, FormHelperText, OutlinedInput, FormControl, InputAdornment, IconButton } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import Button from '../../../components/elements/Button'
+import { setGlobalState } from '../../../state'
 
 const inputProps = {
     backgroundColor: '#F2F8FA',
@@ -18,7 +19,6 @@ const EnterPassword = (props) => {
     const [showPassword, setShowPassword] = useState(false)
 
     const [btnText, setBtnText] = useState('ACCESS WALLET')
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword)
@@ -32,7 +32,7 @@ const EnterPassword = (props) => {
     }
 
     const updatePassword = (event) => {
-        setIsLoading(false)
+        setGlobalState('loading', false)
         setBtnText('ACCESS WALLET')
         setPassword(event.target.value)
         setError(false)
@@ -42,7 +42,7 @@ const EnterPassword = (props) => {
         if (password === '') {
             setError(true)
         }
-        setIsLoading(true)
+        setGlobalState('loading', true)
         setBtnText('ACCESSING WALLET...')
         await onDecryptWallet(password)
     }
@@ -98,8 +98,8 @@ const EnterPassword = (props) => {
                         <Button sx={{ width: '100%' }} className='keystore-button' wide onClick={onBack}>BACK</Button>
                     </Grid>
                     <Grid item xs={8} sm={8} md={8}>
-                        <Button sx={{ width: '100%' }} disabled={isLoading} className='button button-primary button-wide-mobile' wide onClick={passPassword}>
-                            {btnText} {isLoading && <CircularProgress sx={{ color: 'white', padding: '5px', marginBottom: '5px' }} />}
+                        <Button sx={{ width: '100%' }} className='button button-primary button-wide-mobile' wide onClick={passPassword}>
+                            {btnText}
                         </Button>
                     </Grid>
                 </Grid>
