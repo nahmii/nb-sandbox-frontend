@@ -1,12 +1,12 @@
-# Project Bergen Frontend
+# Frontend for the Norges Bank CBDC sandbox
 
 ## Running locally
 
 ### Installation
 To run the frontend locally, simply run:
 ```sh
-$ git clone git@github.com:nahmii.BESU-frontend.git
-$ cd BESU-frontend
+$ git clone git@github.com:nahmii/nb-sandbox-frontend.git
+$ cd nb-sandbox-frontend
 $ npm install
 ```
 

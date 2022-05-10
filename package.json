@@ -1,6 +1,6 @@
 {
-  "name": "norges-cbdc",
-  "author": "Nahmii",
+  "name": "nb-sandbox-frontend",
+  "author": "Nahmii AS",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
