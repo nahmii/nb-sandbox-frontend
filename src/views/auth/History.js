@@ -146,7 +146,7 @@ const History = () => {
         getTransactions()
         const historyInterval = setInterval(() => {
             getTransactions()
-        }, 15 * 60 * 1000)
+        }, 5 * 60 * 1000)
 
         return () => {
             clearInterval(historyInterval)
