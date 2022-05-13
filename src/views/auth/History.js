@@ -9,8 +9,9 @@ import { connectionInfo, SUPPORTED_NETWORK, TOKEN_ADDRESS, TRANSFER_TOPIC } from
 import { encode } from 'base-64'
 import { useGlobalState } from '../../state'
 import { BigNumber, ethers } from 'ethers'
-import { timestampToDateTime } from '../../utils/format'
+import { displayAsCurrency, timestampToDateTime } from '../../utils/format'
 import { lookupAddressName } from '../../utils/address'
+import { getLang } from '../../utils/intl';
 
 const cardStyle = {
     boxShadow: 0,
@@ -86,7 +87,7 @@ const History = () => {
                     const toAddress = `0x${item.topics[2].slice(-40)}`
                     return {
                         timestamp: timestampToDateTime(BigNumber.from(item.timeStamp).toNumber()),
-                        amount: ethers.utils.formatUnits(BigNumber.from(item.data), 4),
+                        amount: new Intl.NumberFormat(getLang(), { minimumFractionDigits: 4 }).format(ethers.utils.formatUnits(BigNumber.from(item.data), 4)),
                         type: transactionType(fromAddress, toAddress),
                         from: fromAddress,
                         to: toAddress,
