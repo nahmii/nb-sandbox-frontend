@@ -4,14 +4,10 @@
  * @returns Returns the agents preferred language.
  */
 export const getLang = () => {
+    const NORWEGIAN_CODES = ['nb', 'nn', 'se', 'nb-NO', 'nn-NO', 'se-NO', 'nb-SJ']
+
     if (navigator.languages !== undefined) {
-        if (navigator.languages[0].includes('nb') ||
-            navigator.languages[0].includes('nn') ||
-            navigator.languages[0].includes('se') ||
-            navigator.languages[0].includes('nb-NO') ||
-            navigator.languages[0].includes('nn-NO') ||
-            navigator.languages[0].includes('se-NO') ||
-            navigator.languages[0].includes('nb-SJ')) {
+        if (NORWEGIAN_CODES.some(code => code === navigator.languages[0])) {
             return 'nb'
         }
         return navigator.languages[0]
