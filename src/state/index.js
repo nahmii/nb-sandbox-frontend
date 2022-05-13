@@ -1,15 +1,16 @@
 import { ethers } from 'ethers'
 import { createGlobalState } from 'react-hooks-global-state'
 import { getTokenBalance, getTokenSupply } from '../hooks/useContract'
-import { commify, insertDecimalSeparator } from '../utils/format'
+import { displayAsCurrency } from '../utils/format'
 import { connectionInfo } from '../constants'
 
 const { setGlobalState, useGlobalState } = createGlobalState({
     account: '',
     addressBook: [],
-    balance: '0.0000',
+    balance: displayAsCurrency('0'),
     loading: false,
-    totalSupply: '0.0000',
+    locale: 'en',
+    totalSupply: displayAsCurrency('0'),
     wallets: [],
     provider: new ethers.providers.JsonRpcProvider(connectionInfo),
     signer: null
@@ -19,16 +20,16 @@ const updateBalance = (account, provider) => {
     getTokenBalance(account, provider)
         .then((userBalance) => {
             if (userBalance.toString() === '0') {
-                setGlobalState('balance', '0.0000')
+                setGlobalState('balance', displayAsCurrency('0'))
             } else {
-                setGlobalState('balance', commify(insertDecimalSeparator(userBalance.toString(), 4)))
+                setGlobalState('balance', displayAsCurrency(userBalance.toString(), 4))
             }
         })
 }
 
 const updateTotalSupply = (provider) => {
     getTokenSupply(provider).then(s => {
-        setGlobalState('totalSupply', commify(insertDecimalSeparator(s.toString(), 4)))
+        setGlobalState('totalSupply', displayAsCurrency(s.toString(), 4))
     })
 }
 
