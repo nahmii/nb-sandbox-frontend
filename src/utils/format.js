@@ -1,3 +1,5 @@
+import { getLang } from "./intl"
+
 /**
  * Groups 3 digits for whole number parts of a decimal number and separates them with a comma.
  * 
@@ -46,7 +48,7 @@ export const limitDecimalPlaces = (event, decimals) => {
  * @returns A formatted string with a decimal separator and comma separation per thousands.
  */
 export const displayAsCurrency = (string, decimals = 4) => {
-    return commify(insertDecimalSeparator(string, decimals))
+    return new Intl.NumberFormat(getLang(), { minimumFractionDigits: decimals }).format(insertDecimalSeparator(string, decimals))
 }
 
 /**
