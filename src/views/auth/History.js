@@ -182,14 +182,14 @@ const History = () => {
                             onClick={handleClick}
                         >
                             ALL TRANSACTIONS
-                            <span style={{ position: 'absolute' }}>
+                            {/* <span style={{ position: 'absolute' }}>
                                 <KeyboardArrowDownIcon />
-                            </span>
+                            </span> */}
                         </Typography>
                         <Typography id='modal-modal-title' variant='p' sx={{ fontWeight: 'bold', fontSize: '14px', color: '#0078A0', cursor: 'pointer' }} onClick={refreshHistory}>
                             <span style={{ float: 'right' }}><span style={{ position: 'absolute', marginLeft: '-30px' }}><ReplayIcon /></span>Update</span>
                         </Typography>
-                        <Menu
+                        {/* <Menu
                             id='basic-menu'
                             anchorEl={anchorEl}
                             open={open}
@@ -205,7 +205,7 @@ const History = () => {
                                     <KeyboardArrowDownIcon />
                                 </span>
                             </MenuItem>
-                        </Menu>
+                        </Menu> */}
 
                         <Box
                             component='form'
