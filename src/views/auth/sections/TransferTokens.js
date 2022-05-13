@@ -5,7 +5,7 @@ import Button from '../../../components/elements/Button'
 import Image from '../../../components/elements/Image'
 import { getTokenBalance, transferTokens } from '../../../hooks/useContract'
 import { isAddress, parseUnits } from 'ethers/lib/utils'
-import { limitDecimalPlaces } from '../../../utils/format'
+import { displayAsCurrency, limitDecimalPlaces } from '../../../utils/format'
 import { useGlobalState, updateBalance, setGlobalState } from '../../../state'
 import { lookupAddressName } from '../../../utils/address'
 
@@ -222,7 +222,7 @@ const TransferTokens = () => {
                         FEE
                     </Typography>
                     <Typography className='card-text' variant='h6'>
-                        0.0000
+                        {displayAsCurrency('0')}
                     </Typography>
                 </Box>
                 <Button disabled={disableBtn} style={{ color: 'white' }} className='button button-primary button-wide-mobile' wide onClick={handleClick}>{transferBtnText}</Button>
