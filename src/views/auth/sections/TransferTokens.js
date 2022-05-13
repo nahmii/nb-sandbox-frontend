@@ -209,6 +209,7 @@ const TransferTokens = () => {
                         onChange={handleTransferAmountChange}
                         onInput={handleTransferAmountInput}
                         sx={{ width: '100%' }}
+                        inputMode='decimal'
                         InputProps={{
                             type: 'number',
                             endAdornment: <InputAdornment position='end'>NOK</InputAdornment>,

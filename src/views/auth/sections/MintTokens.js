@@ -136,6 +136,7 @@ const MintTokens = () => {
                         value={amountToMint}
                         onChange={handleChange}
                         onInput={handleInput}
+                        inputMode='decimal'
                         InputProps={{
                             type: 'number',
                             endAdornment: <InputAdornment position='end'>NOK</InputAdornment>,
